@@ -1,0 +1,21 @@
+{
+  "name": "skill-control-panel",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build-dashboard.mjs",
+    "launch": "node scripts/launch.mjs",
+    "server": "node scripts/server.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "test:ui": "npm run build && node tests/ui-cdp-selftest.mjs",
+    "test:all": "npm test && npm run test:ui"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0"
+  }
+}

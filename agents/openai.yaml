@@ -1,0 +1,4 @@
+interface:
+  display_name: "Skill Control Panel"
+  short_description: "Open a local dashboard to visualize and manage installed skills"
+  default_prompt: "Use $skill-control-panel to scan installed skills and open the local management dashboard."
