@@ -24502,9 +24502,9 @@
     partial: "partial"
   };
   var ACTION_LABELS = {
-    enable: "\u542F\u7528\u5168\u90E8",
-    disable: "\u505C\u7528\u5168\u90E8",
-    uninstall: "\u5220\u9664\u5168\u90E8"
+    enable: "\u542F\u7528",
+    disable: "\u505C\u7528",
+    uninstall: "\u5220\u9664"
   };
   var PROVIDER_THEME_LABELS = {
     claude: "Claude Code",
@@ -24513,10 +24513,6 @@
     agents: "Agents",
     opencode: "OpenCode"
   };
-  var LOCALE_OPTIONS = [
-    { value: "zh-Hans", label: "\u4E2D\u6587" },
-    { value: "en", label: "English" }
-  ];
   function useDashboardData(refreshTick) {
     const [state, setState] = (0, import_react.useState)({
       loading: true,
@@ -24592,31 +24588,6 @@
   function providerRuntimeLabel(skill) {
     return `${skill.runtimeSummary?.enabledProviders || 0}/${skill.runtimeSummary?.totalProviders || 0} \u5DF2\u542F\u7528`;
   }
-  function translationStateLabel(state) {
-    if (state === "ready") {
-      return "\u4E2D\u6587\u5DF2\u7F13\u5B58";
-    }
-    if (state === "pending") {
-      return "\u4E2D\u6587\u751F\u6210\u4E2D";
-    }
-    if (state === "error") {
-      return "\u7FFB\u8BD1\u4E0D\u53EF\u7528\uFF0C\u663E\u793A\u539F\u6587";
-    }
-    return "\u6682\u65E0\u4E2D\u6587\uFF0C\u663E\u793A\u539F\u6587";
-  }
-  function localizedSkillText(skill, locale) {
-    const canUseChinese = locale === "zh-Hans" && skill.localization?.state === "ready" && skill.localization?.zhHans;
-    return {
-      name: canUseChinese ? skill.localization.zhHans.name || skill.name : skill.name,
-      description: canUseChinese ? skill.localization.zhHans.description || skill.description || "\u6682\u65E0\u63CF\u8FF0" : skill.description || "\u6682\u65E0\u63CF\u8FF0"
-    };
-  }
-  function cardDescription(skill) {
-    if (skill.localization?.state === "ready" && skill.localization?.zhHans?.description) {
-      return skill.localization.zhHans.description;
-    }
-    return skill.description || "\u6682\u65E0\u63CF\u8FF0";
-  }
   function statusLabelClass(runStatus) {
     return RUN_STATUS_CLASS_NAMES[runStatus] || RUN_STATUS_CLASS_NAMES.enabled;
   }
@@ -24663,7 +24634,8 @@
     single = false
   }) {
     const selectedOptions = options.filter((option) => selectedValues.includes(option.value));
-    return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("label", { className: "field field-multi", children: [
+    const summaryLabel = selectedOptions.length ? summaryText || `\u5DF2\u9009 ${selectedOptions.length} \u9879` : placeholder;
+    return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "field field-multi", children: [
       /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: label }),
       /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
         "div",
@@ -24671,34 +24643,50 @@
           className: `multi-select ${isOpen ? "is-open" : ""}`,
           onClick: (event) => event.stopPropagation(),
           children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
               "button",
               {
                 type: "button",
                 className: "multi-select-trigger",
                 "aria-expanded": isOpen,
                 onClick: () => isOpen ? onClose() : onOpen(),
-                children: selectedOptions.length ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "multi-select-placeholder", children: summaryText || `\u5DF2\u9009 ${selectedOptions.length} \u9879` }) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "multi-select-placeholder", children: placeholder })
+                children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                    "span",
+                    {
+                      className: `multi-select-value ${selectedOptions.length ? "has-value" : "is-placeholder"}`,
+                      children: summaryLabel
+                    }
+                  ),
+                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: `multi-select-caret ${isOpen ? "is-open" : ""}`, "aria-hidden": "true", children: "\u25BE" })
+                ]
               }
             ),
-            isOpen ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "multi-select-panel", children: options.map((option) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("label", { className: `multi-select-option ${single ? "is-single" : ""}`, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                "input",
-                {
-                  type: single ? "radio" : "checkbox",
-                  name: single ? `${label}-single-select` : void 0,
-                  checked: selectedValues.includes(option.value),
-                  onChange: () => {
-                    onToggle(option.value);
-                    if (single) {
-                      onClose();
+            isOpen ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "multi-select-panel", children: options.map((option) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+              "label",
+              {
+                className: `multi-select-option ${single ? "is-single" : ""} ${selectedValues.includes(option.value) ? "is-selected" : ""}`,
+                children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                    "input",
+                    {
+                      type: single ? "radio" : "checkbox",
+                      name: single ? `${label}-single-select` : void 0,
+                      checked: selectedValues.includes(option.value),
+                      onChange: () => {
+                        onToggle(option.value);
+                        if (single) {
+                          onClose();
+                        }
+                      }
                     }
-                  }
-                }
-              ),
-              option.icon ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "multi-select-icon", children: option.icon }) : null,
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "multi-select-label", children: option.label })
-            ] }, option.value)) }) : null
+                  ),
+                  option.icon ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "multi-select-icon", children: option.icon }) : null,
+                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "multi-select-label", children: option.label })
+                ]
+              },
+              option.value
+            )) }) : null
           ]
         }
       )
@@ -24708,7 +24696,6 @@
     const [refreshTick, setRefreshTick] = (0, import_react.useState)(0);
     const { loading, error, scannedAt, summary, skills, providers } = useDashboardData(refreshTick);
     const [selectedId, setSelectedId] = (0, import_react.useState)(null);
-    const [detailLocale, setDetailLocale] = (0, import_react.useState)("en");
     const [favoriteOverrides, setFavoriteOverrides] = (0, import_react.useState)({});
     const [openFilterKey, setOpenFilterKey] = (0, import_react.useState)("");
     const [filters, setFilters] = (0, import_react.useState)({
@@ -24758,8 +24745,6 @@
           const haystack = [
             skill.name,
             skill.description,
-            skill.localization?.zhHans?.name,
-            skill.localization?.zhHans?.description,
             ...skill.tags || [],
             ...skill.providers.map((provider) => provider.label)
           ].filter(Boolean).join(" ").toLowerCase();
@@ -24788,12 +24773,6 @@
         setSelectedId(selectedSkill.id);
       }
     }, [selectedId, selectedSkill]);
-    (0, import_react.useEffect)(() => {
-      if (!selectedSkill) {
-        return;
-      }
-      setDetailLocale(selectedSkill.localization?.state === "ready" ? "zh-Hans" : "en");
-    }, [selectedSkill?.id]);
     function updateFilters(patch) {
       setFilters((current) => ({
         ...current,
@@ -25016,7 +24995,6 @@
       }
       return items;
     }, [filters]);
-    const selectedSkillText = selectedSkill ? localizedSkillText(selectedSkill, detailLocale) : null;
     if (loading) {
       return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "loading-state", children: "\u6B63\u5728\u52A0\u8F7D Skill \u63A7\u5236\u53F0\u2026" });
     }
@@ -25149,22 +25127,22 @@
                 single: true
               }
             ),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "filter-tools", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                "button",
-                {
-                  className: `button button-secondary ${filters.favoritesOnly ? "is-toggle-active" : ""}`,
-                  onClick: () => updateFilters({ favoritesOnly: !filters.favoritesOnly }),
-                  children: filters.favoritesOnly ? "\u53EA\u770B\u6536\u85CF\u4E2D" : "\u53EA\u770B\u6536\u85CF"
-                }
-              ),
-              hasActiveFilters ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { className: "text-link", onClick: clearAllFilters, children: "\u6E05\u9664\u5168\u90E8" }) : null
-            ] })
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "filter-tools", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+              "button",
+              {
+                className: `button button-secondary ${filters.favoritesOnly ? "is-toggle-active" : ""}`,
+                onClick: () => updateFilters({ favoritesOnly: !filters.favoritesOnly }),
+                children: filters.favoritesOnly ? "\u53EA\u770B\u6536\u85CF\u4E2D" : "\u53EA\u770B\u6536\u85CF"
+              }
+            ) })
           ] }),
-          activeFilterItems.length ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "active-filter-list", "aria-label": "\u5F53\u524D\u7B5B\u9009\u6761\u4EF6", children: activeFilterItems.map((item) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { className: "active-filter-pill", onClick: item.onClear, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: item.label }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { "aria-hidden": "true", children: "\xD7" })
-          ] }, item.key)) }) : null,
+          activeFilterItems.length ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "active-filter-list", "aria-label": "\u5F53\u524D\u7B5B\u9009\u6761\u4EF6", children: [
+            activeFilterItems.map((item) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { className: "active-filter-pill", onClick: item.onClear, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: item.label }),
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { "aria-hidden": "true", children: "\xD7" })
+            ] }, item.key)),
+            hasActiveFilters ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { className: "text-link clear-all-button", onClick: clearAllFilters, children: "\u6E05\u9664\u5168\u90E8" }) : null
+          ] }) : null,
           visibleSkills.length ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "skill-grid", children: visibleSkills.map((skill) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
             "article",
             {
@@ -25203,7 +25181,7 @@
                     /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: RUN_STATUS_LABELS[skill.runStatus] })
                   ] })
                 ] }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "skill-card-body", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { className: "line-clamp-3", title: cardDescription(skill), children: cardDescription(skill) }) }),
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "skill-card-body", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { className: "line-clamp-3", title: skill.description || "\u6682\u65E0\u63CF\u8FF0", children: skill.description || "\u6682\u65E0\u63CF\u8FF0" }) }),
                 /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "skill-card-footer", children: [
                   /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "tag-row", children: (skill.tags || []).map((tag) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "tag-chip tag-chip-strong", children: tag }, `${skill.id}-${tag}`)) }),
                   /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "provider-row", children: skill.providers.map((provider) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
@@ -25226,48 +25204,39 @@
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)("aside", { className: "detail detail-pane card", children: selectedSkill ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
           /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "detail-header", children: [
             /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "detail-title-row", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "detail-title-main", children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", { children: selectedSkillText.name }),
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                    FavoriteButton,
-                    {
-                      active: selectedSkill.favorite,
-                      title: selectedSkill.favorite ? "\u53D6\u6D88\u6536\u85CF" : "\u52A0\u5165\u6536\u85CF",
-                      onClick: () => handleFavoriteToggle(selectedSkill, !selectedSkill.favorite)
-                    }
-                  )
-                ] }),
-                detailLocale === "zh-Hans" && selectedSkillText.name !== selectedSkill.name ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "detail-title-alt", children: selectedSkill.name }) : null
-              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "detail-title-main", children: [
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", { children: selectedSkill.name }),
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                  FavoriteButton,
+                  {
+                    active: selectedSkill.favorite,
+                    title: selectedSkill.favorite ? "\u53D6\u6D88\u6536\u85CF" : "\u52A0\u5165\u6536\u85CF",
+                    onClick: () => handleFavoriteToggle(selectedSkill, !selectedSkill.favorite)
+                  }
+                )
+              ] }) }),
               /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { className: `status-badge status-badge-${statusLabelClass(selectedSkill.runStatus)}`, children: [
                 /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "status-dot" }),
                 /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: RUN_STATUS_LABELS[selectedSkill.runStatus] })
               ] })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "locale-toolbar", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "translation-note", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "card-label", children: "\u63CF\u8FF0\u8BED\u8A00" }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: translationStateLabel(selectedSkill.localization?.state) })
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { className: "detail-description", children: selectedSkill.description || "\u6682\u65E0\u63CF\u8FF0" })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("section", { className: "detail-section detail-section-spaced", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "detail-label", children: "\u529F\u80FD\u6807\u7B7E" }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "tag-row", children: (selectedSkill.tags || []).map((tag) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "tag-chip tag-chip-strong", children: tag }, `${selectedSkill.id}-detail-${tag}`)) })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("section", { className: "detail-section", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "detail-label", children: "\u771F\u5B9E\u8DEF\u5F84" }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("code", { children: selectedSkill.realPath })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("section", { className: "detail-section", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "detail-section-head", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "detail-label", children: "Provider \u8FD0\u884C\u660E\u7EC6" }),
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "section-meta", children: "\u4EE5\u4E0B\u64CD\u4F5C\u5C06\u540C\u65F6\u4F5C\u7528\u4E8E\u8BE5 Skill \u7684\u6240\u6709 Provider \u66B4\u9732\u3002" })
               ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "segmented-control", children: LOCALE_OPTIONS.map((option) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                "button",
-                {
-                  className: `segment ${detailLocale === option.value ? "is-active" : ""}`,
-                  disabled: option.value === "zh-Hans" && selectedSkill.localization?.state !== "ready",
-                  onClick: () => setDetailLocale(option.value),
-                  children: option.label
-                },
-                option.value
-              )) })
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "run-status-panel", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "run-status-copy", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "detail-label", children: "\u5F53\u524D Skill \u8FD0\u884C\u72B6\u6001" }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("strong", { children: RUN_STATUS_LABELS[selectedSkill.runStatus] }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: providerRuntimeLabel(selectedSkill) })
-              ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "inline-actions", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "run-status-panel", children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "inline-actions", children: [
                 /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
                   "button",
                   {
@@ -25295,23 +25264,8 @@
                     children: pendingKey === `skill:${selectedSkill.id}:uninstall` ? "\u5904\u7406\u4E2D..." : ACTION_LABELS.uninstall
                   }
                 )
-              ] })
+              ] }) })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { className: "detail-description", children: selectedSkillText.description })
-          ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("section", { className: "detail-section detail-section-spaced", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "detail-label", children: "\u529F\u80FD\u6807\u7B7E" }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "tag-row", children: (selectedSkill.tags || []).map((tag) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "tag-chip tag-chip-strong", children: tag }, `${selectedSkill.id}-detail-${tag}`)) })
-          ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("section", { className: "detail-section", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "detail-label", children: "\u771F\u5B9E\u8DEF\u5F84" }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("code", { children: selectedSkill.realPath })
-          ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("section", { className: "detail-section", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "detail-section-head", children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "detail-label", children: "Provider \u8FD0\u884C\u660E\u7EC6" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "section-meta", children: "\u9876\u90E8\u6309\u94AE\u4F5C\u7528\u4E8E\u5F53\u524D skill \u7684\u5168\u90E8 provider\uFF1B\u4E0B\u9762\u4FDD\u7559\u9010\u9879\u64CD\u4F5C\u3002" })
-            ] }) }),
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "provider-detail-list", children: selectedSkill.providers.map((provider) => {
               const enableKey = `${selectedSkill.id}:${provider.name}:enable`;
               const disableKey = `${selectedSkill.id}:${provider.name}:disable`;

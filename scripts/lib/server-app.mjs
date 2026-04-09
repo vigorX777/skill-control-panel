@@ -18,11 +18,6 @@ import {
   uninstallAsmSkill,
   updateAsmProviderEnabled,
 } from "./asm.mjs";
-import {
-  attachLocalizationToSkills,
-  fillMissingTranslations,
-  readTranslationsStore,
-} from "./localization.mjs";
 import { readJsonFile, writeJsonFile } from "./metadata.mjs";
 
 const __dirname = fileURLToPath(new URL(".", import.meta.url));
@@ -104,60 +99,14 @@ export function createSkillControlServer(options = {}) {
     snapshot: null,
     basket: [],
     lastApplyResults: [],
-    translationJob: null,
   };
 
-  async function decorateSnapshot(snapshot) {
-    const translations = await readTranslationsStore({
-      ...options,
-      metadataPath: options.metadataPath || METADATA_PATH,
-    });
-
-    return {
-      ...snapshot,
-      managedSkills: attachLocalizationToSkills(snapshot.managedSkills, translations),
-    };
-  }
-
-  function queueTranslationFill(skills) {
-    if (options.translationEnabled === false) {
-      return;
-    }
-
-    if (state.translationJob) {
-      return;
-    }
-
-    state.translationJob = (async () => {
-      const result = await fillMissingTranslations(skills, {
-        ...options,
-        metadataPath: options.metadataPath || METADATA_PATH,
-      });
-
-      if (result.changed) {
-        const refreshed = await loadDashboardState({
-          ...options,
-          metadataPath: options.metadataPath || METADATA_PATH,
-        });
-        state.snapshot = await decorateSnapshot(refreshed);
-      }
-    })()
-      .catch(() => {})
-      .finally(() => {
-        state.translationJob = null;
-      });
-  }
-
-  async function refreshSnapshot({ scheduleTranslations = true } = {}) {
+  async function refreshSnapshot() {
     const rawSnapshot = await loadDashboardState({
       ...options,
       metadataPath: options.metadataPath || METADATA_PATH,
     });
-    state.snapshot = await decorateSnapshot(rawSnapshot);
-
-    if (scheduleTranslations) {
-      queueTranslationFill(state.snapshot.managedSkills);
-    }
+    state.snapshot = rawSnapshot;
 
     return state.snapshot;
   }

@@ -181,7 +181,6 @@ if (args[0] === "config" && args[1] === "show") {
   const app = createSkillControlServer({
     asmBin: asmScriptPath,
     metadataPath,
-    translationEnabled: false,
   });
   await app.refreshSnapshot();
   await new Promise((resolve) => app.server.listen(0, "127.0.0.1", resolve));
@@ -275,6 +274,55 @@ async function runUiSelfTest() {
       assert.equal(await cdpEval(targetId, 'document.querySelectorAll(".stats-chip-note").length'), 6);
       assert.equal(await cdpEval(targetId, 'document.querySelectorAll(".provider-mark svg").length >= 3'), true);
 
+      logStep("checking filter trigger chrome");
+      assert.equal(
+        await cdpEval(
+          targetId,
+          `(() => {
+            const trigger = document.querySelector('.multi-select-trigger');
+            const style = getComputedStyle(trigger);
+            return style.borderTopWidth !== '0px' && style.borderStyle !== 'none' && style.borderColor !== 'rgba(0, 0, 0, 0)';
+          })()`,
+        ),
+        true,
+      );
+
+      logStep("checking filter dropdown alignment");
+      await cdpEval(
+        targetId,
+        `(() => {
+          document.querySelectorAll('.multi-select-trigger')[0]?.click();
+          return true;
+        })()`,
+      );
+      await waitFor(async () => (await cdpEval(targetId, '!!document.querySelector(".multi-select-panel")')) === true);
+      assert.equal(
+        await cdpEval(
+          targetId,
+          `(() => {
+            const trigger = document.querySelectorAll('.multi-select-trigger')[0];
+            const panel = document.querySelector('.multi-select-panel');
+            const option = panel?.querySelector('.multi-select-option');
+            const input = option?.querySelector('input');
+            const label = option?.querySelector('.multi-select-label');
+            if (!trigger || !panel || !input || !label) {
+              return false;
+            }
+             const triggerRect = trigger.getBoundingClientRect();
+             const panelRect = panel.getBoundingClientRect();
+             const inputRect = input.getBoundingClientRect();
+             const labelRect = label.getBoundingClientRect();
+             const inputStyle = getComputedStyle(input);
+             const panelAttached = Math.abs(panelRect.top - triggerRect.bottom - 6) < 2;
+             const rowAligned = Math.abs((inputRect.top + inputRect.height / 2) - (labelRect.top + labelRect.height / 2)) < 6;
+             const inputKeepsNativeSize = parseFloat(inputStyle.width) < 32;
+             return panelAttached && rowAligned && inputKeepsNativeSize;
+           })()`,
+         ),
+         true,
+       );
+      await cdpEval(targetId, "document.body.click(); true");
+
       logStep("applying search filter");
       await cdpEval(
         targetId,
@@ -290,6 +338,23 @@ async function runUiSelfTest() {
 
       await waitFor(async () => (await cdpEval(targetId, 'document.querySelectorAll(".skill-card").length')) === 1);
       logStep("search filter applied");
+
+      logStep("checking active filter row placement");
+      assert.equal(
+        await cdpEval(
+          targetId,
+          `(() => {
+            const toolbar = document.querySelector('.filter-toolbar');
+            const activeRow = document.querySelector('.active-filter-list');
+            const clearAll = document.querySelector('.clear-all-button');
+            if (!toolbar || !activeRow || !clearAll) {
+              return false;
+            }
+            return !toolbar.contains(clearAll) && activeRow.contains(clearAll);
+          })()`,
+        ),
+        true,
+      );
 
       logStep("switching provider theme");
       await cdpEval(
@@ -364,6 +429,42 @@ async function runUiSelfTest() {
       );
       logStep("defuddle detail opened");
 
+      logStep("checking card status text");
+      assert.equal(
+        await cdpEval(
+          targetId,
+          `Array.from(document.querySelectorAll('.skill-card .status-badge')).every((item) =>
+            item.textContent.includes('已启用') || item.textContent.includes('已停用') || item.textContent.includes('部分启用')
+          )`,
+        ),
+        true,
+      );
+
+      logStep("checking detail header cleanup");
+      assert.equal(await cdpEval(targetId, 'document.querySelector(".locale-toolbar") === null'), true);
+      assert.equal(
+        await cdpEval(
+          targetId,
+          `Array.from(document.querySelectorAll('.run-status-panel button')).map((item) => item.textContent.trim()).join('|')`,
+        ),
+        "启用|停用|删除",
+      );
+      assert.equal(
+        await cdpEval(
+          targetId,
+          `(() => {
+            const detailHeader = document.querySelector('.detail-header');
+            const sectionHead = document.querySelector('.detail-section-head');
+            const bulkPanel = document.querySelector('.run-status-panel');
+            if (!detailHeader || !sectionHead || !bulkPanel) {
+              return false;
+            }
+            return !detailHeader.contains(bulkPanel) && sectionHead.contains(bulkPanel);
+          })()`,
+        ),
+        true,
+      );
+
       logStep("checking keyboard focus feedback");
       const borderBeforeFocus = await cdpEval(
         targetId,
@@ -388,14 +489,14 @@ async function runUiSelfTest() {
       assert.notEqual(borderBeforeFocus, borderAfterFocus);
       logStep("keyboard focus feedback active");
 
-      logStep("disabling codex exposure");
+      logStep("disabling all providers from bulk toolbar");
       await cdpEval(
         targetId,
         `(() => {
-          const codexCard = Array.from(document.querySelectorAll('.provider-detail-card')).find((item) =>
-            item.textContent.includes('Codex')
+          const button = Array.from(document.querySelectorAll('.run-status-panel button')).find((item) =>
+            item.textContent.includes('停用')
           );
-          codexCard.querySelectorAll('button')[1]?.click();
+          button?.click();
           return true;
         })()`,
       );
@@ -403,21 +504,21 @@ async function runUiSelfTest() {
       await waitFor(async () =>
         (await cdpEval(
           targetId,
-          `Array.from(document.querySelectorAll('.provider-detail-card')).find((item) =>
-            item.textContent.includes('Codex')
-          )?.textContent.includes('已关闭')`,
+          `Array.from(document.querySelectorAll('.provider-detail-card .status-text')).every((item) =>
+            item.textContent.includes('已停用')
+          )`,
         )) === true,
       );
-      logStep("codex exposure disabled");
+      logStep("all providers disabled");
 
-      logStep("re-enabling codex exposure");
+      logStep("re-enabling all providers from bulk toolbar");
       await cdpEval(
         targetId,
         `(() => {
-          const codexCard = Array.from(document.querySelectorAll('.provider-detail-card')).find((item) =>
-            item.textContent.includes('Codex')
+          const button = Array.from(document.querySelectorAll('.run-status-panel button')).find((item) =>
+            item.textContent.includes('启用')
           );
-          codexCard.querySelector('.button-primary')?.click();
+          button?.click();
           return true;
         })()`,
       );
@@ -425,22 +526,37 @@ async function runUiSelfTest() {
       await waitFor(async () =>
         (await cdpEval(
           targetId,
-          `Array.from(document.querySelectorAll('.provider-detail-card')).find((item) =>
-            item.textContent.includes('Codex')
-          )?.textContent.includes('已启用')`,
+          `Array.from(document.querySelectorAll('.provider-detail-card .status-text')).every((item) =>
+            item.textContent.includes('已启用')
+          )`,
         )) === true,
       );
-      logStep("codex exposure enabled");
+      logStep("all providers enabled");
 
-      logStep("uninstalling codex exposure");
+      logStep("deleting smart-search from bulk toolbar");
+      await cdpEval(
+        targetId,
+        `(() => {
+          const card = Array.from(document.querySelectorAll('.skill-card')).find((item) =>
+            item.querySelector('h3')?.textContent?.includes('smart-search')
+          );
+          card?.click();
+          return true;
+        })()`,
+      );
+
+      await waitFor(async () =>
+        (await cdpEval(targetId, 'document.querySelector(".detail-header h2").textContent')) === "smart-search",
+      );
+
       await cdpEval(targetId, "window.confirm = () => true");
       await cdpEval(
         targetId,
         `(() => {
-          const codexCard = Array.from(document.querySelectorAll('.provider-detail-card')).find((item) =>
-            item.textContent.includes('Codex')
+          const button = Array.from(document.querySelectorAll('.run-status-panel button')).find((item) =>
+            item.textContent.includes('删除')
           );
-          codexCard.querySelector('.button-danger')?.click();
+          button?.click();
           return true;
         })()`,
       );
@@ -448,12 +564,12 @@ async function runUiSelfTest() {
       await waitFor(async () =>
         (await cdpEval(
           targetId,
-          `Array.from(document.querySelectorAll('.provider-detail-card')).some((item) =>
-            item.textContent.includes('Codex')
+          `Array.from(document.querySelectorAll('.skill-card h3')).some((item) =>
+            item.textContent.includes('smart-search')
           )`,
         )) === false,
       );
-      logStep("codex exposure uninstalled");
+      logStep("smart-search removed");
 
       logStep("checking accessibility live regions");
       assert.equal(await cdpEval(targetId, '!!document.querySelector(".sr-only[aria-live=\\"polite\\"]")'), true);

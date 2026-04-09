@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { chmod, mkdir, mkdtemp, readFile, rm, symlink, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { dirname, join } from "node:path";
+import { join } from "node:path";
 
 import { createSkillControlServer } from "../scripts/lib/server-app.mjs";
 
@@ -180,7 +180,6 @@ if (args[0] === "config" && args[1] === "show") {
   const app = createSkillControlServer({
     asmBin: asmScriptPath,
     metadataPath,
-    translationEnabled: false,
     ...serverOptions,
   });
   await app.refreshSnapshot();
@@ -196,20 +195,6 @@ if (args[0] === "config" && args[1] === "show") {
   }
 }
 
-async function waitFor(check, timeoutMs = 5000, intervalMs = 100) {
-  const startedAt = Date.now();
-
-  while (Date.now() - startedAt < timeoutMs) {
-    const result = await check();
-    if (result) {
-      return result;
-    }
-    await new Promise((resolve) => setTimeout(resolve, intervalMs));
-  }
-
-  throw new Error("Timed out while waiting for condition");
-}
-
 test("summary and duplicates mark provider-exposed groups", async () => {
   await withServer(async ({ baseUrl }) => {
     const summary = await fetch(`${baseUrl}/api/summary`).then((response) => response.json());
@@ -221,6 +206,7 @@ test("summary and duplicates mark provider-exposed groups", async () => {
     assert.equal(summary.summary.uniqueSkills, 2);
     assert.equal(skills.items.find((item) => item.name === "defuddle").duplicateMode, "provider-exposed-duplicate");
     assert.equal(skills.items.find((item) => item.name === "defuddle").runStatus, "enabled");
+    assert.equal("localization" in skills.items.find((item) => item.name === "defuddle"), false);
     assert.equal(duplicates.items[0].mode, "provider-exposed-duplicate");
   });
 });
@@ -412,35 +398,6 @@ test("batch skill action aggregates success and failure per skill", async () => 
   });
 });
 
-test("translations are cached and attached to skill payloads", async () => {
-  await withServer(
-    async ({ baseUrl, metadataPath }) => {
-      const skill = await waitFor(async () => {
-        const payload = await fetch(`${baseUrl}/api/skills`).then((response) => response.json());
-        return payload.items.find(
-          (item) => item.name === "defuddle" && item.localization?.state === "ready",
-        );
-      });
-
-      assert.equal(skill.localization.currentLocale, "zh-Hans");
-      assert.equal(skill.localization.zhHans.name, "中文 defuddle");
-      assert.equal(skill.runtimeSummary.enabledProviders, 2);
-      assert.equal(skill.runtimeSummary.totalProviders, 2);
-
-      const translationsPath = join(dirname(metadataPath), "translations.json");
-      const stored = JSON.parse(await readFile(translationsPath, "utf8"));
-      assert.equal(stored.skills[skill.id].zhHans.name, "中文 defuddle");
-    },
-    {
-      translationEnabled: true,
-      translateRunner: async (skill) => ({
-        name: `中文 ${skill.name}`,
-        description: `中文 ${skill.description}`,
-      }),
-    },
-  );
-});
-
 test("favorite flag persists through metadata patch and refresh", async () => {
   await withServer(async ({ baseUrl }) => {
     const skills = await fetch(`${baseUrl}/api/skills`).then((response) => response.json());
@@ -486,81 +443,4 @@ test("runStatus becomes partial when provider exposures are mixed", async () => 
     assert.equal(updated.runtimeSummary.enabledProviders, 1);
     assert.equal(updated.runtimeSummary.totalProviders, 2);
   });
-});
-
-test("translation CLI selection respects environment setting", async () => {
-  const calls = [];
-  await withServer(
-    async ({ baseUrl }) => {
-      const skill = await waitFor(async () => {
-        const payload = await fetch(`${baseUrl}/api/skills`).then((response) => response.json());
-        return payload.items.find((item) => item.name === "defuddle" && item.localization?.state === "ready");
-      });
-
-      assert.equal(skill.localization.zhHans.name, "中文标题");
-      assert.equal(calls[0]?.command, "codex");
-    },
-    {
-      translationEnabled: true,
-      translationCli: "codex",
-      runTranslationCommand: async (command) => {
-        calls.push({ command });
-        return JSON.stringify({ last_message: '{"name":"中文标题","description":"中文描述"}' });
-      },
-    },
-  );
-});
-
-test("translation CLI auto-detects codex environment", async () => {
-  const calls = [];
-  await withServer(
-    async ({ baseUrl }) => {
-      const skill = await waitFor(async () => {
-        const payload = await fetch(`${baseUrl}/api/skills`).then((response) => response.json());
-        return payload.items.find((item) => item.name === "defuddle" && item.localization?.state === "ready");
-      });
-
-      assert.equal(skill.localization.zhHans.name, "Codex 中文");
-      assert.equal(calls[0]?.command, "codex");
-    },
-    {
-      translationEnabled: true,
-      env: {
-        CODEX_SHELL: "1",
-      },
-      runTranslationCommand: async (command) => {
-        calls.push({ command });
-        return JSON.stringify({ last_message: '{"name":"Codex 中文","description":"Codex 描述"}' });
-      },
-    },
-  );
-});
-
-test("translation CLI auto-detects claude environment", async () => {
-  const calls = [];
-  await withServer(
-    async ({ baseUrl }) => {
-      const skill = await waitFor(async () => {
-        const payload = await fetch(`${baseUrl}/api/skills`).then((response) => response.json());
-        return payload.items.find((item) => item.name === "defuddle" && item.localization?.state === "ready");
-      });
-
-      assert.equal(skill.localization.zhHans.name, "Claude 中文");
-      assert.equal(calls[0]?.command, "claude");
-    },
-    {
-      translationEnabled: true,
-      env: {
-        CODEX_SHELL: "",
-        CODEX_THREAD_ID: "",
-        CODEX_INTERNAL_ORIGINATOR_OVERRIDE: "",
-        __CFBundleIdentifier: "",
-        CLAUDE_PROJECT_DIR: "/tmp/demo",
-      },
-      runTranslationCommand: async (command) => {
-        calls.push({ command });
-        return '{"name":"Claude 中文","description":"Claude 描述"}';
-      },
-    },
-  );
 });

@@ -13,9 +13,9 @@ const RUN_STATUS_CLASS_NAMES = {
   partial: "partial",
 };
 const ACTION_LABELS = {
-  enable: "启用全部",
-  disable: "停用全部",
-  uninstall: "删除全部",
+  enable: "启用",
+  disable: "停用",
+  uninstall: "删除",
 };
 const PROVIDER_THEME_LABELS = {
   claude: "Claude Code",
@@ -24,11 +24,6 @@ const PROVIDER_THEME_LABELS = {
   agents: "Agents",
   opencode: "OpenCode",
 };
-const LOCALE_OPTIONS = [
-  { value: "zh-Hans", label: "中文" },
-  { value: "en", label: "English" },
-];
-
 function useDashboardData(refreshTick) {
   const [state, setState] = useState({
     loading: true,
@@ -137,41 +132,6 @@ function providerRuntimeLabel(skill) {
   return `${skill.runtimeSummary?.enabledProviders || 0}/${skill.runtimeSummary?.totalProviders || 0} 已启用`;
 }
 
-function translationStateLabel(state) {
-  if (state === "ready") {
-    return "中文已缓存";
-  }
-  if (state === "pending") {
-    return "中文生成中";
-  }
-  if (state === "error") {
-    return "翻译不可用，显示原文";
-  }
-  return "暂无中文，显示原文";
-}
-
-function localizedSkillText(skill, locale) {
-  const canUseChinese =
-    locale === "zh-Hans" &&
-    skill.localization?.state === "ready" &&
-    skill.localization?.zhHans;
-
-  return {
-    name: canUseChinese ? skill.localization.zhHans.name || skill.name : skill.name,
-    description: canUseChinese
-      ? skill.localization.zhHans.description || skill.description || "暂无描述"
-      : skill.description || "暂无描述",
-  };
-}
-
-function cardDescription(skill) {
-  if (skill.localization?.state === "ready" && skill.localization?.zhHans?.description) {
-    return skill.localization.zhHans.description;
-  }
-
-  return skill.description || "暂无描述";
-}
-
 function statusLabelClass(runStatus) {
   return RUN_STATUS_CLASS_NAMES[runStatus] || RUN_STATUS_CLASS_NAMES.enabled;
 }
@@ -250,9 +210,12 @@ function MultiSelectField({
   single = false,
 }) {
   const selectedOptions = options.filter((option) => selectedValues.includes(option.value));
+  const summaryLabel = selectedOptions.length
+    ? summaryText || `已选 ${selectedOptions.length} 项`
+    : placeholder;
 
   return (
-    <label className="field field-multi">
+    <div className="field field-multi">
       <span>{label}</span>
       <div
         className={`multi-select ${isOpen ? "is-open" : ""}`}
@@ -264,19 +227,25 @@ function MultiSelectField({
           aria-expanded={isOpen}
           onClick={() => (isOpen ? onClose() : onOpen())}
         >
-          {selectedOptions.length ? (
-            <span className="multi-select-placeholder">
-              {summaryText || `已选 ${selectedOptions.length} 项`}
-            </span>
-          ) : (
-            <span className="multi-select-placeholder">{placeholder}</span>
-          )}
+          <span
+            className={`multi-select-value ${selectedOptions.length ? "has-value" : "is-placeholder"}`}
+          >
+            {summaryLabel}
+          </span>
+          <span className={`multi-select-caret ${isOpen ? "is-open" : ""}`} aria-hidden="true">
+            ▾
+          </span>
         </button>
 
         {isOpen ? (
           <div className="multi-select-panel">
             {options.map((option) => (
-              <label key={option.value} className={`multi-select-option ${single ? "is-single" : ""}`}>
+              <label
+                key={option.value}
+                className={`multi-select-option ${single ? "is-single" : ""} ${
+                  selectedValues.includes(option.value) ? "is-selected" : ""
+                }`}
+              >
                 <input
                   type={single ? "radio" : "checkbox"}
                   name={single ? `${label}-single-select` : undefined}
@@ -295,7 +264,7 @@ function MultiSelectField({
           </div>
         ) : null}
       </div>
-    </label>
+    </div>
   );
 }
 
@@ -303,7 +272,6 @@ function App() {
   const [refreshTick, setRefreshTick] = useState(0);
   const { loading, error, scannedAt, summary, skills, providers } = useDashboardData(refreshTick);
   const [selectedId, setSelectedId] = useState(null);
-  const [detailLocale, setDetailLocale] = useState("en");
   const [favoriteOverrides, setFavoriteOverrides] = useState({});
   const [openFilterKey, setOpenFilterKey] = useState("");
   const [filters, setFilters] = useState({
@@ -364,8 +332,6 @@ function App() {
         const haystack = [
           skill.name,
           skill.description,
-          skill.localization?.zhHans?.name,
-          skill.localization?.zhHans?.description,
           ...(skill.tags || []),
           ...skill.providers.map((provider) => provider.label),
         ]
@@ -413,14 +379,6 @@ function App() {
       setSelectedId(selectedSkill.id);
     }
   }, [selectedId, selectedSkill]);
-
-  useEffect(() => {
-    if (!selectedSkill) {
-      return;
-    }
-
-    setDetailLocale(selectedSkill.localization?.state === "ready" ? "zh-Hans" : "en");
-  }, [selectedSkill?.id]);
 
   function updateFilters(patch) {
     setFilters((current) => ({
@@ -682,8 +640,6 @@ function App() {
     return items;
   }, [filters]);
 
-  const selectedSkillText = selectedSkill ? localizedSkillText(selectedSkill, detailLocale) : null;
-
   if (loading) {
     return <div className="loading-state">正在加载 Skill 控制台…</div>;
   }
@@ -835,11 +791,6 @@ function App() {
               >
                 {filters.favoritesOnly ? "只看收藏中" : "只看收藏"}
               </button>
-              {hasActiveFilters ? (
-                <button className="text-link" onClick={clearAllFilters}>
-                  清除全部
-                </button>
-              ) : null}
             </div>
           </div>
 
@@ -851,6 +802,11 @@ function App() {
                   <span aria-hidden="true">×</span>
                 </button>
               ))}
+              {hasActiveFilters ? (
+                <button className="text-link clear-all-button" onClick={clearAllFilters}>
+                  清除全部
+                </button>
+              ) : null}
             </div>
           ) : null}
 
@@ -893,8 +849,8 @@ function App() {
                   </div>
 
                   <div className="skill-card-body">
-                    <p className="line-clamp-3" title={cardDescription(skill)}>
-                      {cardDescription(skill)}
+                    <p className="line-clamp-3" title={skill.description || "暂无描述"}>
+                      {skill.description || "暂无描述"}
                     </p>
                   </div>
 
@@ -936,16 +892,13 @@ function App() {
                 <div className="detail-title-row">
                   <div>
                     <div className="detail-title-main">
-                      <h2>{selectedSkillText.name}</h2>
+                      <h2>{selectedSkill.name}</h2>
                       <FavoriteButton
                         active={selectedSkill.favorite}
                         title={selectedSkill.favorite ? "取消收藏" : "加入收藏"}
                         onClick={() => handleFavoriteToggle(selectedSkill, !selectedSkill.favorite)}
                       />
                     </div>
-                    {detailLocale === "zh-Hans" && selectedSkillText.name !== selectedSkill.name ? (
-                      <div className="detail-title-alt">{selectedSkill.name}</div>
-                    ) : null}
                   </div>
                   <span className={`status-badge status-badge-${statusLabelClass(selectedSkill.runStatus)}`}>
                     <span className="status-dot" />
@@ -953,57 +906,7 @@ function App() {
                   </span>
                 </div>
 
-                <div className="locale-toolbar">
-                  <div className="translation-note">
-                    <span className="card-label">描述语言</span>
-                    <span>{translationStateLabel(selectedSkill.localization?.state)}</span>
-                  </div>
-                  <div className="segmented-control">
-                    {LOCALE_OPTIONS.map((option) => (
-                      <button
-                        key={option.value}
-                        className={`segment ${detailLocale === option.value ? "is-active" : ""}`}
-                        disabled={option.value === "zh-Hans" && selectedSkill.localization?.state !== "ready"}
-                        onClick={() => setDetailLocale(option.value)}
-                      >
-                        {option.label}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="run-status-panel">
-                  <div className="run-status-copy">
-                    <div className="detail-label">当前 Skill 运行状态</div>
-                    <strong>{RUN_STATUS_LABELS[selectedSkill.runStatus]}</strong>
-                    <span>{providerRuntimeLabel(selectedSkill)}</span>
-                  </div>
-                  <div className="inline-actions">
-                    <button
-                      className="button button-primary"
-                      disabled={pendingKey === `skill:${selectedSkill.id}:enable`}
-                      onClick={() => handleSkillAction("enable")}
-                    >
-                      {pendingKey === `skill:${selectedSkill.id}:enable` ? "处理中..." : ACTION_LABELS.enable}
-                    </button>
-                    <button
-                      className="button button-secondary"
-                      disabled={pendingKey === `skill:${selectedSkill.id}:disable`}
-                      onClick={() => handleSkillAction("disable")}
-                    >
-                      {pendingKey === `skill:${selectedSkill.id}:disable` ? "处理中..." : ACTION_LABELS.disable}
-                    </button>
-                    <button
-                      className="button button-danger"
-                      disabled={pendingKey === `skill:${selectedSkill.id}:uninstall`}
-                      onClick={() => handleSkillAction("uninstall")}
-                    >
-                      {pendingKey === `skill:${selectedSkill.id}:uninstall` ? "处理中..." : ACTION_LABELS.uninstall}
-                    </button>
-                  </div>
-                </div>
-
-                <p className="detail-description">{selectedSkillText.description}</p>
+                <p className="detail-description">{selectedSkill.description || "暂无描述"}</p>
               </div>
 
               <section className="detail-section detail-section-spaced">
@@ -1026,7 +929,32 @@ function App() {
                 <div className="detail-section-head">
                   <div>
                     <div className="detail-label">Provider 运行明细</div>
-                    <div className="section-meta">顶部按钮作用于当前 skill 的全部 provider；下面保留逐项操作。</div>
+                    <div className="section-meta">以下操作将同时作用于该 Skill 的所有 Provider 暴露。</div>
+                  </div>
+                  <div className="run-status-panel">
+                    <div className="inline-actions">
+                      <button
+                        className="button button-primary"
+                        disabled={pendingKey === `skill:${selectedSkill.id}:enable`}
+                        onClick={() => handleSkillAction("enable")}
+                      >
+                        {pendingKey === `skill:${selectedSkill.id}:enable` ? "处理中..." : ACTION_LABELS.enable}
+                      </button>
+                      <button
+                        className="button button-secondary"
+                        disabled={pendingKey === `skill:${selectedSkill.id}:disable`}
+                        onClick={() => handleSkillAction("disable")}
+                      >
+                        {pendingKey === `skill:${selectedSkill.id}:disable` ? "处理中..." : ACTION_LABELS.disable}
+                      </button>
+                      <button
+                        className="button button-danger"
+                        disabled={pendingKey === `skill:${selectedSkill.id}:uninstall`}
+                        onClick={() => handleSkillAction("uninstall")}
+                      >
+                        {pendingKey === `skill:${selectedSkill.id}:uninstall` ? "处理中..." : ACTION_LABELS.uninstall}
+                      </button>
+                    </div>
                   </div>
                 </div>
 
