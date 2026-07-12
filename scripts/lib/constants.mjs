@@ -11,12 +11,29 @@ export const APP_CONFIG_DIR =
   process.env.SKILL_CONTROL_PANEL_CONFIG_DIR ||
   join(homedir(), ".config", APP_NAME);
 
+export const AGENTS_CONFIG_DIR = process.env.AGENTS_CONFIG_DIR || join(homedir(), ".config", "agents");
+export const REGISTRY_PATH = join(AGENTS_CONFIG_DIR, "skills-registry.yaml");
+export const HISTORY_PATH = join(AGENTS_CONFIG_DIR, "skills-history.jsonl");
+export const TRASH_DIR = join(AGENTS_CONFIG_DIR, "trash");
+export const PROJECT_ROOTS_PATH = join(AGENTS_CONFIG_DIR, "project-roots.yaml");
+export const CAPABILITY_TRANSLATIONS_PATH = join(AGENTS_CONFIG_DIR, "skill-capability-translations.json");
+export const SKILL_HUB_CONFIG_PATH = join(AGENTS_CONFIG_DIR, "skill-hub.yaml");
+
 export const METADATA_PATH = join(APP_CONFIG_DIR, "metadata.json");
 export const TRANSLATIONS_PATH = join(APP_CONFIG_DIR, "translations.json");
 export const SERVER_STATE_PATH = join(APP_CONFIG_DIR, "server.json");
 export const SERVER_LOG_PATH = join(APP_CONFIG_DIR, "server.log");
 export const EXPOSURE_STATE_PATH = join(APP_CONFIG_DIR, "exposures.json");
 export const DISABLED_EXPOSURE_DIR = join(APP_CONFIG_DIR, "disabled-exposures");
+export const GOVERNANCE_STATE_PATH = join(APP_CONFIG_DIR, "governance.json");
+
+export const PRIMARY_PROVIDER_PRIORITY = [
+  "claude",
+  "agents",
+  "codex",
+  "opencode",
+  "gemini",
+];
 
 export const CATEGORY_OPTIONS = [
   "core-writing-distribution",

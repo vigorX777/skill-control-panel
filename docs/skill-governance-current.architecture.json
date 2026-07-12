@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "当前 Skill 治理模式",
+    "subtitle": "实体源、Agent 发现入口与受管路由（2026-07-12）",
+    "output": "skill-governance-current.html",
+    "viewBox": [1360, 850]
+  },
+  "components": [
+    { "id": "console", "type": "backend", "label": "Skill Control Panel", "sublabel": "扫描 / 迁移 / Registry", "pos": [80, 70], "size": [170, 68], "tag": "治理控制面" },
+    { "id": "registry", "type": "database", "label": "治理状态", "sublabel": "Registry + History + Trash", "pos": [80, 205], "size": [170, 68] },
+    { "id": "public", "type": "cloud", "label": "Hub 公共 / 集合实体源", "sublabel": "~/Vibecoding/skill-hub/skills/{public,collections}", "pos": [370, 70], "size": [180, 68], "tag": "Hub + 共享" },
+    { "id": "agent", "type": "security", "label": "Hub Agent 实体源", "sublabel": "~/Vibecoding/skill-hub/skills/agents/<agent>", "pos": [650, 70], "size": [230, 68], "tag": "Hub + 指定 Agent" },
+    { "id": "trial", "type": "external", "label": "试用实体源", "sublabel": "~/Documents/Skill试用", "pos": [970, 70], "size": [180, 68], "tag": "按需路由" },
+    { "id": "project", "type": "backend", "label": "项目实体源", "sublabel": "<project>/.agents/skills", "pos": [370, 315], "size": [180, 68], "tag": "随项目上下文" },
+    { "id": "runtime", "type": "messagebus", "label": "系统 / 插件 Skill", "sublabel": "Codex / Claude / Antigravity 运行时", "pos": [650, 315], "size": [230, 68], "tag": "运行时维护" },
+    { "id": "codex", "type": "frontend", "label": "Codex 发现入口", "sublabel": "~/.codex/skills", "pos": [300, 570], "size": [180, 68] },
+    { "id": "claude", "type": "frontend", "label": "Claude 发现入口", "sublabel": "~/.claude/skills", "pos": [590, 570], "size": [180, 68] },
+    { "id": "antigravity", "type": "frontend", "label": "Antigravity 发现入口", "sublabel": "~/.gemini/skills", "pos": [880, 570], "size": [180, 68] },
+    { "id": "agents", "type": "external", "label": "各 Agent 会话", "sublabel": "按发现目录加载 Skill", "pos": [1170, 570], "size": [150, 68] }
+  ],
+  "boundaries": [
+    { "kind": "region", "label": "受管实体层：一份真实副本 + 生命周期记录", "wraps": ["public", "agent", "trial", "project"] },
+    { "kind": "security-group", "label": "Agent 原生发现层：逐 Skill 软链接", "wraps": ["codex", "claude", "antigravity"] }
+  ],
+  "connections": [
+    { "from": "console", "to": "registry", "variant": "emphasis", "fromSide": "bottom", "toSide": "top" },
+    { "from": "console", "to": "public", "variant": "emphasis", "fromSide": "right", "toSide": "left" },
+    { "from": "console", "to": "agent", "variant": "security", "fromSide": "right", "toSide": "left" },
+    { "from": "public", "to": "codex", "variant": "emphasis", "fromSide": "bottom", "toSide": "top", "route": "orthogonal-v" },
+    { "from": "public", "to": "claude", "variant": "emphasis", "fromSide": "bottom", "toSide": "top", "route": "orthogonal-v" },
+    { "from": "public", "to": "antigravity", "variant": "emphasis", "fromSide": "bottom", "toSide": "top", "route": "orthogonal-v" },
+    { "from": "agent", "to": "codex", "variant": "security", "fromSide": "bottom", "toSide": "top", "route": "orthogonal-v" },
+    { "from": "trial", "to": "claude", "variant": "dashed", "fromSide": "bottom", "toSide": "top", "route": "orthogonal-v" },
+    { "from": "trial", "to": "antigravity", "variant": "dashed", "fromSide": "bottom", "toSide": "top", "route": "orthogonal-v" },
+    { "from": "project", "to": "agents", "variant": "dashed", "fromSide": "right", "toSide": "top", "route": "orthogonal-h" },
+    { "from": "runtime", "to": "agents", "variant": "dashed", "fromSide": "right", "toSide": "top", "route": "orthogonal-h" },
+    { "from": "codex", "to": "agents", "variant": "emphasis" },
+    { "from": "claude", "to": "agents", "variant": "emphasis" },
+    { "from": "antigravity", "to": "agents", "variant": "emphasis" }
+  ],
+  "cards": [
+    { "dot": "cyan", "title": "当前事实", "items": ["个人长期 Skill 的真实目录在 ~/Vibecoding/skill-hub；公共和 Agent 可作为并列标签展示。", "hatch-pet 是 Codex 私有 Hub 实体，仅通过 ~/.codex/skills 发现入口暴露。"] },
+    { "dot": "amber", "title": "实体源", "items": ["包含 SKILL.md、脚本和参考资料，是唯一可编辑的真实副本。", "Hub、试用与项目位置定义实体生命周期；公共和 Agent 表示共享或可见范围。"] },
+    { "dot": "rose", "title": "发现入口", "items": ["是 Agent 启动时扫描的原生目录；当前迁移为逐 Skill 软链接。", "它控制可见性，不应复制实体内容。"] }
+  ]
+}

@@ -2,9 +2,10 @@
 
 import { once } from "node:events";
 
-import { DEFAULT_PORT, METADATA_PATH, SERVER_STATE_PATH } from "./lib/constants.mjs";
+import { DEFAULT_PORT, HISTORY_PATH, REGISTRY_PATH, SERVER_STATE_PATH } from "./lib/constants.mjs";
 import { writeJsonFile } from "./lib/metadata.mjs";
 import { createSkillControlServer } from "./lib/server-app.mjs";
+import { getDefaultRoots } from "./lib/manager.mjs";
 
 function getPort() {
   const portArgIndex = process.argv.indexOf("--port");
@@ -19,7 +20,10 @@ function getPort() {
 
 const port = getPort();
 const app = createSkillControlServer({
-  metadataPath: METADATA_PATH,
+  registryPath: REGISTRY_PATH,
+  historyPath: HISTORY_PATH,
+  roots: getDefaultRoots(),
+  discoverProjects: true,
 });
 
 await app.refreshSnapshot().catch((error) => {

@@ -1,0 +1,4 @@
+import React from "react";
+export function ProjectsView({ projects }) {
+  return <section className="ledger-panel" aria-labelledby="projects-heading"><div className="panel-heading"><div><p className="eyebrow">Projects / Read-only roots</p><h2 id="projects-heading">项目路径</h2></div></div><div className="project-root-list">{projects.map((item) => <article key={item.id}><header><strong>{item.label}</strong><span>{item.origins.join(" + ")}</span></header><code>{item.path}</code><p>{!item.exists ? "路径不存在" : item.scanMode === "direct-skill-folders" ? `${item.instanceCount} 个安装实例 · 扫描直系 Skill 文件夹` : !item.hasSkillRoot ? "暂无 Skill" : `${item.instanceCount} 个安装实例`}</p></article>)}</div><p className="registry-note">聊天功能：project-path-add · project-path-update · project-path-remove · project-path-scan</p></section>;
+}

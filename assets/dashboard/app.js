@@ -1084,7 +1084,7 @@
             }
             return dispatcher.useContext(Context);
           }
-          function useState2(initialState) {
+          function useState4(initialState) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useState(initialState);
           }
@@ -1092,11 +1092,11 @@
             var dispatcher = resolveDispatcher();
             return dispatcher.useReducer(reducer, initialArg, init);
           }
-          function useRef(initialValue) {
+          function useRef4(initialValue) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useRef(initialValue);
           }
-          function useEffect2(create, deps) {
+          function useEffect3(create, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useEffect(create, deps);
           }
@@ -1104,11 +1104,11 @@
             var dispatcher = resolveDispatcher();
             return dispatcher.useInsertionEffect(create, deps);
           }
-          function useLayoutEffect(create, deps) {
+          function useLayoutEffect2(create, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useLayoutEffect(create, deps);
           }
-          function useCallback(callback, deps) {
+          function useCallback2(callback, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useCallback(callback, deps);
           }
@@ -1130,11 +1130,11 @@
             var dispatcher = resolveDispatcher();
             return dispatcher.useTransition();
           }
-          function useDeferredValue2(value) {
+          function useDeferredValue(value) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useDeferredValue(value);
           }
-          function useId() {
+          function useId2() {
             var dispatcher = resolveDispatcher();
             return dispatcher.useId();
           }
@@ -1875,19 +1875,19 @@
           exports.memo = memo;
           exports.startTransition = startTransition;
           exports.unstable_act = act;
-          exports.useCallback = useCallback;
+          exports.useCallback = useCallback2;
           exports.useContext = useContext;
           exports.useDebugValue = useDebugValue;
-          exports.useDeferredValue = useDeferredValue2;
-          exports.useEffect = useEffect2;
-          exports.useId = useId;
+          exports.useDeferredValue = useDeferredValue;
+          exports.useEffect = useEffect3;
+          exports.useId = useId2;
           exports.useImperativeHandle = useImperativeHandle;
           exports.useInsertionEffect = useInsertionEffect;
-          exports.useLayoutEffect = useLayoutEffect;
+          exports.useLayoutEffect = useLayoutEffect2;
           exports.useMemo = useMemo2;
           exports.useReducer = useReducer;
-          exports.useRef = useRef;
-          exports.useState = useState2;
+          exports.useRef = useRef4;
+          exports.useState = useState4;
           exports.useSyncExternalStore = useSyncExternalStore;
           exports.useTransition = useTransition;
           exports.version = ReactVersion;
@@ -2383,9 +2383,9 @@
           if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ !== "undefined" && typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart === "function") {
             __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(new Error());
           }
-          var React2 = require_react();
+          var React10 = require_react();
           var Scheduler = require_scheduler();
-          var ReactSharedInternals = React2.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+          var ReactSharedInternals = React10.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
           var suppressWarning = false;
           function setSuppressWarning(newSuppressWarning) {
             {
@@ -2434,7 +2434,7 @@
           var HostPortal = 4;
           var HostComponent = 5;
           var HostText = 6;
-          var Fragment2 = 7;
+          var Fragment = 7;
           var Mode = 8;
           var ContextConsumer = 9;
           var ContextProvider = 10;
@@ -3591,7 +3591,7 @@
                 return "DehydratedFragment";
               case ForwardRef:
                 return getWrappedName$1(type, type.render, "ForwardRef");
-              case Fragment2:
+              case Fragment:
                 return "Fragment";
               case HostComponent:
                 return type;
@@ -3992,7 +3992,7 @@
             {
               if (props.value == null) {
                 if (typeof props.children === "object" && props.children !== null) {
-                  React2.Children.forEach(props.children, function(child) {
+                  React10.Children.forEach(props.children, function(child) {
                     if (child == null) {
                       return;
                     }
@@ -6049,11 +6049,11 @@
               return false;
             }
           }
-          function onScheduleRoot(root3, children) {
+          function onScheduleRoot(root2, children) {
             {
               if (injectedHook && typeof injectedHook.onScheduleFiberRoot === "function") {
                 try {
-                  injectedHook.onScheduleFiberRoot(rendererID, root3, children);
+                  injectedHook.onScheduleFiberRoot(rendererID, root2, children);
                 } catch (err) {
                   if (!hasLoggedError) {
                     hasLoggedError = true;
@@ -6063,10 +6063,10 @@
               }
             }
           }
-          function onCommitRoot(root3, eventPriority) {
+          function onCommitRoot(root2, eventPriority) {
             if (injectedHook && typeof injectedHook.onCommitFiberRoot === "function") {
               try {
-                var didError = (root3.current.flags & DidCapture) === DidCapture;
+                var didError = (root2.current.flags & DidCapture) === DidCapture;
                 if (enableProfilerTimer) {
                   var schedulerPriority;
                   switch (eventPriority) {
@@ -6086,9 +6086,9 @@
                       schedulerPriority = NormalPriority;
                       break;
                   }
-                  injectedHook.onCommitFiberRoot(rendererID, root3, schedulerPriority, didError);
+                  injectedHook.onCommitFiberRoot(rendererID, root2, schedulerPriority, didError);
                 } else {
-                  injectedHook.onCommitFiberRoot(rendererID, root3, void 0, didError);
+                  injectedHook.onCommitFiberRoot(rendererID, root2, void 0, didError);
                 }
               } catch (err) {
                 {
@@ -6100,10 +6100,10 @@
               }
             }
           }
-          function onPostCommitRoot(root3) {
+          function onPostCommitRoot(root2) {
             if (injectedHook && typeof injectedHook.onPostCommitFiberRoot === "function") {
               try {
-                injectedHook.onPostCommitFiberRoot(rendererID, root3);
+                injectedHook.onPostCommitFiberRoot(rendererID, root2);
               } catch (err) {
                 {
                   if (!hasLoggedError) {
@@ -6602,14 +6602,14 @@
                 return lanes;
             }
           }
-          function getNextLanes(root3, wipLanes) {
-            var pendingLanes = root3.pendingLanes;
+          function getNextLanes(root2, wipLanes) {
+            var pendingLanes = root2.pendingLanes;
             if (pendingLanes === NoLanes) {
               return NoLanes;
             }
             var nextLanes = NoLanes;
-            var suspendedLanes = root3.suspendedLanes;
-            var pingedLanes = root3.pingedLanes;
+            var suspendedLanes = root2.suspendedLanes;
+            var pingedLanes = root2.pingedLanes;
             var nonIdlePendingLanes = pendingLanes & NonIdleLanes;
             if (nonIdlePendingLanes !== NoLanes) {
               var nonIdleUnblockedLanes = nonIdlePendingLanes & ~suspendedLanes;
@@ -6653,9 +6653,9 @@
             if ((nextLanes & InputContinuousLane) !== NoLanes) {
               nextLanes |= pendingLanes & DefaultLane;
             }
-            var entangledLanes = root3.entangledLanes;
+            var entangledLanes = root2.entangledLanes;
             if (entangledLanes !== NoLanes) {
-              var entanglements = root3.entanglements;
+              var entanglements = root2.entanglements;
               var lanes = nextLanes & entangledLanes;
               while (lanes > 0) {
                 var index2 = pickArbitraryLaneIndex(lanes);
@@ -6666,8 +6666,8 @@
             }
             return nextLanes;
           }
-          function getMostRecentEventTime(root3, lanes) {
-            var eventTimes = root3.eventTimes;
+          function getMostRecentEventTime(root2, lanes) {
+            var eventTimes = root2.eventTimes;
             var mostRecentEventTime = NoTimestamp;
             while (lanes > 0) {
               var index2 = pickArbitraryLaneIndex(lanes);
@@ -6724,11 +6724,11 @@
                 return NoTimestamp;
             }
           }
-          function markStarvedLanesAsExpired(root3, currentTime) {
-            var pendingLanes = root3.pendingLanes;
-            var suspendedLanes = root3.suspendedLanes;
-            var pingedLanes = root3.pingedLanes;
-            var expirationTimes = root3.expirationTimes;
+          function markStarvedLanesAsExpired(root2, currentTime) {
+            var pendingLanes = root2.pendingLanes;
+            var suspendedLanes = root2.suspendedLanes;
+            var pingedLanes = root2.pingedLanes;
+            var expirationTimes = root2.expirationTimes;
             var lanes = pendingLanes;
             while (lanes > 0) {
               var index2 = pickArbitraryLaneIndex(lanes);
@@ -6739,16 +6739,16 @@
                   expirationTimes[index2] = computeExpirationTime(lane, currentTime);
                 }
               } else if (expirationTime <= currentTime) {
-                root3.expiredLanes |= lane;
+                root2.expiredLanes |= lane;
               }
               lanes &= ~lane;
             }
           }
-          function getHighestPriorityPendingLanes(root3) {
-            return getHighestPriorityLanes(root3.pendingLanes);
+          function getHighestPriorityPendingLanes(root2) {
+            return getHighestPriorityLanes(root2.pendingLanes);
           }
-          function getLanesToRetrySynchronouslyOnError(root3) {
-            var everythingButOffscreen = root3.pendingLanes & ~OffscreenLane;
+          function getLanesToRetrySynchronouslyOnError(root2) {
+            var everythingButOffscreen = root2.pendingLanes & ~OffscreenLane;
             if (everythingButOffscreen !== NoLanes) {
               return everythingButOffscreen;
             }
@@ -6773,12 +6773,12 @@
           function includesOnlyTransitions(lanes) {
             return (lanes & TransitionLanes) === lanes;
           }
-          function includesBlockingLane(root3, lanes) {
+          function includesBlockingLane(root2, lanes) {
             var SyncDefaultLanes = InputContinuousHydrationLane | InputContinuousLane | DefaultHydrationLane | DefaultLane;
             return (lanes & SyncDefaultLanes) !== NoLanes;
           }
-          function includesExpiredLane(root3, lanes) {
-            return (lanes & root3.expiredLanes) !== NoLanes;
+          function includesExpiredLane(root2, lanes) {
+            return (lanes & root2.expiredLanes) !== NoLanes;
           }
           function isTransitionLane(lane) {
             return (lane & TransitionLanes) !== NoLanes;
@@ -6839,20 +6839,20 @@
             }
             return laneMap;
           }
-          function markRootUpdated(root3, updateLane, eventTime) {
-            root3.pendingLanes |= updateLane;
+          function markRootUpdated(root2, updateLane, eventTime) {
+            root2.pendingLanes |= updateLane;
             if (updateLane !== IdleLane) {
-              root3.suspendedLanes = NoLanes;
-              root3.pingedLanes = NoLanes;
+              root2.suspendedLanes = NoLanes;
+              root2.pingedLanes = NoLanes;
             }
-            var eventTimes = root3.eventTimes;
+            var eventTimes = root2.eventTimes;
             var index2 = laneToIndex(updateLane);
             eventTimes[index2] = eventTime;
           }
-          function markRootSuspended(root3, suspendedLanes) {
-            root3.suspendedLanes |= suspendedLanes;
-            root3.pingedLanes &= ~suspendedLanes;
-            var expirationTimes = root3.expirationTimes;
+          function markRootSuspended(root2, suspendedLanes) {
+            root2.suspendedLanes |= suspendedLanes;
+            root2.pingedLanes &= ~suspendedLanes;
+            var expirationTimes = root2.expirationTimes;
             var lanes = suspendedLanes;
             while (lanes > 0) {
               var index2 = pickArbitraryLaneIndex(lanes);
@@ -6861,20 +6861,20 @@
               lanes &= ~lane;
             }
           }
-          function markRootPinged(root3, pingedLanes, eventTime) {
-            root3.pingedLanes |= root3.suspendedLanes & pingedLanes;
+          function markRootPinged(root2, pingedLanes, eventTime) {
+            root2.pingedLanes |= root2.suspendedLanes & pingedLanes;
           }
-          function markRootFinished(root3, remainingLanes) {
-            var noLongerPendingLanes = root3.pendingLanes & ~remainingLanes;
-            root3.pendingLanes = remainingLanes;
-            root3.suspendedLanes = NoLanes;
-            root3.pingedLanes = NoLanes;
-            root3.expiredLanes &= remainingLanes;
-            root3.mutableReadLanes &= remainingLanes;
-            root3.entangledLanes &= remainingLanes;
-            var entanglements = root3.entanglements;
-            var eventTimes = root3.eventTimes;
-            var expirationTimes = root3.expirationTimes;
+          function markRootFinished(root2, remainingLanes) {
+            var noLongerPendingLanes = root2.pendingLanes & ~remainingLanes;
+            root2.pendingLanes = remainingLanes;
+            root2.suspendedLanes = NoLanes;
+            root2.pingedLanes = NoLanes;
+            root2.expiredLanes &= remainingLanes;
+            root2.mutableReadLanes &= remainingLanes;
+            root2.entangledLanes &= remainingLanes;
+            var entanglements = root2.entanglements;
+            var eventTimes = root2.eventTimes;
+            var expirationTimes = root2.expirationTimes;
             var lanes = noLongerPendingLanes;
             while (lanes > 0) {
               var index2 = pickArbitraryLaneIndex(lanes);
@@ -6885,9 +6885,9 @@
               lanes &= ~lane;
             }
           }
-          function markRootEntangled(root3, entangledLanes) {
-            var rootEntangledLanes = root3.entangledLanes |= entangledLanes;
-            var entanglements = root3.entanglements;
+          function markRootEntangled(root2, entangledLanes) {
+            var rootEntangledLanes = root2.entangledLanes |= entangledLanes;
+            var entanglements = root2.entanglements;
             var lanes = rootEntangledLanes;
             while (lanes) {
               var index2 = pickArbitraryLaneIndex(lanes);
@@ -6902,7 +6902,7 @@
               lanes &= ~lane;
             }
           }
-          function getBumpedLaneForHydration(root3, renderLanes2) {
+          function getBumpedLaneForHydration(root2, renderLanes2) {
             var renderLane = getHighestPriorityLane(renderLanes2);
             var lane;
             switch (renderLane) {
@@ -6942,16 +6942,16 @@
                 lane = NoLane;
                 break;
             }
-            if ((lane & (root3.suspendedLanes | renderLanes2)) !== NoLane) {
+            if ((lane & (root2.suspendedLanes | renderLanes2)) !== NoLane) {
               return NoLane;
             }
             return lane;
           }
-          function addFiberToLanesMap(root3, fiber, lanes) {
+          function addFiberToLanesMap(root2, fiber, lanes) {
             if (!isDevToolsPresent) {
               return;
             }
-            var pendingUpdatersLaneMap = root3.pendingUpdatersLaneMap;
+            var pendingUpdatersLaneMap = root2.pendingUpdatersLaneMap;
             while (lanes > 0) {
               var index2 = laneToIndex(lanes);
               var lane = 1 << index2;
@@ -6960,12 +6960,12 @@
               lanes &= ~lane;
             }
           }
-          function movePendingFibersToMemoized(root3, lanes) {
+          function movePendingFibersToMemoized(root2, lanes) {
             if (!isDevToolsPresent) {
               return;
             }
-            var pendingUpdatersLaneMap = root3.pendingUpdatersLaneMap;
-            var memoizedUpdaters = root3.memoizedUpdaters;
+            var pendingUpdatersLaneMap = root2.pendingUpdatersLaneMap;
+            var memoizedUpdaters = root2.memoizedUpdaters;
             while (lanes > 0) {
               var index2 = laneToIndex(lanes);
               var lane = 1 << index2;
@@ -6982,7 +6982,7 @@
               lanes &= ~lane;
             }
           }
-          function getTransitionsForLanes(root3, lanes) {
+          function getTransitionsForLanes(root2, lanes) {
             {
               return null;
             }
@@ -7029,8 +7029,8 @@
             }
             return IdleEventPriority;
           }
-          function isRootDehydrated(root3) {
-            var currentState = root3.current.memoizedState;
+          function isRootDehydrated(root2) {
+            var currentState = root2.current.memoizedState;
             return currentState.isDehydrated;
           }
           var _attemptSynchronousHydration;
@@ -7201,8 +7201,8 @@
                     return;
                   }
                 } else if (tag === HostRoot) {
-                  var root3 = nearestMounted.stateNode;
-                  if (isRootDehydrated(root3)) {
+                  var root2 = nearestMounted.stateNode;
+                  if (isRootDehydrated(root2)) {
                     queuedTarget.blockedOn = getContainerFromFiber(nearestMounted);
                     return;
                   }
@@ -7436,8 +7436,8 @@
                   }
                   targetInst = null;
                 } else if (tag === HostRoot) {
-                  var root3 = nearestMounted.stateNode;
-                  if (isRootDehydrated(root3)) {
+                  var root2 = nearestMounted.stateNode;
+                  if (isRootDehydrated(root2)) {
                     return getContainerFromFiber(nearestMounted);
                   }
                   targetInst = null;
@@ -7573,16 +7573,16 @@
             });
             return listener;
           }
-          var root2 = null;
+          var root = null;
           var startText = null;
           var fallbackText = null;
           function initialize(nativeEventTarget) {
-            root2 = nativeEventTarget;
+            root = nativeEventTarget;
             startText = getText();
             return true;
           }
           function reset() {
-            root2 = null;
+            root = null;
             startText = null;
             fallbackText = null;
           }
@@ -7612,10 +7612,10 @@
             return fallbackText;
           }
           function getText() {
-            if ("value" in root2) {
-              return root2.value;
+            if ("value" in root) {
+              return root.value;
             }
-            return root2.textContent;
+            return root.textContent;
           }
           function getEventCharCode(nativeEvent) {
             var charCode;
@@ -8432,8 +8432,8 @@
               node = node.parentNode;
             }
           }
-          function getNodeForCharacterOffset(root3, offset) {
-            var node = getLeafNode(root3);
+          function getNodeForCharacterOffset(root2, offset) {
+            var node = getLeafNode(root2);
             var nodeStart = 0;
             var nodeEnd = 0;
             while (node) {
@@ -10226,8 +10226,8 @@
               case DOCUMENT_NODE:
               case DOCUMENT_FRAGMENT_NODE: {
                 type = nodeType === DOCUMENT_NODE ? "#document" : "#fragment";
-                var root3 = rootContainerInstance.documentElement;
-                namespace = root3 ? root3.namespaceURI : getChildNamespace(null, "");
+                var root2 = rootContainerInstance.documentElement;
+                namespace = root2 ? root2.namespaceURI : getChildNamespace(null, "");
                 break;
               }
               default: {
@@ -12020,7 +12020,7 @@
               }
             }
             function updateFragment2(returnFiber, current2, fragment, lanes, key) {
-              if (current2 === null || current2.tag !== Fragment2) {
+              if (current2 === null || current2.tag !== Fragment) {
                 var created = createFiberFromFragment(fragment, returnFiber.mode, lanes, key);
                 created.return = returnFiber;
                 return created;
@@ -12423,7 +12423,7 @@
                 if (child.key === key) {
                   var elementType = element.type;
                   if (elementType === REACT_FRAGMENT_TYPE) {
-                    if (child.tag === Fragment2) {
+                    if (child.tag === Fragment) {
                       deleteRemainingChildren(returnFiber, child.sibling);
                       var existing = useFiber(child, element.props.children);
                       existing.return = returnFiber;
@@ -12853,8 +12853,8 @@
               parent = parent.return;
             }
             if (node.tag === HostRoot) {
-              var root3 = node.stateNode;
-              return root3;
+              var root2 = node.stateNode;
+              return root2;
             } else {
               return null;
             }
@@ -12935,7 +12935,7 @@
               return enqueueConcurrentClassUpdate(fiber, sharedQueue, update, lane);
             }
           }
-          function entangleTransitions(root3, fiber, lane) {
+          function entangleTransitions(root2, fiber, lane) {
             var updateQueue = fiber.updateQueue;
             if (updateQueue === null) {
               return;
@@ -12943,10 +12943,10 @@
             var sharedQueue = updateQueue.shared;
             if (isTransitionLane(lane)) {
               var queueLanes = sharedQueue.lanes;
-              queueLanes = intersectLanes(queueLanes, root3.pendingLanes);
+              queueLanes = intersectLanes(queueLanes, root2.pendingLanes);
               var newQueueLanes = mergeLanes(queueLanes, lane);
               sharedQueue.lanes = newQueueLanes;
-              markRootEntangled(root3, newQueueLanes);
+              markRootEntangled(root2, newQueueLanes);
             }
           }
           function enqueueCapturedUpdate(workInProgress2, capturedUpdate) {
@@ -13372,13 +13372,13 @@
             }
             workInProgressSources.length = 0;
           }
-          function registerMutableSourceForHydration(root3, mutableSource) {
+          function registerMutableSourceForHydration(root2, mutableSource) {
             var getVersion = mutableSource._getVersion;
             var version = getVersion(mutableSource._source);
-            if (root3.mutableSourceEagerHydrationData == null) {
-              root3.mutableSourceEagerHydrationData = [mutableSource, version];
+            if (root2.mutableSourceEagerHydrationData == null) {
+              root2.mutableSourceEagerHydrationData = [mutableSource, version];
             } else {
-              root3.mutableSourceEagerHydrationData.push(mutableSource, version);
+              root2.mutableSourceEagerHydrationData.push(mutableSource, version);
             }
           }
           var ReactCurrentDispatcher$1 = ReactSharedInternals.ReactCurrentDispatcher, ReactCurrentBatchConfig$2 = ReactSharedInternals.ReactCurrentBatchConfig;
@@ -13847,11 +13847,11 @@
                   }
                 }
               }
-              var root3 = getWorkInProgressRoot();
-              if (root3 === null) {
+              var root2 = getWorkInProgressRoot();
+              if (root2 === null) {
                 throw new Error("Expected a work-in-progress root. This is a bug in React. Please file an issue.");
               }
-              if (!includesBlockingLane(root3, renderLanes)) {
+              if (!includesBlockingLane(root2, renderLanes)) {
                 pushStoreConsistencyCheck(fiber, getSnapshot, nextSnapshot);
               }
             }
@@ -13892,11 +13892,11 @@
             workInProgressHook !== null && workInProgressHook.memoizedState.tag & HasEffect) {
               fiber.flags |= Passive;
               pushEffect(HasEffect | Passive$1, updateStoreInstance.bind(null, fiber, inst, nextSnapshot, getSnapshot), void 0, null);
-              var root3 = getWorkInProgressRoot();
-              if (root3 === null) {
+              var root2 = getWorkInProgressRoot();
+              if (root2 === null) {
                 throw new Error("Expected a work-in-progress root. This is a bug in React. Please file an issue.");
               }
-              if (!includesBlockingLane(root3, renderLanes)) {
+              if (!includesBlockingLane(root2, renderLanes)) {
                 pushStoreConsistencyCheck(fiber, getSnapshot, nextSnapshot);
               }
             }
@@ -13948,9 +13948,9 @@
             }
           }
           function forceStoreRerender(fiber) {
-            var root3 = enqueueConcurrentRenderForLane(fiber, SyncLane);
-            if (root3 !== null) {
-              scheduleUpdateOnFiber(root3, fiber, SyncLane, NoTimestamp);
+            var root2 = enqueueConcurrentRenderForLane(fiber, SyncLane);
+            if (root2 !== null) {
+              scheduleUpdateOnFiber(root2, fiber, SyncLane, NoTimestamp);
             }
           }
           function mountState(initialState) {
@@ -14259,8 +14259,8 @@
           }
           function mountId() {
             var hook = mountWorkInProgressHook();
-            var root3 = getWorkInProgressRoot();
-            var identifierPrefix = root3.identifierPrefix;
+            var root2 = getWorkInProgressRoot();
+            var identifierPrefix = root2.identifierPrefix;
             var id;
             if (getIsHydrating()) {
               var treeId = getTreeId();
@@ -14299,11 +14299,11 @@
             if (isRenderPhaseUpdate(fiber)) {
               enqueueRenderPhaseUpdate(queue, update);
             } else {
-              var root3 = enqueueConcurrentHookUpdate(fiber, queue, update, lane);
-              if (root3 !== null) {
+              var root2 = enqueueConcurrentHookUpdate(fiber, queue, update, lane);
+              if (root2 !== null) {
                 var eventTime = requestEventTime();
-                scheduleUpdateOnFiber(root3, fiber, lane, eventTime);
-                entangleTransitionUpdate(root3, queue, lane);
+                scheduleUpdateOnFiber(root2, fiber, lane, eventTime);
+                entangleTransitionUpdate(root2, queue, lane);
               }
             }
             markUpdateInDevTools(fiber, lane);
@@ -14351,11 +14351,11 @@
                   }
                 }
               }
-              var root3 = enqueueConcurrentHookUpdate(fiber, queue, update, lane);
-              if (root3 !== null) {
+              var root2 = enqueueConcurrentHookUpdate(fiber, queue, update, lane);
+              if (root2 !== null) {
                 var eventTime = requestEventTime();
-                scheduleUpdateOnFiber(root3, fiber, lane, eventTime);
-                entangleTransitionUpdate(root3, queue, lane);
+                scheduleUpdateOnFiber(root2, fiber, lane, eventTime);
+                entangleTransitionUpdate(root2, queue, lane);
               }
             }
             markUpdateInDevTools(fiber, lane);
@@ -14375,13 +14375,13 @@
             }
             queue.pending = update;
           }
-          function entangleTransitionUpdate(root3, queue, lane) {
+          function entangleTransitionUpdate(root2, queue, lane) {
             if (isTransitionLane(lane)) {
               var queueLanes = queue.lanes;
-              queueLanes = intersectLanes(queueLanes, root3.pendingLanes);
+              queueLanes = intersectLanes(queueLanes, root2.pendingLanes);
               var newQueueLanes = mergeLanes(queueLanes, lane);
               queue.lanes = newQueueLanes;
-              markRootEntangled(root3, newQueueLanes);
+              markRootEntangled(root2, newQueueLanes);
             }
           }
           function markUpdateInDevTools(fiber, lane, action) {
@@ -15269,8 +15269,8 @@
               while (parentFiber !== null) {
                 switch (parentFiber.tag) {
                   case HostRoot:
-                    var root3 = parentFiber.stateNode;
-                    root3.effectDuration += elapsedTime;
+                    var root2 = parentFiber.stateNode;
+                    root2.effectDuration += elapsedTime;
                     return;
                   case Profiler:
                     var parentStateNode = parentFiber.stateNode;
@@ -15289,9 +15289,9 @@
               while (parentFiber !== null) {
                 switch (parentFiber.tag) {
                   case HostRoot:
-                    var root3 = parentFiber.stateNode;
-                    if (root3 !== null) {
-                      root3.passiveEffectDuration += elapsedTime;
+                    var root2 = parentFiber.stateNode;
+                    if (root2 !== null) {
+                      root2.passiveEffectDuration += elapsedTime;
                     }
                     return;
                   case Profiler:
@@ -15416,10 +15416,10 @@
                 }
                 update.callback = callback;
               }
-              var root3 = enqueueUpdate(fiber, update, lane);
-              if (root3 !== null) {
-                scheduleUpdateOnFiber(root3, fiber, lane, eventTime);
-                entangleTransitions(root3, fiber, lane);
+              var root2 = enqueueUpdate(fiber, update, lane);
+              if (root2 !== null) {
+                scheduleUpdateOnFiber(root2, fiber, lane, eventTime);
+                entangleTransitions(root2, fiber, lane);
               }
               {
                 markStateUpdateScheduled(fiber, lane);
@@ -15438,10 +15438,10 @@
                 }
                 update.callback = callback;
               }
-              var root3 = enqueueUpdate(fiber, update, lane);
-              if (root3 !== null) {
-                scheduleUpdateOnFiber(root3, fiber, lane, eventTime);
-                entangleTransitions(root3, fiber, lane);
+              var root2 = enqueueUpdate(fiber, update, lane);
+              if (root2 !== null) {
+                scheduleUpdateOnFiber(root2, fiber, lane, eventTime);
+                entangleTransitions(root2, fiber, lane);
               }
               {
                 markStateUpdateScheduled(fiber, lane);
@@ -15459,10 +15459,10 @@
                 }
                 update.callback = callback;
               }
-              var root3 = enqueueUpdate(fiber, update, lane);
-              if (root3 !== null) {
-                scheduleUpdateOnFiber(root3, fiber, lane, eventTime);
-                entangleTransitions(root3, fiber, lane);
+              var root2 = enqueueUpdate(fiber, update, lane);
+              if (root2 !== null) {
+                scheduleUpdateOnFiber(root2, fiber, lane, eventTime);
+                entangleTransitions(root2, fiber, lane);
               }
               {
                 markForceUpdateScheduled(fiber, lane);
@@ -16049,11 +16049,11 @@
             }
             return update;
           }
-          function attachPingListener(root3, wakeable, lanes) {
-            var pingCache = root3.pingCache;
+          function attachPingListener(root2, wakeable, lanes) {
+            var pingCache = root2.pingCache;
             var threadIDs;
             if (pingCache === null) {
-              pingCache = root3.pingCache = new PossiblyWeakMap$1();
+              pingCache = root2.pingCache = new PossiblyWeakMap$1();
               threadIDs = /* @__PURE__ */ new Set();
               pingCache.set(wakeable, threadIDs);
             } else {
@@ -16065,16 +16065,16 @@
             }
             if (!threadIDs.has(lanes)) {
               threadIDs.add(lanes);
-              var ping = pingSuspendedRoot.bind(null, root3, wakeable, lanes);
+              var ping = pingSuspendedRoot.bind(null, root2, wakeable, lanes);
               {
                 if (isDevToolsPresent) {
-                  restorePendingUpdaters(root3, lanes);
+                  restorePendingUpdaters(root2, lanes);
                 }
               }
               wakeable.then(ping, ping);
             }
           }
-          function attachRetryListener(suspenseBoundary, root3, wakeable, lanes) {
+          function attachRetryListener(suspenseBoundary, root2, wakeable, lanes) {
             var wakeables = suspenseBoundary.updateQueue;
             if (wakeables === null) {
               var updateQueue = /* @__PURE__ */ new Set();
@@ -16108,7 +16108,7 @@
             } while (node !== null);
             return null;
           }
-          function markSuspenseBoundaryShouldCapture(suspenseBoundary, returnFiber, sourceFiber, root3, rootRenderLanes) {
+          function markSuspenseBoundaryShouldCapture(suspenseBoundary, returnFiber, sourceFiber, root2, rootRenderLanes) {
             if ((suspenseBoundary.mode & ConcurrentMode) === NoMode) {
               if (suspenseBoundary === returnFiber) {
                 suspenseBoundary.flags |= ShouldCapture;
@@ -16134,11 +16134,11 @@
             suspenseBoundary.lanes = rootRenderLanes;
             return suspenseBoundary;
           }
-          function throwException(root3, returnFiber, sourceFiber, value, rootRenderLanes) {
+          function throwException(root2, returnFiber, sourceFiber, value, rootRenderLanes) {
             sourceFiber.flags |= Incomplete;
             {
               if (isDevToolsPresent) {
-                restorePendingUpdaters(root3, rootRenderLanes);
+                restorePendingUpdaters(root2, rootRenderLanes);
               }
             }
             if (value !== null && typeof value === "object" && typeof value.then === "function") {
@@ -16152,15 +16152,15 @@
               var suspenseBoundary = getNearestSuspenseBoundaryToCapture(returnFiber);
               if (suspenseBoundary !== null) {
                 suspenseBoundary.flags &= ~ForceClientRender;
-                markSuspenseBoundaryShouldCapture(suspenseBoundary, returnFiber, sourceFiber, root3, rootRenderLanes);
+                markSuspenseBoundaryShouldCapture(suspenseBoundary, returnFiber, sourceFiber, root2, rootRenderLanes);
                 if (suspenseBoundary.mode & ConcurrentMode) {
-                  attachPingListener(root3, wakeable, rootRenderLanes);
+                  attachPingListener(root2, wakeable, rootRenderLanes);
                 }
-                attachRetryListener(suspenseBoundary, root3, wakeable);
+                attachRetryListener(suspenseBoundary, root2, wakeable);
                 return;
               } else {
                 if (!includesSyncLane(rootRenderLanes)) {
-                  attachPingListener(root3, wakeable, rootRenderLanes);
+                  attachPingListener(root2, wakeable, rootRenderLanes);
                   renderDidSuspendDelayIfPossible();
                   return;
                 }
@@ -16175,7 +16175,7 @@
                   if ((_suspenseBoundary.flags & ShouldCapture) === NoFlags) {
                     _suspenseBoundary.flags |= ForceClientRender;
                   }
-                  markSuspenseBoundaryShouldCapture(_suspenseBoundary, returnFiber, sourceFiber, root3, rootRenderLanes);
+                  markSuspenseBoundaryShouldCapture(_suspenseBoundary, returnFiber, sourceFiber, root2, rootRenderLanes);
                   queueHydrationError(createCapturedValueAtFiber(value, sourceFiber));
                   return;
                 }
@@ -16678,13 +16678,13 @@
             return workInProgress2.child;
           }
           function pushHostRootContext(workInProgress2) {
-            var root3 = workInProgress2.stateNode;
-            if (root3.pendingContext) {
-              pushTopLevelContextObject(workInProgress2, root3.pendingContext, root3.pendingContext !== root3.context);
-            } else if (root3.context) {
-              pushTopLevelContextObject(workInProgress2, root3.context, false);
+            var root2 = workInProgress2.stateNode;
+            if (root2.pendingContext) {
+              pushTopLevelContextObject(workInProgress2, root2.pendingContext, root2.pendingContext !== root2.context);
+            } else if (root2.context) {
+              pushTopLevelContextObject(workInProgress2, root2.context, false);
             }
-            pushHostContainer(workInProgress2, root3.containerInfo);
+            pushHostContainer(workInProgress2, root2.containerInfo);
           }
           function updateHostRoot(current2, workInProgress2, renderLanes2) {
             pushHostRootContext(workInProgress2);
@@ -16697,7 +16697,7 @@
             cloneUpdateQueue(current2, workInProgress2);
             processUpdateQueue(workInProgress2, nextProps, null, renderLanes2);
             var nextState = workInProgress2.memoizedState;
-            var root3 = workInProgress2.stateNode;
+            var root2 = workInProgress2.stateNode;
             var nextChildren = nextState.element;
             if (prevState.isDehydrated) {
               var overrideState = {
@@ -17285,14 +17285,14 @@
               }
               var hasContextChanged2 = includesSomeLane(renderLanes2, current2.childLanes);
               if (didReceiveUpdate || hasContextChanged2) {
-                var root3 = getWorkInProgressRoot();
-                if (root3 !== null) {
-                  var attemptHydrationAtLane = getBumpedLaneForHydration(root3, renderLanes2);
+                var root2 = getWorkInProgressRoot();
+                if (root2 !== null) {
+                  var attemptHydrationAtLane = getBumpedLaneForHydration(root2, renderLanes2);
                   if (attemptHydrationAtLane !== NoLane && attemptHydrationAtLane !== suspenseState.retryLane) {
                     suspenseState.retryLane = attemptHydrationAtLane;
                     var eventTime = NoTimestamp;
                     enqueueConcurrentRenderForLane(current2, attemptHydrationAtLane);
-                    scheduleUpdateOnFiber(root3, current2, attemptHydrationAtLane, eventTime);
+                    scheduleUpdateOnFiber(root2, current2, attemptHydrationAtLane, eventTime);
                   }
                 }
                 renderDidSuspendDelayIfPossible();
@@ -17737,7 +17737,7 @@
             switch (workInProgress2.tag) {
               case HostRoot:
                 pushHostRootContext(workInProgress2);
-                var root3 = workInProgress2.stateNode;
+                var root2 = workInProgress2.stateNode;
                 resetHydrationState();
                 break;
               case HostComponent:
@@ -17899,7 +17899,7 @@
                 var _resolvedProps2 = workInProgress2.elementType === type ? _unresolvedProps2 : resolveDefaultProps(type, _unresolvedProps2);
                 return updateForwardRef(current2, workInProgress2, type, _resolvedProps2, renderLanes2);
               }
-              case Fragment2:
+              case Fragment:
                 return updateFragment(current2, workInProgress2, renderLanes2);
               case Mode:
                 return updateMode(current2, workInProgress2, renderLanes2);
@@ -18171,7 +18171,7 @@
               case SimpleMemoComponent:
               case FunctionComponent:
               case ForwardRef:
-              case Fragment2:
+              case Fragment:
               case Mode:
               case Profiler:
               case ContextConsumer:
@@ -18513,7 +18513,7 @@
                 return null;
               }
               case HostRoot: {
-                var root3 = workInProgress2.stateNode;
+                var root2 = workInProgress2.stateNode;
                 popHostContainer(workInProgress2);
                 popTopLevelContextObject(workInProgress2);
                 resetWorkInProgressVersions();
@@ -18579,7 +18579,7 @@
                 break;
               }
               case HostRoot: {
-                var root3 = interruptedWork.stateNode;
+                var root2 = interruptedWork.stateNode;
                 popHostContainer(interruptedWork);
                 popTopLevelContextObject(interruptedWork);
                 resetWorkInProgressVersions();
@@ -18706,8 +18706,8 @@
           }
           var focusedInstanceHandle = null;
           var shouldFireAfterActiveInstanceBlur = false;
-          function commitBeforeMutationEffects(root3, firstChild) {
-            focusedInstanceHandle = prepareForCommit(root3.containerInfo);
+          function commitBeforeMutationEffects(root2, firstChild) {
+            focusedInstanceHandle = prepareForCommit(root2.containerInfo);
             nextEffect = firstChild;
             commitBeforeMutationEffects_begin();
             var shouldFire = shouldFireAfterActiveInstanceBlur;
@@ -18786,8 +18786,8 @@
                 }
                 case HostRoot: {
                   {
-                    var root3 = finishedWork.stateNode;
-                    clearContainer(root3.containerInfo);
+                    var root2 = finishedWork.stateNode;
+                    clearContainer(root2.containerInfo);
                   }
                   break;
                 }
@@ -18927,8 +18927,8 @@
                     outer: while (parentFiber !== null) {
                       switch (parentFiber.tag) {
                         case HostRoot:
-                          var root3 = parentFiber.stateNode;
-                          root3.passiveEffectDuration += passiveEffectDuration;
+                          var root2 = parentFiber.stateNode;
+                          root2.passiveEffectDuration += passiveEffectDuration;
                           break outer;
                         case Profiler:
                           var parentStateNode = parentFiber.stateNode;
@@ -19086,8 +19086,8 @@
                       outer: while (parentFiber !== null) {
                         switch (parentFiber.tag) {
                           case HostRoot:
-                            var root3 = parentFiber.stateNode;
-                            root3.effectDuration += effectDuration;
+                            var root2 = parentFiber.stateNode;
+                            root2.effectDuration += effectDuration;
                             break outer;
                           case Profiler:
                             var parentStateNode = parentFiber.stateNode;
@@ -19403,7 +19403,7 @@
           }
           var hostParent = null;
           var hostParentIsContainer = false;
-          function commitDeletionEffects(root3, returnFiber, deletedFiber) {
+          function commitDeletionEffects(root2, returnFiber, deletedFiber) {
             {
               var parent = returnFiber;
               findParent: while (parent !== null) {
@@ -19429,7 +19429,7 @@
               if (hostParent === null) {
                 throw new Error("Expected to find a host parent. This error is likely caused by a bug in React. Please file an issue.");
               }
-              commitDeletionEffectsOnFiber(root3, returnFiber, deletedFiber);
+              commitDeletionEffectsOnFiber(root2, returnFiber, deletedFiber);
               hostParent = null;
               hostParentIsContainer = false;
             }
@@ -19612,22 +19612,22 @@
               });
             }
           }
-          function commitMutationEffects(root3, finishedWork, committedLanes) {
+          function commitMutationEffects(root2, finishedWork, committedLanes) {
             inProgressLanes = committedLanes;
-            inProgressRoot = root3;
+            inProgressRoot = root2;
             setCurrentFiber(finishedWork);
-            commitMutationEffectsOnFiber(finishedWork, root3);
+            commitMutationEffectsOnFiber(finishedWork, root2);
             setCurrentFiber(finishedWork);
             inProgressLanes = null;
             inProgressRoot = null;
           }
-          function recursivelyTraverseMutationEffects(root3, parentFiber, lanes) {
+          function recursivelyTraverseMutationEffects(root2, parentFiber, lanes) {
             var deletions = parentFiber.deletions;
             if (deletions !== null) {
               for (var i = 0; i < deletions.length; i++) {
                 var childToDelete = deletions[i];
                 try {
-                  commitDeletionEffects(root3, parentFiber, childToDelete);
+                  commitDeletionEffects(root2, parentFiber, childToDelete);
                 } catch (error2) {
                   captureCommitPhaseError(childToDelete, parentFiber, error2);
                 }
@@ -19638,13 +19638,13 @@
               var child = parentFiber.child;
               while (child !== null) {
                 setCurrentFiber(child);
-                commitMutationEffectsOnFiber(child, root3);
+                commitMutationEffectsOnFiber(child, root2);
                 child = child.sibling;
               }
             }
             setCurrentFiber(prevDebugFiber);
           }
-          function commitMutationEffectsOnFiber(finishedWork, root3, lanes) {
+          function commitMutationEffectsOnFiber(finishedWork, root2, lanes) {
             var current2 = finishedWork.alternate;
             var flags = finishedWork.flags;
             switch (finishedWork.tag) {
@@ -19652,7 +19652,7 @@
               case ForwardRef:
               case MemoComponent:
               case SimpleMemoComponent: {
-                recursivelyTraverseMutationEffects(root3, finishedWork);
+                recursivelyTraverseMutationEffects(root2, finishedWork);
                 commitReconciliationEffects(finishedWork);
                 if (flags & Update) {
                   try {
@@ -19680,7 +19680,7 @@
                 return;
               }
               case ClassComponent: {
-                recursivelyTraverseMutationEffects(root3, finishedWork);
+                recursivelyTraverseMutationEffects(root2, finishedWork);
                 commitReconciliationEffects(finishedWork);
                 if (flags & Ref) {
                   if (current2 !== null) {
@@ -19690,7 +19690,7 @@
                 return;
               }
               case HostComponent: {
-                recursivelyTraverseMutationEffects(root3, finishedWork);
+                recursivelyTraverseMutationEffects(root2, finishedWork);
                 commitReconciliationEffects(finishedWork);
                 if (flags & Ref) {
                   if (current2 !== null) {
@@ -19727,7 +19727,7 @@
                 return;
               }
               case HostText: {
-                recursivelyTraverseMutationEffects(root3, finishedWork);
+                recursivelyTraverseMutationEffects(root2, finishedWork);
                 commitReconciliationEffects(finishedWork);
                 if (flags & Update) {
                   {
@@ -19747,7 +19747,7 @@
                 return;
               }
               case HostRoot: {
-                recursivelyTraverseMutationEffects(root3, finishedWork);
+                recursivelyTraverseMutationEffects(root2, finishedWork);
                 commitReconciliationEffects(finishedWork);
                 if (flags & Update) {
                   {
@@ -19755,7 +19755,7 @@
                       var prevRootState = current2.memoizedState;
                       if (prevRootState.isDehydrated) {
                         try {
-                          commitHydratedContainer(root3.containerInfo);
+                          commitHydratedContainer(root2.containerInfo);
                         } catch (error2) {
                           captureCommitPhaseError(finishedWork, finishedWork.return, error2);
                         }
@@ -19766,12 +19766,12 @@
                 return;
               }
               case HostPortal: {
-                recursivelyTraverseMutationEffects(root3, finishedWork);
+                recursivelyTraverseMutationEffects(root2, finishedWork);
                 commitReconciliationEffects(finishedWork);
                 return;
               }
               case SuspenseComponent: {
-                recursivelyTraverseMutationEffects(root3, finishedWork);
+                recursivelyTraverseMutationEffects(root2, finishedWork);
                 commitReconciliationEffects(finishedWork);
                 var offscreenFiber = finishedWork.child;
                 if (offscreenFiber.flags & Visibility) {
@@ -19804,10 +19804,10 @@
                 ) {
                   var prevOffscreenSubtreeWasHidden = offscreenSubtreeWasHidden;
                   offscreenSubtreeWasHidden = prevOffscreenSubtreeWasHidden || _wasHidden;
-                  recursivelyTraverseMutationEffects(root3, finishedWork);
+                  recursivelyTraverseMutationEffects(root2, finishedWork);
                   offscreenSubtreeWasHidden = prevOffscreenSubtreeWasHidden;
                 } else {
-                  recursivelyTraverseMutationEffects(root3, finishedWork);
+                  recursivelyTraverseMutationEffects(root2, finishedWork);
                 }
                 commitReconciliationEffects(finishedWork);
                 if (flags & Visibility) {
@@ -19838,7 +19838,7 @@
                 return;
               }
               case SuspenseListComponent: {
-                recursivelyTraverseMutationEffects(root3, finishedWork);
+                recursivelyTraverseMutationEffects(root2, finishedWork);
                 commitReconciliationEffects(finishedWork);
                 if (flags & Update) {
                   attachSuspenseRetryListeners(finishedWork);
@@ -19849,7 +19849,7 @@
                 return;
               }
               default: {
-                recursivelyTraverseMutationEffects(root3, finishedWork);
+                recursivelyTraverseMutationEffects(root2, finishedWork);
                 commitReconciliationEffects(finishedWork);
                 return;
               }
@@ -19869,15 +19869,15 @@
               finishedWork.flags &= ~Hydrating;
             }
           }
-          function commitLayoutEffects(finishedWork, root3, committedLanes) {
+          function commitLayoutEffects(finishedWork, root2, committedLanes) {
             inProgressLanes = committedLanes;
-            inProgressRoot = root3;
+            inProgressRoot = root2;
             nextEffect = finishedWork;
-            commitLayoutEffects_begin(finishedWork, root3, committedLanes);
+            commitLayoutEffects_begin(finishedWork, root2, committedLanes);
             inProgressLanes = null;
             inProgressRoot = null;
           }
-          function commitLayoutEffects_begin(subtreeRoot, root3, committedLanes) {
+          function commitLayoutEffects_begin(subtreeRoot, root2, committedLanes) {
             var isModernRoot = (subtreeRoot.mode & ConcurrentMode) !== NoMode;
             while (nextEffect !== null) {
               var fiber = nextEffect;
@@ -19886,7 +19886,7 @@
                 var isHidden = fiber.memoizedState !== null;
                 var newOffscreenSubtreeIsHidden = isHidden || offscreenSubtreeIsHidden;
                 if (newOffscreenSubtreeIsHidden) {
-                  commitLayoutMountEffects_complete(subtreeRoot, root3, committedLanes);
+                  commitLayoutMountEffects_complete(subtreeRoot, root2, committedLanes);
                   continue;
                 } else {
                   var current2 = fiber.alternate;
@@ -19906,7 +19906,7 @@
                     commitLayoutEffects_begin(
                       child,
                       // New root; bubble back up to here and stop.
-                      root3,
+                      root2,
                       committedLanes
                     );
                     child = child.sibling;
@@ -19914,7 +19914,7 @@
                   nextEffect = fiber;
                   offscreenSubtreeIsHidden = prevOffscreenSubtreeIsHidden;
                   offscreenSubtreeWasHidden = prevOffscreenSubtreeWasHidden;
-                  commitLayoutMountEffects_complete(subtreeRoot, root3, committedLanes);
+                  commitLayoutMountEffects_complete(subtreeRoot, root2, committedLanes);
                   continue;
                 }
               }
@@ -19922,18 +19922,18 @@
                 firstChild.return = fiber;
                 nextEffect = firstChild;
               } else {
-                commitLayoutMountEffects_complete(subtreeRoot, root3, committedLanes);
+                commitLayoutMountEffects_complete(subtreeRoot, root2, committedLanes);
               }
             }
           }
-          function commitLayoutMountEffects_complete(subtreeRoot, root3, committedLanes) {
+          function commitLayoutMountEffects_complete(subtreeRoot, root2, committedLanes) {
             while (nextEffect !== null) {
               var fiber = nextEffect;
               if ((fiber.flags & LayoutMask) !== NoFlags) {
                 var current2 = fiber.alternate;
                 setCurrentFiber(fiber);
                 try {
-                  commitLayoutEffectOnFiber(root3, current2, fiber, committedLanes);
+                  commitLayoutEffectOnFiber(root2, current2, fiber, committedLanes);
                 } catch (error2) {
                   captureCommitPhaseError(fiber, fiber.return, error2);
                 }
@@ -20060,11 +20060,11 @@
               nextEffect = fiber.return;
             }
           }
-          function commitPassiveMountEffects(root3, finishedWork, committedLanes, committedTransitions) {
+          function commitPassiveMountEffects(root2, finishedWork, committedLanes, committedTransitions) {
             nextEffect = finishedWork;
-            commitPassiveMountEffects_begin(finishedWork, root3, committedLanes, committedTransitions);
+            commitPassiveMountEffects_begin(finishedWork, root2, committedLanes, committedTransitions);
           }
-          function commitPassiveMountEffects_begin(subtreeRoot, root3, committedLanes, committedTransitions) {
+          function commitPassiveMountEffects_begin(subtreeRoot, root2, committedLanes, committedTransitions) {
             while (nextEffect !== null) {
               var fiber = nextEffect;
               var firstChild = fiber.child;
@@ -20072,17 +20072,17 @@
                 firstChild.return = fiber;
                 nextEffect = firstChild;
               } else {
-                commitPassiveMountEffects_complete(subtreeRoot, root3, committedLanes, committedTransitions);
+                commitPassiveMountEffects_complete(subtreeRoot, root2, committedLanes, committedTransitions);
               }
             }
           }
-          function commitPassiveMountEffects_complete(subtreeRoot, root3, committedLanes, committedTransitions) {
+          function commitPassiveMountEffects_complete(subtreeRoot, root2, committedLanes, committedTransitions) {
             while (nextEffect !== null) {
               var fiber = nextEffect;
               if ((fiber.flags & Passive) !== NoFlags) {
                 setCurrentFiber(fiber);
                 try {
-                  commitPassiveMountOnFiber(root3, fiber, committedLanes, committedTransitions);
+                  commitPassiveMountOnFiber(root2, fiber, committedLanes, committedTransitions);
                 } catch (error2) {
                   captureCommitPhaseError(fiber, fiber.return, error2);
                 }
@@ -20485,7 +20485,7 @@
             }
             return claimNextRetryLane();
           }
-          function scheduleUpdateOnFiber(root3, fiber, lane, eventTime) {
+          function scheduleUpdateOnFiber(root2, fiber, lane, eventTime) {
             checkForNestedUpdates();
             {
               if (isRunningInsertionEffect) {
@@ -20497,25 +20497,25 @@
                 didScheduleUpdateDuringPassiveEffects = true;
               }
             }
-            markRootUpdated(root3, lane, eventTime);
-            if ((executionContext & RenderContext) !== NoLanes && root3 === workInProgressRoot) {
+            markRootUpdated(root2, lane, eventTime);
+            if ((executionContext & RenderContext) !== NoLanes && root2 === workInProgressRoot) {
               warnAboutRenderPhaseUpdatesInDEV(fiber);
             } else {
               {
                 if (isDevToolsPresent) {
-                  addFiberToLanesMap(root3, fiber, lane);
+                  addFiberToLanesMap(root2, fiber, lane);
                 }
               }
               warnIfUpdatesNotWrappedWithActDEV(fiber);
-              if (root3 === workInProgressRoot) {
+              if (root2 === workInProgressRoot) {
                 if ((executionContext & RenderContext) === NoContext) {
                   workInProgressRootInterleavedUpdatedLanes = mergeLanes(workInProgressRootInterleavedUpdatedLanes, lane);
                 }
                 if (workInProgressRootExitStatus === RootSuspendedWithDelay) {
-                  markRootSuspended$1(root3, workInProgressRootRenderLanes);
+                  markRootSuspended$1(root2, workInProgressRootRenderLanes);
                 }
               }
-              ensureRootIsScheduled(root3, eventTime);
+              ensureRootIsScheduled(root2, eventTime);
               if (lane === SyncLane && executionContext === NoContext && (fiber.mode & ConcurrentMode) === NoMode && // Treat `act` as if it's inside `batchedUpdates`, even in legacy mode.
               !ReactCurrentActQueue$1.isBatchingLegacy) {
                 resetRenderTimer();
@@ -20523,11 +20523,11 @@
               }
             }
           }
-          function scheduleInitialHydrationOnRoot(root3, lane, eventTime) {
-            var current2 = root3.current;
+          function scheduleInitialHydrationOnRoot(root2, lane, eventTime) {
+            var current2 = root2.current;
             current2.lanes = lane;
-            markRootUpdated(root3, lane, eventTime);
-            ensureRootIsScheduled(root3, eventTime);
+            markRootUpdated(root2, lane, eventTime);
+            ensureRootIsScheduled(root2, eventTime);
           }
           function isUnsafeClassRenderPhaseUpdate(fiber) {
             return (
@@ -20536,20 +20536,20 @@
               (executionContext & RenderContext) !== NoContext
             );
           }
-          function ensureRootIsScheduled(root3, currentTime) {
-            var existingCallbackNode = root3.callbackNode;
-            markStarvedLanesAsExpired(root3, currentTime);
-            var nextLanes = getNextLanes(root3, root3 === workInProgressRoot ? workInProgressRootRenderLanes : NoLanes);
+          function ensureRootIsScheduled(root2, currentTime) {
+            var existingCallbackNode = root2.callbackNode;
+            markStarvedLanesAsExpired(root2, currentTime);
+            var nextLanes = getNextLanes(root2, root2 === workInProgressRoot ? workInProgressRootRenderLanes : NoLanes);
             if (nextLanes === NoLanes) {
               if (existingCallbackNode !== null) {
                 cancelCallback$1(existingCallbackNode);
               }
-              root3.callbackNode = null;
-              root3.callbackPriority = NoLane;
+              root2.callbackNode = null;
+              root2.callbackPriority = NoLane;
               return;
             }
             var newCallbackPriority = getHighestPriorityLane(nextLanes);
-            var existingCallbackPriority = root3.callbackPriority;
+            var existingCallbackPriority = root2.callbackPriority;
             if (existingCallbackPriority === newCallbackPriority && // Special case related to `act`. If the currently scheduled task is a
             // Scheduler task, rather than an `act` task, cancel it and re-scheduled
             // on the `act` queue.
@@ -20566,13 +20566,13 @@
             }
             var newCallbackNode;
             if (newCallbackPriority === SyncLane) {
-              if (root3.tag === LegacyRoot) {
+              if (root2.tag === LegacyRoot) {
                 if (ReactCurrentActQueue$1.isBatchingLegacy !== null) {
                   ReactCurrentActQueue$1.didScheduleLegacyUpdate = true;
                 }
-                scheduleLegacySyncCallback(performSyncWorkOnRoot.bind(null, root3));
+                scheduleLegacySyncCallback(performSyncWorkOnRoot.bind(null, root2));
               } else {
-                scheduleSyncCallback(performSyncWorkOnRoot.bind(null, root3));
+                scheduleSyncCallback(performSyncWorkOnRoot.bind(null, root2));
               }
               {
                 if (ReactCurrentActQueue$1.current !== null) {
@@ -20605,12 +20605,12 @@
                   schedulerPriorityLevel = NormalPriority;
                   break;
               }
-              newCallbackNode = scheduleCallback$1(schedulerPriorityLevel, performConcurrentWorkOnRoot.bind(null, root3));
+              newCallbackNode = scheduleCallback$1(schedulerPriorityLevel, performConcurrentWorkOnRoot.bind(null, root2));
             }
-            root3.callbackPriority = newCallbackPriority;
-            root3.callbackNode = newCallbackNode;
+            root2.callbackPriority = newCallbackPriority;
+            root2.callbackNode = newCallbackNode;
           }
-          function performConcurrentWorkOnRoot(root3, didTimeout) {
+          function performConcurrentWorkOnRoot(root2, didTimeout) {
             {
               resetNestedUpdateFlag();
             }
@@ -20619,77 +20619,77 @@
             if ((executionContext & (RenderContext | CommitContext)) !== NoContext) {
               throw new Error("Should not already be working.");
             }
-            var originalCallbackNode = root3.callbackNode;
+            var originalCallbackNode = root2.callbackNode;
             var didFlushPassiveEffects = flushPassiveEffects();
             if (didFlushPassiveEffects) {
-              if (root3.callbackNode !== originalCallbackNode) {
+              if (root2.callbackNode !== originalCallbackNode) {
                 return null;
               }
             }
-            var lanes = getNextLanes(root3, root3 === workInProgressRoot ? workInProgressRootRenderLanes : NoLanes);
+            var lanes = getNextLanes(root2, root2 === workInProgressRoot ? workInProgressRootRenderLanes : NoLanes);
             if (lanes === NoLanes) {
               return null;
             }
-            var shouldTimeSlice = !includesBlockingLane(root3, lanes) && !includesExpiredLane(root3, lanes) && !didTimeout;
-            var exitStatus = shouldTimeSlice ? renderRootConcurrent(root3, lanes) : renderRootSync(root3, lanes);
+            var shouldTimeSlice = !includesBlockingLane(root2, lanes) && !includesExpiredLane(root2, lanes) && !didTimeout;
+            var exitStatus = shouldTimeSlice ? renderRootConcurrent(root2, lanes) : renderRootSync(root2, lanes);
             if (exitStatus !== RootInProgress) {
               if (exitStatus === RootErrored) {
-                var errorRetryLanes = getLanesToRetrySynchronouslyOnError(root3);
+                var errorRetryLanes = getLanesToRetrySynchronouslyOnError(root2);
                 if (errorRetryLanes !== NoLanes) {
                   lanes = errorRetryLanes;
-                  exitStatus = recoverFromConcurrentError(root3, errorRetryLanes);
+                  exitStatus = recoverFromConcurrentError(root2, errorRetryLanes);
                 }
               }
               if (exitStatus === RootFatalErrored) {
                 var fatalError = workInProgressRootFatalError;
-                prepareFreshStack(root3, NoLanes);
-                markRootSuspended$1(root3, lanes);
-                ensureRootIsScheduled(root3, now());
+                prepareFreshStack(root2, NoLanes);
+                markRootSuspended$1(root2, lanes);
+                ensureRootIsScheduled(root2, now());
                 throw fatalError;
               }
               if (exitStatus === RootDidNotComplete) {
-                markRootSuspended$1(root3, lanes);
+                markRootSuspended$1(root2, lanes);
               } else {
-                var renderWasConcurrent = !includesBlockingLane(root3, lanes);
-                var finishedWork = root3.current.alternate;
+                var renderWasConcurrent = !includesBlockingLane(root2, lanes);
+                var finishedWork = root2.current.alternate;
                 if (renderWasConcurrent && !isRenderConsistentWithExternalStores(finishedWork)) {
-                  exitStatus = renderRootSync(root3, lanes);
+                  exitStatus = renderRootSync(root2, lanes);
                   if (exitStatus === RootErrored) {
-                    var _errorRetryLanes = getLanesToRetrySynchronouslyOnError(root3);
+                    var _errorRetryLanes = getLanesToRetrySynchronouslyOnError(root2);
                     if (_errorRetryLanes !== NoLanes) {
                       lanes = _errorRetryLanes;
-                      exitStatus = recoverFromConcurrentError(root3, _errorRetryLanes);
+                      exitStatus = recoverFromConcurrentError(root2, _errorRetryLanes);
                     }
                   }
                   if (exitStatus === RootFatalErrored) {
                     var _fatalError = workInProgressRootFatalError;
-                    prepareFreshStack(root3, NoLanes);
-                    markRootSuspended$1(root3, lanes);
-                    ensureRootIsScheduled(root3, now());
+                    prepareFreshStack(root2, NoLanes);
+                    markRootSuspended$1(root2, lanes);
+                    ensureRootIsScheduled(root2, now());
                     throw _fatalError;
                   }
                 }
-                root3.finishedWork = finishedWork;
-                root3.finishedLanes = lanes;
-                finishConcurrentRender(root3, exitStatus, lanes);
+                root2.finishedWork = finishedWork;
+                root2.finishedLanes = lanes;
+                finishConcurrentRender(root2, exitStatus, lanes);
               }
             }
-            ensureRootIsScheduled(root3, now());
-            if (root3.callbackNode === originalCallbackNode) {
-              return performConcurrentWorkOnRoot.bind(null, root3);
+            ensureRootIsScheduled(root2, now());
+            if (root2.callbackNode === originalCallbackNode) {
+              return performConcurrentWorkOnRoot.bind(null, root2);
             }
             return null;
           }
-          function recoverFromConcurrentError(root3, errorRetryLanes) {
+          function recoverFromConcurrentError(root2, errorRetryLanes) {
             var errorsFromFirstAttempt = workInProgressRootConcurrentErrors;
-            if (isRootDehydrated(root3)) {
-              var rootWorkInProgress = prepareFreshStack(root3, errorRetryLanes);
+            if (isRootDehydrated(root2)) {
+              var rootWorkInProgress = prepareFreshStack(root2, errorRetryLanes);
               rootWorkInProgress.flags |= ForceClientRender;
               {
-                errorHydratingContainer(root3.containerInfo);
+                errorHydratingContainer(root2.containerInfo);
               }
             }
-            var exitStatus = renderRootSync(root3, errorRetryLanes);
+            var exitStatus = renderRootSync(root2, errorRetryLanes);
             if (exitStatus !== RootErrored) {
               var errorsFromSecondAttempt = workInProgressRootRecoverableErrors;
               workInProgressRootRecoverableErrors = errorsFromFirstAttempt;
@@ -20706,7 +20706,7 @@
               workInProgressRootRecoverableErrors.push.apply(workInProgressRootRecoverableErrors, errors);
             }
           }
-          function finishConcurrentRender(root3, exitStatus, lanes) {
+          function finishConcurrentRender(root2, exitStatus, lanes) {
             switch (exitStatus) {
               case RootInProgress:
               case RootFatalErrored: {
@@ -20716,52 +20716,52 @@
               // statement, but eslint doesn't know about invariant, so it complains
               // if I do. eslint-disable-next-line no-fallthrough
               case RootErrored: {
-                commitRoot(root3, workInProgressRootRecoverableErrors, workInProgressTransitions);
+                commitRoot(root2, workInProgressRootRecoverableErrors, workInProgressTransitions);
                 break;
               }
               case RootSuspended: {
-                markRootSuspended$1(root3, lanes);
+                markRootSuspended$1(root2, lanes);
                 if (includesOnlyRetries(lanes) && // do not delay if we're inside an act() scope
                 !shouldForceFlushFallbacksInDEV()) {
                   var msUntilTimeout = globalMostRecentFallbackTime + FALLBACK_THROTTLE_MS - now();
                   if (msUntilTimeout > 10) {
-                    var nextLanes = getNextLanes(root3, NoLanes);
+                    var nextLanes = getNextLanes(root2, NoLanes);
                     if (nextLanes !== NoLanes) {
                       break;
                     }
-                    var suspendedLanes = root3.suspendedLanes;
+                    var suspendedLanes = root2.suspendedLanes;
                     if (!isSubsetOfLanes(suspendedLanes, lanes)) {
                       var eventTime = requestEventTime();
-                      markRootPinged(root3, suspendedLanes);
+                      markRootPinged(root2, suspendedLanes);
                       break;
                     }
-                    root3.timeoutHandle = scheduleTimeout(commitRoot.bind(null, root3, workInProgressRootRecoverableErrors, workInProgressTransitions), msUntilTimeout);
+                    root2.timeoutHandle = scheduleTimeout(commitRoot.bind(null, root2, workInProgressRootRecoverableErrors, workInProgressTransitions), msUntilTimeout);
                     break;
                   }
                 }
-                commitRoot(root3, workInProgressRootRecoverableErrors, workInProgressTransitions);
+                commitRoot(root2, workInProgressRootRecoverableErrors, workInProgressTransitions);
                 break;
               }
               case RootSuspendedWithDelay: {
-                markRootSuspended$1(root3, lanes);
+                markRootSuspended$1(root2, lanes);
                 if (includesOnlyTransitions(lanes)) {
                   break;
                 }
                 if (!shouldForceFlushFallbacksInDEV()) {
-                  var mostRecentEventTime = getMostRecentEventTime(root3, lanes);
+                  var mostRecentEventTime = getMostRecentEventTime(root2, lanes);
                   var eventTimeMs = mostRecentEventTime;
                   var timeElapsedMs = now() - eventTimeMs;
                   var _msUntilTimeout = jnd(timeElapsedMs) - timeElapsedMs;
                   if (_msUntilTimeout > 10) {
-                    root3.timeoutHandle = scheduleTimeout(commitRoot.bind(null, root3, workInProgressRootRecoverableErrors, workInProgressTransitions), _msUntilTimeout);
+                    root2.timeoutHandle = scheduleTimeout(commitRoot.bind(null, root2, workInProgressRootRecoverableErrors, workInProgressTransitions), _msUntilTimeout);
                     break;
                   }
                 }
-                commitRoot(root3, workInProgressRootRecoverableErrors, workInProgressTransitions);
+                commitRoot(root2, workInProgressRootRecoverableErrors, workInProgressTransitions);
                 break;
               }
               case RootCompleted: {
-                commitRoot(root3, workInProgressRootRecoverableErrors, workInProgressTransitions);
+                commitRoot(root2, workInProgressRootRecoverableErrors, workInProgressTransitions);
                 break;
               }
               default: {
@@ -20812,12 +20812,12 @@
             }
             return true;
           }
-          function markRootSuspended$1(root3, suspendedLanes) {
+          function markRootSuspended$1(root2, suspendedLanes) {
             suspendedLanes = removeLanes(suspendedLanes, workInProgressRootPingedLanes);
             suspendedLanes = removeLanes(suspendedLanes, workInProgressRootInterleavedUpdatedLanes);
-            markRootSuspended(root3, suspendedLanes);
+            markRootSuspended(root2, suspendedLanes);
           }
-          function performSyncWorkOnRoot(root3) {
+          function performSyncWorkOnRoot(root2) {
             {
               syncNestedUpdateFlag();
             }
@@ -20825,40 +20825,40 @@
               throw new Error("Should not already be working.");
             }
             flushPassiveEffects();
-            var lanes = getNextLanes(root3, NoLanes);
+            var lanes = getNextLanes(root2, NoLanes);
             if (!includesSomeLane(lanes, SyncLane)) {
-              ensureRootIsScheduled(root3, now());
+              ensureRootIsScheduled(root2, now());
               return null;
             }
-            var exitStatus = renderRootSync(root3, lanes);
-            if (root3.tag !== LegacyRoot && exitStatus === RootErrored) {
-              var errorRetryLanes = getLanesToRetrySynchronouslyOnError(root3);
+            var exitStatus = renderRootSync(root2, lanes);
+            if (root2.tag !== LegacyRoot && exitStatus === RootErrored) {
+              var errorRetryLanes = getLanesToRetrySynchronouslyOnError(root2);
               if (errorRetryLanes !== NoLanes) {
                 lanes = errorRetryLanes;
-                exitStatus = recoverFromConcurrentError(root3, errorRetryLanes);
+                exitStatus = recoverFromConcurrentError(root2, errorRetryLanes);
               }
             }
             if (exitStatus === RootFatalErrored) {
               var fatalError = workInProgressRootFatalError;
-              prepareFreshStack(root3, NoLanes);
-              markRootSuspended$1(root3, lanes);
-              ensureRootIsScheduled(root3, now());
+              prepareFreshStack(root2, NoLanes);
+              markRootSuspended$1(root2, lanes);
+              ensureRootIsScheduled(root2, now());
               throw fatalError;
             }
             if (exitStatus === RootDidNotComplete) {
               throw new Error("Root did not complete. This is a bug in React.");
             }
-            var finishedWork = root3.current.alternate;
-            root3.finishedWork = finishedWork;
-            root3.finishedLanes = lanes;
-            commitRoot(root3, workInProgressRootRecoverableErrors, workInProgressTransitions);
-            ensureRootIsScheduled(root3, now());
+            var finishedWork = root2.current.alternate;
+            root2.finishedWork = finishedWork;
+            root2.finishedLanes = lanes;
+            commitRoot(root2, workInProgressRootRecoverableErrors, workInProgressTransitions);
+            ensureRootIsScheduled(root2, now());
             return null;
           }
-          function flushRoot(root3, lanes) {
+          function flushRoot(root2, lanes) {
             if (lanes !== NoLanes) {
-              markRootEntangled(root3, mergeLanes(lanes, SyncLane));
-              ensureRootIsScheduled(root3, now());
+              markRootEntangled(root2, mergeLanes(lanes, SyncLane));
+              ensureRootIsScheduled(root2, now());
               if ((executionContext & (RenderContext | CommitContext)) === NoContext) {
                 resetRenderTimer();
                 flushSyncCallbacks();
@@ -20931,12 +20931,12 @@
             subtreeRenderLanes = subtreeRenderLanesCursor.current;
             pop(subtreeRenderLanesCursor, fiber);
           }
-          function prepareFreshStack(root3, lanes) {
-            root3.finishedWork = null;
-            root3.finishedLanes = NoLanes;
-            var timeoutHandle = root3.timeoutHandle;
+          function prepareFreshStack(root2, lanes) {
+            root2.finishedWork = null;
+            root2.finishedLanes = NoLanes;
+            var timeoutHandle = root2.timeoutHandle;
             if (timeoutHandle !== noTimeout) {
-              root3.timeoutHandle = noTimeout;
+              root2.timeoutHandle = noTimeout;
               cancelTimeout(timeoutHandle);
             }
             if (workInProgress !== null) {
@@ -20947,8 +20947,8 @@
                 interruptedWork = interruptedWork.return;
               }
             }
-            workInProgressRoot = root3;
-            var rootWorkInProgress = createWorkInProgress(root3.current, null);
+            workInProgressRoot = root2;
+            var rootWorkInProgress = createWorkInProgress(root2.current, null);
             workInProgress = rootWorkInProgress;
             workInProgressRootRenderLanes = subtreeRenderLanes = workInProgressRootIncludedLanes = lanes;
             workInProgressRootExitStatus = RootInProgress;
@@ -20964,7 +20964,7 @@
             }
             return rootWorkInProgress;
           }
-          function handleError(root3, thrownValue) {
+          function handleError(root2, thrownValue) {
             do {
               var erroredWork = workInProgress;
               try {
@@ -20990,7 +20990,7 @@
                     markComponentErrored(erroredWork, thrownValue, workInProgressRootRenderLanes);
                   }
                 }
-                throwException(root3, erroredWork.return, erroredWork, thrownValue, workInProgressRootRenderLanes);
+                throwException(root2, erroredWork.return, erroredWork, thrownValue, workInProgressRootRenderLanes);
                 completeUnitOfWork(erroredWork);
               } catch (yetAnotherThrownValue) {
                 thrownValue = yetAnotherThrownValue;
@@ -21049,23 +21049,23 @@
           function renderHasNotSuspendedYet() {
             return workInProgressRootExitStatus === RootInProgress;
           }
-          function renderRootSync(root3, lanes) {
+          function renderRootSync(root2, lanes) {
             var prevExecutionContext = executionContext;
             executionContext |= RenderContext;
             var prevDispatcher = pushDispatcher();
-            if (workInProgressRoot !== root3 || workInProgressRootRenderLanes !== lanes) {
+            if (workInProgressRoot !== root2 || workInProgressRootRenderLanes !== lanes) {
               {
                 if (isDevToolsPresent) {
-                  var memoizedUpdaters = root3.memoizedUpdaters;
+                  var memoizedUpdaters = root2.memoizedUpdaters;
                   if (memoizedUpdaters.size > 0) {
-                    restorePendingUpdaters(root3, workInProgressRootRenderLanes);
+                    restorePendingUpdaters(root2, workInProgressRootRenderLanes);
                     memoizedUpdaters.clear();
                   }
-                  movePendingFibersToMemoized(root3, lanes);
+                  movePendingFibersToMemoized(root2, lanes);
                 }
               }
               workInProgressTransitions = getTransitionsForLanes();
-              prepareFreshStack(root3, lanes);
+              prepareFreshStack(root2, lanes);
             }
             {
               markRenderStarted(lanes);
@@ -21075,7 +21075,7 @@
                 workLoopSync();
                 break;
               } catch (thrownValue) {
-                handleError(root3, thrownValue);
+                handleError(root2, thrownValue);
               }
             } while (true);
             resetContextDependencies();
@@ -21096,24 +21096,24 @@
               performUnitOfWork(workInProgress);
             }
           }
-          function renderRootConcurrent(root3, lanes) {
+          function renderRootConcurrent(root2, lanes) {
             var prevExecutionContext = executionContext;
             executionContext |= RenderContext;
             var prevDispatcher = pushDispatcher();
-            if (workInProgressRoot !== root3 || workInProgressRootRenderLanes !== lanes) {
+            if (workInProgressRoot !== root2 || workInProgressRootRenderLanes !== lanes) {
               {
                 if (isDevToolsPresent) {
-                  var memoizedUpdaters = root3.memoizedUpdaters;
+                  var memoizedUpdaters = root2.memoizedUpdaters;
                   if (memoizedUpdaters.size > 0) {
-                    restorePendingUpdaters(root3, workInProgressRootRenderLanes);
+                    restorePendingUpdaters(root2, workInProgressRootRenderLanes);
                     memoizedUpdaters.clear();
                   }
-                  movePendingFibersToMemoized(root3, lanes);
+                  movePendingFibersToMemoized(root2, lanes);
                 }
               }
               workInProgressTransitions = getTransitionsForLanes();
               resetRenderTimer();
-              prepareFreshStack(root3, lanes);
+              prepareFreshStack(root2, lanes);
             }
             {
               markRenderStarted(lanes);
@@ -21123,7 +21123,7 @@
                 workLoopConcurrent();
                 break;
               } catch (thrownValue) {
-                handleError(root3, thrownValue);
+                handleError(root2, thrownValue);
               }
             } while (true);
             resetContextDependencies();
@@ -21227,20 +21227,20 @@
               workInProgressRootExitStatus = RootCompleted;
             }
           }
-          function commitRoot(root3, recoverableErrors, transitions) {
+          function commitRoot(root2, recoverableErrors, transitions) {
             var previousUpdateLanePriority = getCurrentUpdatePriority();
             var prevTransition = ReactCurrentBatchConfig$3.transition;
             try {
               ReactCurrentBatchConfig$3.transition = null;
               setCurrentUpdatePriority(DiscreteEventPriority);
-              commitRootImpl(root3, recoverableErrors, transitions, previousUpdateLanePriority);
+              commitRootImpl(root2, recoverableErrors, transitions, previousUpdateLanePriority);
             } finally {
               ReactCurrentBatchConfig$3.transition = prevTransition;
               setCurrentUpdatePriority(previousUpdateLanePriority);
             }
             return null;
           }
-          function commitRootImpl(root3, recoverableErrors, transitions, renderPriorityLevel) {
+          function commitRootImpl(root2, recoverableErrors, transitions, renderPriorityLevel) {
             do {
               flushPassiveEffects();
             } while (rootWithPendingPassiveEffects !== null);
@@ -21248,8 +21248,8 @@
             if ((executionContext & (RenderContext | CommitContext)) !== NoContext) {
               throw new Error("Should not already be working.");
             }
-            var finishedWork = root3.finishedWork;
-            var lanes = root3.finishedLanes;
+            var finishedWork = root2.finishedWork;
+            var lanes = root2.finishedLanes;
             {
               markCommitStarted(lanes);
             }
@@ -21265,16 +21265,16 @@
                 }
               }
             }
-            root3.finishedWork = null;
-            root3.finishedLanes = NoLanes;
-            if (finishedWork === root3.current) {
+            root2.finishedWork = null;
+            root2.finishedLanes = NoLanes;
+            if (finishedWork === root2.current) {
               throw new Error("Cannot commit the same tree as before. This error is likely caused by a bug in React. Please file an issue.");
             }
-            root3.callbackNode = null;
-            root3.callbackPriority = NoLane;
+            root2.callbackNode = null;
+            root2.callbackPriority = NoLane;
             var remainingLanes = mergeLanes(finishedWork.lanes, finishedWork.childLanes);
-            markRootFinished(root3, remainingLanes);
-            if (root3 === workInProgressRoot) {
+            markRootFinished(root2, remainingLanes);
+            if (root2 === workInProgressRoot) {
               workInProgressRoot = null;
               workInProgress = null;
               workInProgressRootRenderLanes = NoLanes;
@@ -21299,17 +21299,17 @@
               var prevExecutionContext = executionContext;
               executionContext |= CommitContext;
               ReactCurrentOwner$2.current = null;
-              var shouldFireAfterActiveInstanceBlur2 = commitBeforeMutationEffects(root3, finishedWork);
+              var shouldFireAfterActiveInstanceBlur2 = commitBeforeMutationEffects(root2, finishedWork);
               {
                 recordCommitTime();
               }
-              commitMutationEffects(root3, finishedWork, lanes);
-              resetAfterCommit(root3.containerInfo);
-              root3.current = finishedWork;
+              commitMutationEffects(root2, finishedWork, lanes);
+              resetAfterCommit(root2.containerInfo);
+              root2.current = finishedWork;
               {
                 markLayoutEffectsStarted(lanes);
               }
-              commitLayoutEffects(finishedWork, root3, lanes);
+              commitLayoutEffects(finishedWork, root2, lanes);
               {
                 markLayoutEffectsStopped();
               }
@@ -21318,7 +21318,7 @@
               setCurrentUpdatePriority(previousPriority);
               ReactCurrentBatchConfig$3.transition = prevTransition;
             } else {
-              root3.current = finishedWork;
+              root2.current = finishedWork;
               {
                 recordCommitTime();
               }
@@ -21326,7 +21326,7 @@
             var rootDidHavePassiveEffects = rootDoesHavePassiveEffects;
             if (rootDoesHavePassiveEffects) {
               rootDoesHavePassiveEffects = false;
-              rootWithPendingPassiveEffects = root3;
+              rootWithPendingPassiveEffects = root2;
               pendingPassiveEffectsLanes = lanes;
             } else {
               {
@@ -21334,27 +21334,27 @@
                 rootWithPassiveNestedUpdates = null;
               }
             }
-            remainingLanes = root3.pendingLanes;
+            remainingLanes = root2.pendingLanes;
             if (remainingLanes === NoLanes) {
               legacyErrorBoundariesThatAlreadyFailed = null;
             }
             {
               if (!rootDidHavePassiveEffects) {
-                commitDoubleInvokeEffectsInDEV(root3.current, false);
+                commitDoubleInvokeEffectsInDEV(root2.current, false);
               }
             }
             onCommitRoot(finishedWork.stateNode, renderPriorityLevel);
             {
               if (isDevToolsPresent) {
-                root3.memoizedUpdaters.clear();
+                root2.memoizedUpdaters.clear();
               }
             }
             {
               onCommitRoot$1();
             }
-            ensureRootIsScheduled(root3, now());
+            ensureRootIsScheduled(root2, now());
             if (recoverableErrors !== null) {
-              var onRecoverableError = root3.onRecoverableError;
+              var onRecoverableError = root2.onRecoverableError;
               for (var i = 0; i < recoverableErrors.length; i++) {
                 var recoverableError = recoverableErrors[i];
                 var componentStack = recoverableError.stack;
@@ -21371,19 +21371,19 @@
               firstUncaughtError = null;
               throw error$1;
             }
-            if (includesSomeLane(pendingPassiveEffectsLanes, SyncLane) && root3.tag !== LegacyRoot) {
+            if (includesSomeLane(pendingPassiveEffectsLanes, SyncLane) && root2.tag !== LegacyRoot) {
               flushPassiveEffects();
             }
-            remainingLanes = root3.pendingLanes;
+            remainingLanes = root2.pendingLanes;
             if (includesSomeLane(remainingLanes, SyncLane)) {
               {
                 markNestedUpdateScheduled();
               }
-              if (root3 === rootWithNestedUpdates) {
+              if (root2 === rootWithNestedUpdates) {
                 nestedUpdateCount++;
               } else {
                 nestedUpdateCount = 0;
-                rootWithNestedUpdates = root3;
+                rootWithNestedUpdates = root2;
               }
             } else {
               nestedUpdateCount = 0;
@@ -21429,7 +21429,7 @@
             }
             var transitions = pendingPassiveTransitions;
             pendingPassiveTransitions = null;
-            var root3 = rootWithPendingPassiveEffects;
+            var root2 = rootWithPendingPassiveEffects;
             var lanes = pendingPassiveEffectsLanes;
             rootWithPendingPassiveEffects = null;
             pendingPassiveEffectsLanes = NoLanes;
@@ -21445,31 +21445,31 @@
             }
             var prevExecutionContext = executionContext;
             executionContext |= CommitContext;
-            commitPassiveUnmountEffects(root3.current);
-            commitPassiveMountEffects(root3, root3.current, lanes, transitions);
+            commitPassiveUnmountEffects(root2.current);
+            commitPassiveMountEffects(root2, root2.current, lanes, transitions);
             {
               var profilerEffects = pendingPassiveProfilerEffects;
               pendingPassiveProfilerEffects = [];
               for (var i = 0; i < profilerEffects.length; i++) {
                 var _fiber = profilerEffects[i];
-                commitPassiveEffectDurations(root3, _fiber);
+                commitPassiveEffectDurations(root2, _fiber);
               }
             }
             {
               markPassiveEffectsStopped();
             }
             {
-              commitDoubleInvokeEffectsInDEV(root3.current, true);
+              commitDoubleInvokeEffectsInDEV(root2.current, true);
             }
             executionContext = prevExecutionContext;
             flushSyncCallbacks();
             {
               if (didScheduleUpdateDuringPassiveEffects) {
-                if (root3 === rootWithPassiveNestedUpdates) {
+                if (root2 === rootWithPassiveNestedUpdates) {
                   nestedPassiveUpdateCount++;
                 } else {
                   nestedPassiveUpdateCount = 0;
-                  rootWithPassiveNestedUpdates = root3;
+                  rootWithPassiveNestedUpdates = root2;
                 }
               } else {
                 nestedPassiveUpdateCount = 0;
@@ -21477,9 +21477,9 @@
               isFlushingPassiveEffects = false;
               didScheduleUpdateDuringPassiveEffects = false;
             }
-            onPostCommitRoot(root3);
+            onPostCommitRoot(root2);
             {
-              var stateNode = root3.current.stateNode;
+              var stateNode = root2.current.stateNode;
               stateNode.effectDuration = 0;
               stateNode.passiveEffectDuration = 0;
             }
@@ -21505,11 +21505,11 @@
           function captureCommitPhaseErrorOnRoot(rootFiber, sourceFiber, error2) {
             var errorInfo = createCapturedValueAtFiber(error2, sourceFiber);
             var update = createRootErrorUpdate(rootFiber, errorInfo, SyncLane);
-            var root3 = enqueueUpdate(rootFiber, update, SyncLane);
+            var root2 = enqueueUpdate(rootFiber, update, SyncLane);
             var eventTime = requestEventTime();
-            if (root3 !== null) {
-              markRootUpdated(root3, SyncLane, eventTime);
-              ensureRootIsScheduled(root3, eventTime);
+            if (root2 !== null) {
+              markRootUpdated(root2, SyncLane, eventTime);
+              ensureRootIsScheduled(root2, eventTime);
             }
           }
           function captureCommitPhaseError(sourceFiber, nearestMountedAncestor, error$1) {
@@ -21535,11 +21535,11 @@
                 if (typeof ctor.getDerivedStateFromError === "function" || typeof instance.componentDidCatch === "function" && !isAlreadyFailedLegacyErrorBoundary(instance)) {
                   var errorInfo = createCapturedValueAtFiber(error$1, sourceFiber);
                   var update = createClassErrorUpdate(fiber, errorInfo, SyncLane);
-                  var root3 = enqueueUpdate(fiber, update, SyncLane);
+                  var root2 = enqueueUpdate(fiber, update, SyncLane);
                   var eventTime = requestEventTime();
-                  if (root3 !== null) {
-                    markRootUpdated(root3, SyncLane, eventTime);
-                    ensureRootIsScheduled(root3, eventTime);
+                  if (root2 !== null) {
+                    markRootUpdated(root2, SyncLane, eventTime);
+                    ensureRootIsScheduled(root2, eventTime);
                   }
                   return;
                 }
@@ -21550,32 +21550,32 @@
               error("Internal React error: Attempted to capture a commit phase error inside a detached tree. This indicates a bug in React. Likely causes include deleting the same fiber more than once, committing an already-finished tree, or an inconsistent return pointer.\n\nError message:\n\n%s", error$1);
             }
           }
-          function pingSuspendedRoot(root3, wakeable, pingedLanes) {
-            var pingCache = root3.pingCache;
+          function pingSuspendedRoot(root2, wakeable, pingedLanes) {
+            var pingCache = root2.pingCache;
             if (pingCache !== null) {
               pingCache.delete(wakeable);
             }
             var eventTime = requestEventTime();
-            markRootPinged(root3, pingedLanes);
-            warnIfSuspenseResolutionNotWrappedWithActDEV(root3);
-            if (workInProgressRoot === root3 && isSubsetOfLanes(workInProgressRootRenderLanes, pingedLanes)) {
+            markRootPinged(root2, pingedLanes);
+            warnIfSuspenseResolutionNotWrappedWithActDEV(root2);
+            if (workInProgressRoot === root2 && isSubsetOfLanes(workInProgressRootRenderLanes, pingedLanes)) {
               if (workInProgressRootExitStatus === RootSuspendedWithDelay || workInProgressRootExitStatus === RootSuspended && includesOnlyRetries(workInProgressRootRenderLanes) && now() - globalMostRecentFallbackTime < FALLBACK_THROTTLE_MS) {
-                prepareFreshStack(root3, NoLanes);
+                prepareFreshStack(root2, NoLanes);
               } else {
                 workInProgressRootPingedLanes = mergeLanes(workInProgressRootPingedLanes, pingedLanes);
               }
             }
-            ensureRootIsScheduled(root3, eventTime);
+            ensureRootIsScheduled(root2, eventTime);
           }
           function retryTimedOutBoundary(boundaryFiber, retryLane) {
             if (retryLane === NoLane) {
               retryLane = requestRetryLane(boundaryFiber);
             }
             var eventTime = requestEventTime();
-            var root3 = enqueueConcurrentRenderForLane(boundaryFiber, retryLane);
-            if (root3 !== null) {
-              markRootUpdated(root3, retryLane, eventTime);
-              ensureRootIsScheduled(root3, eventTime);
+            var root2 = enqueueConcurrentRenderForLane(boundaryFiber, retryLane);
+            if (root2 !== null) {
+              markRootUpdated(root2, retryLane, eventTime);
+              ensureRootIsScheduled(root2, eventTime);
             }
           }
           function retryDehydratedSuspenseBoundary(boundaryFiber) {
@@ -21764,12 +21764,12 @@
               }
             }
           }
-          function restorePendingUpdaters(root3, lanes) {
+          function restorePendingUpdaters(root2, lanes) {
             {
               if (isDevToolsPresent) {
-                var memoizedUpdaters = root3.memoizedUpdaters;
+                var memoizedUpdaters = root2.memoizedUpdaters;
                 memoizedUpdaters.forEach(function(schedulingFiber) {
-                  addFiberToLanesMap(root3, schedulingFiber, lanes);
+                  addFiberToLanesMap(root2, schedulingFiber, lanes);
                 });
               }
             }
@@ -21827,9 +21827,9 @@
               }
             }
           }
-          function warnIfSuspenseResolutionNotWrappedWithActDEV(root3) {
+          function warnIfSuspenseResolutionNotWrappedWithActDEV(root2) {
             {
-              if (root3.tag !== LegacyRoot && isConcurrentActEnvironment() && ReactCurrentActQueue$1.current === null) {
+              if (root2.tag !== LegacyRoot && isConcurrentActEnvironment() && ReactCurrentActQueue$1.current === null) {
                 error("A suspended resource finished loading inside a test, but the event was not wrapped in act(...).\n\nWhen testing, code that resolves suspended data should be wrapped into act(...):\n\nact(() => {\n  /* finish loading suspended data */\n});\n/* assert on the output */\n\nThis ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act");
               }
             }
@@ -21953,7 +21953,7 @@
               failedBoundaries.add(fiber);
             }
           }
-          var scheduleRefresh = function(root3, update) {
+          var scheduleRefresh = function(root2, update) {
             {
               if (resolveFamily === null) {
                 return;
@@ -21961,18 +21961,18 @@
               var staleFamilies = update.staleFamilies, updatedFamilies = update.updatedFamilies;
               flushPassiveEffects();
               flushSync(function() {
-                scheduleFibersWithFamiliesRecursively(root3.current, updatedFamilies, staleFamilies);
+                scheduleFibersWithFamiliesRecursively(root2.current, updatedFamilies, staleFamilies);
               });
             }
           };
-          var scheduleRoot = function(root3, element) {
+          var scheduleRoot = function(root2, element) {
             {
-              if (root3.context !== emptyContextObject) {
+              if (root2.context !== emptyContextObject) {
                 return;
               }
               flushPassiveEffects();
               flushSync(function() {
-                updateContainer(element, root3, null, null);
+                updateContainer(element, root2, null, null);
               });
             }
           };
@@ -22031,13 +22031,13 @@
               }
             }
           }
-          var findHostInstancesForRefresh = function(root3, families) {
+          var findHostInstancesForRefresh = function(root2, families) {
             {
               var hostInstances = /* @__PURE__ */ new Set();
               var types = new Set(families.map(function(family) {
                 return family.current;
               }));
-              findHostInstancesForMatchingFibersRecursively(root3.current, types, hostInstances);
+              findHostInstancesForMatchingFibersRecursively(root2.current, types, hostInstances);
               return hostInstances;
             }
           };
@@ -22432,7 +22432,7 @@
             return fiber;
           }
           function createFiberFromFragment(elements, mode, lanes, key) {
-            var fiber = createFiber(Fragment2, elements, key, mode);
+            var fiber = createFiber(Fragment, elements, key, mode);
             fiber.lanes = lanes;
             return fiber;
           }
@@ -22590,10 +22590,10 @@
             }
           }
           function createFiberRoot(containerInfo, tag, hydrate2, initialChildren, hydrationCallbacks, isStrictMode, concurrentUpdatesByDefaultOverride, identifierPrefix, onRecoverableError, transitionCallbacks) {
-            var root3 = new FiberRootNode(containerInfo, tag, hydrate2, identifierPrefix, onRecoverableError);
+            var root2 = new FiberRootNode(containerInfo, tag, hydrate2, identifierPrefix, onRecoverableError);
             var uninitializedFiber = createHostRootFiber(tag, isStrictMode);
-            root3.current = uninitializedFiber;
-            uninitializedFiber.stateNode = root3;
+            root2.current = uninitializedFiber;
+            uninitializedFiber.stateNode = root2;
             {
               var _initialState = {
                 element: initialChildren,
@@ -22606,7 +22606,7 @@
               uninitializedFiber.memoizedState = _initialState;
             }
             initializeUpdateQueue(uninitializedFiber);
-            return root3;
+            return root2;
           }
           var ReactVersion = "18.3.1";
           function createPortal(children, containerInfo, implementation) {
@@ -22689,16 +22689,16 @@
           }
           function createHydrationContainer(initialChildren, callback, containerInfo, tag, hydrationCallbacks, isStrictMode, concurrentUpdatesByDefaultOverride, identifierPrefix, onRecoverableError, transitionCallbacks) {
             var hydrate2 = true;
-            var root3 = createFiberRoot(containerInfo, tag, hydrate2, initialChildren, hydrationCallbacks, isStrictMode, concurrentUpdatesByDefaultOverride, identifierPrefix, onRecoverableError);
-            root3.context = getContextForSubtree(null);
-            var current2 = root3.current;
+            var root2 = createFiberRoot(containerInfo, tag, hydrate2, initialChildren, hydrationCallbacks, isStrictMode, concurrentUpdatesByDefaultOverride, identifierPrefix, onRecoverableError);
+            root2.context = getContextForSubtree(null);
+            var current2 = root2.current;
             var eventTime = requestEventTime();
             var lane = requestUpdateLane(current2);
             var update = createUpdate(eventTime, lane);
             update.callback = callback !== void 0 && callback !== null ? callback : null;
             enqueueUpdate(current2, update, lane);
-            scheduleInitialHydrationOnRoot(root3, lane, eventTime);
-            return root3;
+            scheduleInitialHydrationOnRoot(root2, lane, eventTime);
+            return root2;
           }
           function updateContainer(element, container, parentComponent, callback) {
             {
@@ -22735,10 +22735,10 @@
               }
               update.callback = callback;
             }
-            var root3 = enqueueUpdate(current$1, update, lane);
-            if (root3 !== null) {
-              scheduleUpdateOnFiber(root3, current$1, lane, eventTime);
-              entangleTransitions(root3, current$1, lane);
+            var root2 = enqueueUpdate(current$1, update, lane);
+            if (root2 !== null) {
+              scheduleUpdateOnFiber(root2, current$1, lane, eventTime);
+              entangleTransitions(root2, current$1, lane);
             }
             return lane;
           }
@@ -22757,19 +22757,19 @@
           function attemptSynchronousHydration$1(fiber) {
             switch (fiber.tag) {
               case HostRoot: {
-                var root3 = fiber.stateNode;
-                if (isRootDehydrated(root3)) {
-                  var lanes = getHighestPriorityPendingLanes(root3);
-                  flushRoot(root3, lanes);
+                var root2 = fiber.stateNode;
+                if (isRootDehydrated(root2)) {
+                  var lanes = getHighestPriorityPendingLanes(root2);
+                  flushRoot(root2, lanes);
                 }
                 break;
               }
               case SuspenseComponent: {
                 flushSync(function() {
-                  var root4 = enqueueConcurrentRenderForLane(fiber, SyncLane);
-                  if (root4 !== null) {
+                  var root3 = enqueueConcurrentRenderForLane(fiber, SyncLane);
+                  if (root3 !== null) {
                     var eventTime = requestEventTime();
-                    scheduleUpdateOnFiber(root4, fiber, SyncLane, eventTime);
+                    scheduleUpdateOnFiber(root3, fiber, SyncLane, eventTime);
                   }
                 });
                 var retryLane = SyncLane;
@@ -22796,10 +22796,10 @@
               return;
             }
             var lane = SelectiveHydrationLane;
-            var root3 = enqueueConcurrentRenderForLane(fiber, lane);
-            if (root3 !== null) {
+            var root2 = enqueueConcurrentRenderForLane(fiber, lane);
+            if (root2 !== null) {
               var eventTime = requestEventTime();
-              scheduleUpdateOnFiber(root3, fiber, lane, eventTime);
+              scheduleUpdateOnFiber(root2, fiber, lane, eventTime);
             }
             markRetryLaneIfNotHydrated(fiber, lane);
           }
@@ -22808,10 +22808,10 @@
               return;
             }
             var lane = requestUpdateLane(fiber);
-            var root3 = enqueueConcurrentRenderForLane(fiber, lane);
-            if (root3 !== null) {
+            var root2 = enqueueConcurrentRenderForLane(fiber, lane);
+            if (root2 !== null) {
               var eventTime = requestEventTime();
-              scheduleUpdateOnFiber(root3, fiber, lane, eventTime);
+              scheduleUpdateOnFiber(root2, fiber, lane, eventTime);
             }
             markRetryLaneIfNotHydrated(fiber, lane);
           }
@@ -22924,9 +22924,9 @@
                 hook.memoizedState = newState;
                 hook.baseState = newState;
                 fiber.memoizedProps = assign({}, fiber.memoizedProps);
-                var root3 = enqueueConcurrentRenderForLane(fiber, SyncLane);
-                if (root3 !== null) {
-                  scheduleUpdateOnFiber(root3, fiber, SyncLane, NoTimestamp);
+                var root2 = enqueueConcurrentRenderForLane(fiber, SyncLane);
+                if (root2 !== null) {
+                  scheduleUpdateOnFiber(root2, fiber, SyncLane, NoTimestamp);
                 }
               }
             };
@@ -22937,9 +22937,9 @@
                 hook.memoizedState = newState;
                 hook.baseState = newState;
                 fiber.memoizedProps = assign({}, fiber.memoizedProps);
-                var root3 = enqueueConcurrentRenderForLane(fiber, SyncLane);
-                if (root3 !== null) {
-                  scheduleUpdateOnFiber(root3, fiber, SyncLane, NoTimestamp);
+                var root2 = enqueueConcurrentRenderForLane(fiber, SyncLane);
+                if (root2 !== null) {
+                  scheduleUpdateOnFiber(root2, fiber, SyncLane, NoTimestamp);
                 }
               }
             };
@@ -22950,9 +22950,9 @@
                 hook.memoizedState = newState;
                 hook.baseState = newState;
                 fiber.memoizedProps = assign({}, fiber.memoizedProps);
-                var root3 = enqueueConcurrentRenderForLane(fiber, SyncLane);
-                if (root3 !== null) {
-                  scheduleUpdateOnFiber(root3, fiber, SyncLane, NoTimestamp);
+                var root2 = enqueueConcurrentRenderForLane(fiber, SyncLane);
+                if (root2 !== null) {
+                  scheduleUpdateOnFiber(root2, fiber, SyncLane, NoTimestamp);
                 }
               }
             };
@@ -22961,9 +22961,9 @@
               if (fiber.alternate) {
                 fiber.alternate.pendingProps = fiber.pendingProps;
               }
-              var root3 = enqueueConcurrentRenderForLane(fiber, SyncLane);
-              if (root3 !== null) {
-                scheduleUpdateOnFiber(root3, fiber, SyncLane, NoTimestamp);
+              var root2 = enqueueConcurrentRenderForLane(fiber, SyncLane);
+              if (root2 !== null) {
+                scheduleUpdateOnFiber(root2, fiber, SyncLane, NoTimestamp);
               }
             };
             overridePropsDeletePath = function(fiber, path) {
@@ -22971,9 +22971,9 @@
               if (fiber.alternate) {
                 fiber.alternate.pendingProps = fiber.pendingProps;
               }
-              var root3 = enqueueConcurrentRenderForLane(fiber, SyncLane);
-              if (root3 !== null) {
-                scheduleUpdateOnFiber(root3, fiber, SyncLane, NoTimestamp);
+              var root2 = enqueueConcurrentRenderForLane(fiber, SyncLane);
+              if (root2 !== null) {
+                scheduleUpdateOnFiber(root2, fiber, SyncLane, NoTimestamp);
               }
             };
             overridePropsRenamePath = function(fiber, oldPath, newPath) {
@@ -22981,15 +22981,15 @@
               if (fiber.alternate) {
                 fiber.alternate.pendingProps = fiber.pendingProps;
               }
-              var root3 = enqueueConcurrentRenderForLane(fiber, SyncLane);
-              if (root3 !== null) {
-                scheduleUpdateOnFiber(root3, fiber, SyncLane, NoTimestamp);
+              var root2 = enqueueConcurrentRenderForLane(fiber, SyncLane);
+              if (root2 !== null) {
+                scheduleUpdateOnFiber(root2, fiber, SyncLane, NoTimestamp);
               }
             };
             scheduleUpdate = function(fiber) {
-              var root3 = enqueueConcurrentRenderForLane(fiber, SyncLane);
-              if (root3 !== null) {
-                scheduleUpdateOnFiber(root3, fiber, SyncLane, NoTimestamp);
+              var root2 = enqueueConcurrentRenderForLane(fiber, SyncLane);
+              if (root2 !== null) {
+                scheduleUpdateOnFiber(root2, fiber, SyncLane, NoTimestamp);
               }
             };
             setErrorHandler = function(newShouldErrorImpl) {
@@ -23055,8 +23055,8 @@
             this._internalRoot = internalRoot;
           }
           ReactDOMHydrationRoot.prototype.render = ReactDOMRoot.prototype.render = function(children) {
-            var root3 = this._internalRoot;
-            if (root3 === null) {
+            var root2 = this._internalRoot;
+            if (root2 === null) {
               throw new Error("Cannot update an unmounted root.");
             }
             {
@@ -23067,9 +23067,9 @@
               } else if (typeof arguments[1] !== "undefined") {
                 error("You passed a second argument to root.render(...) but it only accepts one argument.");
               }
-              var container = root3.containerInfo;
+              var container = root2.containerInfo;
               if (container.nodeType !== COMMENT_NODE) {
-                var hostInstance = findHostInstanceWithNoPortals(root3.current);
+                var hostInstance = findHostInstanceWithNoPortals(root2.current);
                 if (hostInstance) {
                   if (hostInstance.parentNode !== container) {
                     error("render(...): It looks like the React-rendered content of the root container was removed without using React. This is not supported and will cause errors. Instead, call root.unmount() to empty a root's container.");
@@ -23077,7 +23077,7 @@
                 }
               }
             }
-            updateContainer(children, root3, null, null);
+            updateContainer(children, root2, null, null);
           };
           ReactDOMHydrationRoot.prototype.unmount = ReactDOMRoot.prototype.unmount = function() {
             {
@@ -23085,17 +23085,17 @@
                 error("unmount(...): does not support a callback argument. To execute a side effect after rendering, declare it in a component body with useEffect().");
               }
             }
-            var root3 = this._internalRoot;
-            if (root3 !== null) {
+            var root2 = this._internalRoot;
+            if (root2 !== null) {
               this._internalRoot = null;
-              var container = root3.containerInfo;
+              var container = root2.containerInfo;
               {
                 if (isAlreadyRendering()) {
                   error("Attempted to synchronously unmount a root while React was already rendering. React cannot finish unmounting the root until the current render has completed, which may lead to a race condition.");
                 }
               }
               flushSync(function() {
-                updateContainer(null, root3, null, null);
+                updateContainer(null, root2, null, null);
               });
               unmarkContainerAsRoot(container);
             }
@@ -23133,11 +23133,11 @@
                 transitionCallbacks = options2.transitionCallbacks;
               }
             }
-            var root3 = createContainer(container, ConcurrentRoot, null, isStrictMode, concurrentUpdatesByDefaultOverride, identifierPrefix, onRecoverableError);
-            markContainerAsRoot(root3.current, container);
+            var root2 = createContainer(container, ConcurrentRoot, null, isStrictMode, concurrentUpdatesByDefaultOverride, identifierPrefix, onRecoverableError);
+            markContainerAsRoot(root2.current, container);
             var rootContainerElement = container.nodeType === COMMENT_NODE ? container.parentNode : container;
             listenToAllSupportedEvents(rootContainerElement);
-            return new ReactDOMRoot(root3);
+            return new ReactDOMRoot(root2);
           }
           function ReactDOMHydrationRoot(internalRoot) {
             this._internalRoot = internalRoot;
@@ -23175,16 +23175,16 @@
                 onRecoverableError = options2.onRecoverableError;
               }
             }
-            var root3 = createHydrationContainer(initialChildren, null, container, ConcurrentRoot, hydrationCallbacks, isStrictMode, concurrentUpdatesByDefaultOverride, identifierPrefix, onRecoverableError);
-            markContainerAsRoot(root3.current, container);
+            var root2 = createHydrationContainer(initialChildren, null, container, ConcurrentRoot, hydrationCallbacks, isStrictMode, concurrentUpdatesByDefaultOverride, identifierPrefix, onRecoverableError);
+            markContainerAsRoot(root2.current, container);
             listenToAllSupportedEvents(container);
             if (mutableSources) {
               for (var i = 0; i < mutableSources.length; i++) {
                 var mutableSource = mutableSources[i];
-                registerMutableSourceForHydration(root3, mutableSource);
+                registerMutableSourceForHydration(root2, mutableSource);
               }
             }
-            return new ReactDOMHydrationRoot(root3);
+            return new ReactDOMHydrationRoot(root2);
           }
           function isValidContainer(node) {
             return !!(node && (node.nodeType === ELEMENT_NODE || node.nodeType === DOCUMENT_NODE || node.nodeType === DOCUMENT_FRAGMENT_NODE || !disableCommentsAsDOMContainers));
@@ -23246,11 +23246,11 @@
               if (typeof callback === "function") {
                 var originalCallback = callback;
                 callback = function() {
-                  var instance = getPublicRootInstance(root3);
+                  var instance = getPublicRootInstance(root2);
                   originalCallback.call(instance);
                 };
               }
-              var root3 = createHydrationContainer(
+              var root2 = createHydrationContainer(
                 initialChildren,
                 callback,
                 container,
@@ -23265,12 +23265,12 @@
                 // identifierPrefix
                 noopOnRecoverableError
               );
-              container._reactRootContainer = root3;
-              markContainerAsRoot(root3.current, container);
+              container._reactRootContainer = root2;
+              markContainerAsRoot(root2.current, container);
               var rootContainerElement = container.nodeType === COMMENT_NODE ? container.parentNode : container;
               listenToAllSupportedEvents(rootContainerElement);
               flushSync();
-              return root3;
+              return root2;
             } else {
               var rootSibling;
               while (rootSibling = container.lastChild) {
@@ -23319,21 +23319,21 @@
               warnOnInvalidCallback$1(callback === void 0 ? null : callback, "render");
             }
             var maybeRoot = container._reactRootContainer;
-            var root3;
+            var root2;
             if (!maybeRoot) {
-              root3 = legacyCreateRootFromDOMContainer(container, children, parentComponent, callback, forceHydrate);
+              root2 = legacyCreateRootFromDOMContainer(container, children, parentComponent, callback, forceHydrate);
             } else {
-              root3 = maybeRoot;
+              root2 = maybeRoot;
               if (typeof callback === "function") {
                 var originalCallback = callback;
                 callback = function() {
-                  var instance = getPublicRootInstance(root3);
+                  var instance = getPublicRootInstance(root2);
                   originalCallback.call(instance);
                 };
               }
-              updateContainer(children, root3, parentComponent, callback);
+              updateContainer(children, root2, parentComponent, callback);
             }
-            return getPublicRootInstance(root3);
+            return getPublicRootInstance(root2);
           }
           var didWarnAboutFindDOMNode = false;
           function findDOMNode(componentOrElement) {
@@ -23588,7 +23588,7 @@
       if (true) {
         (function() {
           "use strict";
-          var React2 = require_react();
+          var React10 = require_react();
           var REACT_ELEMENT_TYPE = Symbol.for("react.element");
           var REACT_PORTAL_TYPE = Symbol.for("react.portal");
           var REACT_FRAGMENT_TYPE = Symbol.for("react.fragment");
@@ -23614,7 +23614,7 @@
             }
             return null;
           }
-          var ReactSharedInternals = React2.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+          var ReactSharedInternals = React10.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
           function error(format) {
             {
               {
@@ -24464,11 +24464,11 @@
               return jsxWithValidation(type, props, key, false);
             }
           }
-          var jsx2 = jsxWithValidationDynamic;
-          var jsxs2 = jsxWithValidationStatic;
+          var jsx10 = jsxWithValidationDynamic;
+          var jsxs9 = jsxWithValidationStatic;
           exports.Fragment = REACT_FRAGMENT_TYPE;
-          exports.jsx = jsx2;
-          exports.jsxs = jsxs2;
+          exports.jsx = jsx10;
+          exports.jsxs = jsxs9;
         })();
       }
     }
@@ -24487,860 +24487,951 @@
   });
 
   // src/dashboard/main.jsx
-  var import_react = __toESM(require_react(), 1);
+  var import_react9 = __toESM(require_react(), 1);
   var import_client = __toESM(require_client(), 1);
+
+  // src/dashboard/app-shell.jsx
+  var import_react8 = __toESM(require_react(), 1);
+
+  // src/dashboard/api.js
+  async function fetchJson(path, options = {}) {
+    const response = await fetch(path, { ...options, method: "GET" });
+    if (!response.ok) throw new Error(`\u8BFB\u53D6 ${path} \u5931\u8D25\uFF08${response.status}\uFF09`);
+    return response.json();
+  }
+  async function fetchDashboard(signal) {
+    const request = { signal };
+    const [overview, skills, diagnostics, governance, history, projects, chatFunctions] = await Promise.all([
+      fetchJson("/api/overview", request),
+      fetchJson("/api/skills", request),
+      fetchJson("/api/diagnostics", request),
+      fetchJson("/api/governance", request),
+      fetchJson("/api/history?limit=50", request),
+      fetchJson("/api/projects", request),
+      fetchJson("/api/chat-functions", request)
+    ]);
+    return {
+      overview,
+      skills: skills.items || [],
+      diagnostics: diagnostics.diagnostics || [],
+      registry: governance.registry || null,
+      history,
+      projects: projects.items || [],
+      chatFunctions: chatFunctions.items || []
+    };
+  }
+  function fetchSkillDetail(skillId, signal) {
+    return fetchJson(`/api/skills/${encodeURIComponent(skillId)}`, { signal });
+  }
+  function fetchHistoryPage(offset, signal) {
+    return fetchJson(`/api/history?offset=${offset}&limit=50`, { signal });
+  }
+
+  // src/dashboard/diagnostics-view.jsx
+  var import_react = __toESM(require_react(), 1);
   var import_jsx_runtime = __toESM(require_jsx_runtime(), 1);
-  var RUN_STATUS_OPTIONS = ["enabled", "disabled", "partial"];
-  var RUN_STATUS_LABELS = {
-    enabled: "\u5DF2\u542F\u7528",
-    disabled: "\u5DF2\u505C\u7528",
-    partial: "\u90E8\u5206\u542F\u7528"
-  };
-  var RUN_STATUS_CLASS_NAMES = {
-    enabled: "active",
-    disabled: "candidate",
-    partial: "partial"
-  };
-  var ACTION_LABELS = {
-    enable: "\u542F\u7528",
-    disable: "\u505C\u7528",
-    uninstall: "\u5220\u9664"
-  };
-  var PROVIDER_THEME_LABELS = {
-    claude: "Claude Code",
-    codex: "OpenAI Codex",
-    gemini: "Gemini CLI",
-    agents: "Agents",
-    opencode: "OpenCode"
-  };
-  function useDashboardData(refreshTick) {
-    const [state, setState] = (0, import_react.useState)({
-      loading: true,
-      error: null,
-      scannedAt: null,
-      summary: null,
-      skills: [],
-      providers: []
-    });
-    (0, import_react.useEffect)(() => {
-      let cancelled = false;
-      async function load() {
-        setState((current) => ({ ...current, loading: true, error: null }));
-        try {
-          const [summaryRes, skillsRes, providersRes] = await Promise.all([
-            fetch("/api/summary"),
-            fetch("/api/skills"),
-            fetch("/api/providers")
-          ]);
-          const responses = [summaryRes, skillsRes, providersRes];
-          const failing = responses.find((response) => !response.ok);
-          if (failing) {
-            const payload = await failing.json().catch(() => ({}));
-            throw new Error(payload?.error?.message || "\u52A0\u8F7D\u6570\u636E\u5931\u8D25");
-          }
-          const [summary, skills, providers] = await Promise.all(
-            responses.map((response) => response.json())
-          );
-          if (cancelled) {
-            return;
-          }
-          setState({
-            loading: false,
-            error: null,
-            scannedAt: summary.scannedAt,
-            summary: summary.summary,
-            skills: skills.items,
-            providers: providers.items
-          });
-        } catch (error) {
-          if (cancelled) {
-            return;
-          }
-          setState((current) => ({
-            ...current,
-            loading: false,
-            error: error.message
-          }));
-        }
-      }
-      load();
-      return () => {
-        cancelled = true;
-      };
-    }, [refreshTick]);
-    return state;
+  function DiagnosticLines({ diagnostics }) {
+    return diagnostics.map((item, index) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("article", { className: `diagnostic-line severity-${item.severity}`, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "diagnostic-severity", children: item.severity }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("strong", { children: item.code }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: item.message }),
+        item.path && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("code", { children: item.path })
+      ] })
+    ] }, `${item.code}-${index}`));
   }
-  function formatScannedAt(iso) {
-    if (!iso) {
-      return "\u5C1A\u672A\u626B\u63CF";
-    }
-    return new Intl.DateTimeFormat("zh-CN", {
-      dateStyle: "medium",
-      timeStyle: "short"
-    }).format(new Date(iso));
-  }
-  function providerThemeName(providerNames) {
-    if (providerNames.length !== 1) {
-      return "theme-default";
-    }
-    return `theme-${providerNames[0]}`;
-  }
-  function providerRuntimeLabel(skill) {
-    return `${skill.runtimeSummary?.enabledProviders || 0}/${skill.runtimeSummary?.totalProviders || 0} \u5DF2\u542F\u7528`;
-  }
-  function statusLabelClass(runStatus) {
-    return RUN_STATUS_CLASS_NAMES[runStatus] || RUN_STATUS_CLASS_NAMES.enabled;
-  }
-  function FavoriteButton({ active, onClick, title }) {
-    return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-      "button",
-      {
-        className: `favorite-button ${active ? "is-active" : ""}`,
-        onClick,
-        title,
-        "aria-pressed": active,
-        children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { "aria-hidden": "true", children: active ? "\u2605" : "\u2606" })
-      }
-    );
-  }
-  function ProviderIcon({ name }) {
-    if (name === "claude") {
-      return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("svg", { viewBox: "0 0 24 24", "aria-hidden": "true", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", { d: "M17.304 3.541h-3.672l6.696 16.918H24Zm-10.608 0L0 20.459h3.744l1.369-3.553h7.006l1.369 3.553h3.744L10.536 3.54Zm-.371 10.223 2.291-5.946 2.291 5.946Z" }) });
-    }
-    if (name === "codex") {
-      return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("svg", { viewBox: "0 0 24 24", "aria-hidden": "true", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", { d: "M9.17 2.96a3.15 3.15 0 0 1 4.3 1.15l.47.8.86-.5a3.16 3.16 0 0 1 4.3 1.16 3.14 3.14 0 0 1-1.15 4.3l-.8.47.5.86a3.14 3.14 0 0 1-1.16 4.3 3.15 3.15 0 0 1-4.3-1.15l-.47-.8-.86.5a3.16 3.16 0 0 1-4.3-1.16 3.14 3.14 0 0 1 1.15-4.3l.8-.47-.5-.86A3.14 3.14 0 0 1 9.17 2.96Zm1.06 2.36a1.44 1.44 0 0 0-.52 1.97l1.28 2.22-2.22 1.28a1.44 1.44 0 0 0-.52 1.97 1.44 1.44 0 0 0 1.97.53l2.22-1.29 1.28 2.22a1.44 1.44 0 0 0 1.97.53 1.44 1.44 0 0 0 .53-1.98l-1.29-2.22 2.22-1.28a1.44 1.44 0 0 0 .53-1.97 1.44 1.44 0 0 0-1.98-.53l-2.22 1.29-1.28-2.22a1.44 1.44 0 0 0-1.97-.53Z" }) });
-    }
-    if (name === "gemini") {
-      return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("svg", { viewBox: "0 0 24 24", "aria-hidden": "true", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", { d: "M11.04 19.32Q12 21.51 12 24q0-2.49.93-4.68.96-2.19 2.58-3.81t3.81-2.55Q21.51 12 24 12q-2.49 0-4.68-.93a12.3 12.3 0 0 1-3.81-2.58 12.3 12.3 0 0 1-2.58-3.81Q12 2.49 12 0q0 2.49-.96 4.68-.93 2.19-2.55 3.81a12.3 12.3 0 0 1-3.81 2.58Q2.49 12 0 12q2.49 0 4.68.96 2.19.93 3.81 2.55t2.55 3.81" }) });
-    }
-    if (name === "agents") {
-      return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("svg", { viewBox: "0 0 24 24", "aria-hidden": "true", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", { d: "M6.5 9.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Zm11 0a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Zm-5.5 10a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Zm-3.39-8.4 2.11 3.1m4.67 0 2.11-3.1M9 7h6", fill: "none", stroke: "currentColor", strokeWidth: "1.8", strokeLinecap: "round", strokeLinejoin: "round" }) });
-    }
-    if (name === "opencode") {
-      return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("svg", { viewBox: "0 0 24 24", "aria-hidden": "true", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", { d: "M7.2 6.2 3 10.5l4.2 4.3M16.8 6.2 21 10.5l-4.2 4.3M13.6 4.8l-3.2 11.4", fill: "none", stroke: "currentColor", strokeWidth: "1.9", strokeLinecap: "round", strokeLinejoin: "round" }) });
-    }
-    return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("svg", { viewBox: "0 0 24 24", "aria-hidden": "true", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("circle", { cx: "12", cy: "12", r: "7" }) });
-  }
-  function MultiSelectField({
-    label,
-    placeholder,
-    options,
-    selectedValues,
-    onToggle,
-    summaryText,
-    isOpen,
-    onOpen,
-    onClose,
-    single = false
-  }) {
-    const selectedOptions = options.filter((option) => selectedValues.includes(option.value));
-    const summaryLabel = selectedOptions.length ? summaryText || `\u5DF2\u9009 ${selectedOptions.length} \u9879` : placeholder;
-    return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "field field-multi", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: label }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-        "div",
-        {
-          className: `multi-select ${isOpen ? "is-open" : ""}`,
-          onClick: (event) => event.stopPropagation(),
-          children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-              "button",
-              {
-                type: "button",
-                className: "multi-select-trigger",
-                "aria-expanded": isOpen,
-                onClick: () => isOpen ? onClose() : onOpen(),
-                children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                    "span",
-                    {
-                      className: `multi-select-value ${selectedOptions.length ? "has-value" : "is-placeholder"}`,
-                      children: summaryLabel
-                    }
-                  ),
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: `multi-select-caret ${isOpen ? "is-open" : ""}`, "aria-hidden": "true", children: "\u25BE" })
-                ]
-              }
-            ),
-            isOpen ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "multi-select-panel", children: options.map((option) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-              "label",
-              {
-                className: `multi-select-option ${single ? "is-single" : ""} ${selectedValues.includes(option.value) ? "is-selected" : ""}`,
-                children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                    "input",
-                    {
-                      type: single ? "radio" : "checkbox",
-                      name: single ? `${label}-single-select` : void 0,
-                      checked: selectedValues.includes(option.value),
-                      onChange: () => {
-                        onToggle(option.value);
-                        if (single) {
-                          onClose();
-                        }
-                      }
-                    }
-                  ),
-                  option.icon ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "multi-select-icon", children: option.icon }) : null,
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "multi-select-label", children: option.label })
-                ]
-              },
-              option.value
-            )) }) : null
-          ]
-        }
-      )
-    ] });
-  }
-  function App() {
-    const [refreshTick, setRefreshTick] = (0, import_react.useState)(0);
-    const { loading, error, scannedAt, summary, skills, providers } = useDashboardData(refreshTick);
-    const [selectedId, setSelectedId] = (0, import_react.useState)(null);
-    const [favoriteOverrides, setFavoriteOverrides] = (0, import_react.useState)({});
-    const [openFilterKey, setOpenFilterKey] = (0, import_react.useState)("");
-    const [filters, setFilters] = (0, import_react.useState)({
-      query: "",
-      statuses: [],
-      tags: [],
-      provider: "",
-      favoritesOnly: false
-    });
-    const [pendingKey, setPendingKey] = (0, import_react.useState)(null);
-    const [feedback, setFeedback] = (0, import_react.useState)({
-      message: "",
-      error: ""
-    });
-    const deferredQuery = (0, import_react.useDeferredValue)(filters.query);
-    const skillsWithOverrides = (0, import_react.useMemo)(
-      () => skills.map(
-        (skill) => Object.prototype.hasOwnProperty.call(favoriteOverrides, skill.id) ? { ...skill, favorite: favoriteOverrides[skill.id] } : skill
-      ),
-      [favoriteOverrides, skills]
-    );
-    const visibleProviders = (0, import_react.useMemo)(
-      () => providers.filter((provider) => provider.uniqueSkillCount > 0),
-      [providers]
-    );
-    (0, import_react.useEffect)(() => {
-      function closeFilters() {
-        setOpenFilterKey("");
-      }
-      document.addEventListener("click", closeFilters);
-      return () => document.removeEventListener("click", closeFilters);
-    }, []);
-    const tagOptions = (0, import_react.useMemo)(() => {
-      return [...new Set(skillsWithOverrides.flatMap((skill) => skill.tags || []).filter(Boolean))].sort(
-        (a, b) => a.localeCompare(b, "zh-Hans-CN")
-      );
-    }, [skillsWithOverrides]);
-    const activeThemeClass = providerThemeName(filters.provider ? [filters.provider] : []);
-    const activeThemeLabel = filters.provider ? PROVIDER_THEME_LABELS[filters.provider] || "" : "";
-    const visibleSkills = (0, import_react.useMemo)(() => {
-      const query = deferredQuery.trim().toLowerCase();
-      return skillsWithOverrides.filter((skill) => {
-        if (filters.favoritesOnly && !skill.favorite) {
-          return false;
-        }
-        if (query) {
-          const haystack = [
-            skill.name,
-            skill.description,
-            ...skill.tags || [],
-            ...skill.providers.map((provider) => provider.label)
-          ].filter(Boolean).join(" ").toLowerCase();
-          if (!haystack.includes(query)) {
-            return false;
-          }
-        }
-        if (filters.statuses.length && !filters.statuses.includes(skill.runStatus)) {
-          return false;
-        }
-        if (filters.tags.length && !filters.tags.some((tag) => (skill.tags || []).includes(tag))) {
-          return false;
-        }
-        if (filters.provider && !skill.providers.some((provider) => provider.name === filters.provider)) {
-          return false;
-        }
-        return true;
-      });
-    }, [deferredQuery, filters, skillsWithOverrides]);
-    const selectedSkill = visibleSkills.find((skill) => skill.id === selectedId) || visibleSkills[0] || skillsWithOverrides.find((skill) => skill.id === selectedId) || skillsWithOverrides[0] || null;
-    (0, import_react.useEffect)(() => {
-      if (!selectedSkill) {
-        return;
-      }
-      if (selectedId !== selectedSkill.id) {
-        setSelectedId(selectedSkill.id);
-      }
-    }, [selectedId, selectedSkill]);
-    function updateFilters(patch) {
-      setFilters((current) => ({
-        ...current,
-        ...patch
-      }));
-    }
-    function toggleMultiFilter(key, value) {
-      setFilters((current) => {
-        const next = current[key].includes(value) ? current[key].filter((item) => item !== value) : [...current[key], value];
-        return {
-          ...current,
-          [key]: next
-        };
-      });
-    }
-    function clearAllFilters() {
-      setFilters({
-        query: "",
-        statuses: [],
-        tags: [],
-        provider: "",
-        favoritesOnly: false
-      });
-    }
-    async function performProviderAction(skillId, providerName, action) {
-      const response = await fetch(
-        `/api/skills/${encodeURIComponent(skillId)}/providers/${encodeURIComponent(providerName)}/action`,
-        {
-          method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify({ action })
-        }
-      );
-      const payload = await response.json();
-      if (!response.ok) {
-        throw new Error(payload?.error?.message || "\u64CD\u4F5C\u5931\u8D25");
-      }
-      return payload;
-    }
-    async function performSkillAction(skillId, action) {
-      const response = await fetch(`/api/skills/${encodeURIComponent(skillId)}/action`, {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ action })
-      });
-      const payload = await response.json();
-      if (!response.ok) {
-        throw new Error(payload?.error?.message || "\u64CD\u4F5C\u5931\u8D25");
-      }
-      return payload;
-    }
-    async function patchSkillMetadata(skillId, patch) {
-      const response = await fetch(`/api/metadata/${encodeURIComponent(skillId)}`, {
-        method: "PATCH",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(patch)
-      });
-      const payload = await response.json();
-      if (!response.ok) {
-        throw new Error(payload?.error?.message || "\u66F4\u65B0\u5931\u8D25");
-      }
-      return payload;
-    }
-    async function handleFavoriteToggle(skill, nextFavorite) {
-      const actionKey = `favorite:${skill.id}`;
-      setPendingKey(actionKey);
-      setFeedback({ message: "", error: "" });
-      setFavoriteOverrides((current) => ({
-        ...current,
-        [skill.id]: nextFavorite
-      }));
-      try {
-        await patchSkillMetadata(skill.id, { favorite: nextFavorite });
-        setFeedback({
-          message: nextFavorite ? `${skill.name} \u5DF2\u52A0\u5165\u6536\u85CF` : `${skill.name} \u5DF2\u53D6\u6D88\u6536\u85CF`,
-          error: ""
-        });
-      } catch (actionError) {
-        setFavoriteOverrides((current) => {
-          const next = { ...current };
-          delete next[skill.id];
-          return next;
-        });
-        setFeedback({
-          message: "",
-          error: actionError.message
-        });
-      } finally {
-        setPendingKey(null);
-      }
-    }
-    async function handleSkillAction(action) {
-      if (!selectedSkill) {
-        return;
-      }
-      if (action === "uninstall" && !window.confirm(
-        `\u786E\u8BA4\u5220\u9664 ${selectedSkill.name} \u5728\u5168\u90E8 ${selectedSkill.runtimeSummary?.totalProviders || 0} \u4E2A provider \u4E0B\u7684\u66B4\u9732\u5417\uFF1F`
-      )) {
-        return;
-      }
-      const actionKey = `skill:${selectedSkill.id}:${action}`;
-      setPendingKey(actionKey);
-      setFeedback({ message: "", error: "" });
-      try {
-        const payload = await performSkillAction(selectedSkill.id, action);
-        setFeedback({
-          message: `${selectedSkill.name} ${ACTION_LABELS[action]}\u5B8C\u6210\uFF1A${payload.result.successCount}/${payload.result.affectedProviderCount} \u4E2A provider \u6210\u529F`,
-          error: ""
-        });
-        setRefreshTick((value) => value + 1);
-      } catch (actionError) {
-        setFeedback({
-          message: "",
-          error: actionError.message
-        });
-      } finally {
-        setPendingKey(null);
-      }
-    }
-    async function handleProviderAction(provider, action) {
-      if (!selectedSkill) {
-        return;
-      }
-      if (action === "uninstall" && !window.confirm(`\u786E\u8BA4\u5220\u9664 ${selectedSkill.name} \u5728 ${provider.label} \u4E0B\u7684\u66B4\u9732\u5417\uFF1F`)) {
-        return;
-      }
-      const actionKey = `${selectedSkill.id}:${provider.name}:${action}`;
-      setPendingKey(actionKey);
-      setFeedback({ message: "", error: "" });
-      try {
-        await performProviderAction(selectedSkill.id, provider.name, action);
-        setFeedback({
-          message: `${provider.label} \xB7 ${action === "enable" ? "\u542F\u7528" : action === "disable" ? "\u505C\u7528" : "\u5220\u9664"}\u5DF2\u5B8C\u6210`,
-          error: ""
-        });
-        setRefreshTick((value) => value + 1);
-      } catch (actionError) {
-        setFeedback({
-          message: "",
-          error: actionError.message
-        });
-      } finally {
-        setPendingKey(null);
-      }
-    }
-    const hasActiveFilters = Boolean(
-      filters.query || filters.statuses.length || filters.tags.length || filters.provider || filters.favoritesOnly
-    );
-    const overviewCards = (0, import_react.useMemo)(() => {
-      return [
-        {
-          label: "\u53BB\u91CD Skill",
-          value: `${summary?.uniqueSkills || skills.length}`,
-          note: "\u603B\u91CF"
-        },
-        {
-          label: "\u5B9E\u4F8B",
-          value: `${summary?.totalSkillInstances || 0}`,
-          note: "\u5168\u90E8\u66B4\u9732"
-        },
-        {
-          label: "\u542F\u7528\u6570",
-          value: `${skillsWithOverrides.filter((skill) => skill.runStatus !== "disabled").length}`,
-          note: "\u5DF2\u542F\u7528 + \u90E8\u5206\u542F\u7528"
-        },
-        {
-          label: "Provider",
-          value: `${visibleProviders.length}`,
-          note: "\u53EF\u89C1\u6765\u6E90"
-        },
-        {
-          label: "\u505C\u7528\u6570",
-          value: `${skillsWithOverrides.filter((skill) => skill.runStatus === "disabled").length}`,
-          note: "\u5B8C\u5168\u505C\u7528"
-        },
-        {
-          label: "\u6536\u85CF",
-          value: `${skillsWithOverrides.filter((skill) => skill.favorite).length}`,
-          note: "\u5DF2\u661F\u6807"
-        }
-      ];
-    }, [hasActiveFilters, skillsWithOverrides, summary, visibleProviders.length, visibleSkills.length]);
-    const activeFilterItems = (0, import_react.useMemo)(() => {
-      const items = [];
-      if (filters.query) {
-        items.push({
-          key: `query:${filters.query}`,
-          label: `\u641C\u7D22\uFF1A${filters.query}`,
-          onClear: () => updateFilters({ query: "" })
-        });
-      }
-      for (const status of filters.statuses) {
-        items.push({
-          key: `status:${status}`,
-          label: `\u72B6\u6001\uFF1A${RUN_STATUS_LABELS[status]}`,
-          onClear: () => toggleMultiFilter("statuses", status)
-        });
-      }
-      for (const tag of filters.tags) {
-        items.push({
-          key: `tag:${tag}`,
-          label: `\u6807\u7B7E\uFF1A${tag}`,
-          onClear: () => toggleMultiFilter("tags", tag)
-        });
-      }
-      if (filters.provider) {
-        const provider = filters.provider;
-        items.push({
-          key: `provider:${provider}`,
-          label: `Provider\uFF1A${PROVIDER_THEME_LABELS[provider] || provider}`,
-          onClear: () => updateFilters({ provider: "" })
-        });
-      }
-      if (filters.favoritesOnly) {
-        items.push({
-          key: "favorites",
-          label: "\u4EC5\u770B\u6536\u85CF",
-          onClear: () => updateFilters({ favoritesOnly: false })
-        });
-      }
-      return items;
-    }, [filters]);
-    if (loading) {
-      return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "loading-state", children: "\u6B63\u5728\u52A0\u8F7D Skill \u63A7\u5236\u53F0\u2026" });
-    }
-    if (error) {
-      return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "app-shell", children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "error-state card", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", { children: "Skill \u63A7\u5236\u53F0\u6682\u4E0D\u53EF\u7528" }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: error }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { className: "button button-primary", onClick: () => setRefreshTick((value) => value + 1), children: "\u91CD\u65B0\u626B\u63CF" })
-      ] }) });
-    }
-    return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: `app-shell ${activeThemeClass}`, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("header", { className: "topbar", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "topbar-title", children: "Skill \u63A7\u5236\u53F0" }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "topbar-meta", children: [
-            "\u6700\u8FD1\u626B\u63CF\uFF1A",
-            formatScannedAt(scannedAt),
-            activeThemeLabel ? ` \xB7 \u5F53\u524D Provider\uFF1A${activeThemeLabel}` : ""
+  function DiagnosticsView({ diagnostics, skills = [] }) {
+    const hubSkills = skills.filter((skill) => skill.governanceLevels?.includes("hub"));
+    const hubRoutes = hubSkills.reduce((count, skill) => count + (skill.instances || []).reduce((sum, instance) => sum + (instance.routes?.length || 0), 0), 0);
+    const unmanaged = diagnostics.filter((item) => item.code === "unmanaged_skill");
+    const actionable = diagnostics.filter((item) => item.code !== "unmanaged_skill" && item.severity !== "info");
+    const observed = diagnostics.filter((item) => item.code !== "unmanaged_skill" && item.severity === "info");
+    return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("section", { className: "ledger-panel", "aria-labelledby": "diagnostics-heading", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "panel-heading", children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { className: "eyebrow", children: "Diagnostics / Observed" }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", { id: "diagnostics-heading", children: "\u73AF\u5883\u8BCA\u65AD" })
+      ] }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "diagnostic-ledger", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("section", { className: "diagnostic-summary", "aria-label": "Hub \u5F53\u524D\u4E8B\u5B9E", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("strong", { children: "Hub \u5F53\u524D\u4E8B\u5B9E" }),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", { children: [
+            "\u5DF2\u626B\u63CF\u5230 ",
+            hubSkills.length,
+            " \u4E2A Hub \u903B\u8F91 Skill\u3001",
+            hubRoutes,
+            " \u6761\u58F0\u660E\u53D1\u73B0\u8DEF\u7531\uFF1B\u8BE5\u6570\u5B57\u53EA\u53CD\u6620\u8DEF\u5F84\u4E0E\u914D\u7F6E\uFF0C\u4E0D\u4EE3\u8868\u9010 Agent \u8C03\u7528\u9A8C\u8BC1\u3002"
           ] })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { className: "button button-primary button-icon", onClick: () => setRefreshTick((value) => value + 1), children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { "aria-hidden": "true", children: "\u21BB" }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "\u91CD\u65B0\u626B\u63CF" })
+        actionable.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("section", { className: "diagnostic-group", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", { children: "\u9700\u8981\u5904\u7406" }),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DiagnosticLines, { diagnostics: actionable })
+        ] }),
+        unmanaged.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("section", { className: "diagnostic-group", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", { children: "\u5F85\u7EB3\u7BA1\u6216\u4FDD\u7559\u89C2\u5BDF" }),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { className: "diagnostic-group-note", children: "\u8FD9\u7C7B\u76EE\u5F55\u4E0D\u7531\u5F53\u524D Registry \u7BA1\u7406\uFF1B\u8BD5\u7528\u548C\u65E2\u6709\u9879\u76EE\u53EF\u7EE7\u7EED\u4FDD\u7559\uFF0C\u4E0D\u4F1A\u963B\u65AD Hub \u8DEF\u7531\u3002" }),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DiagnosticLines, { diagnostics: unmanaged })
+        ] }),
+        observed.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("section", { className: "diagnostic-group", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", { children: "\u5176\u4ED6\u89C2\u5BDF" }),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DiagnosticLines, { diagnostics: observed })
+        ] }),
+        diagnostics.length === 0 && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "quiet-empty", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "\u2713" }),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: "\u672A\u53D1\u73B0\u73AF\u5883\u51B2\u7A81\u6216\u914D\u7F6E\u9519\u8BEF" })
         ] })
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("main", { className: "workspace", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("section", { className: "browser card", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "browser-head", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "browser-head-main", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", { children: "Skill \u5217\u8868" }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "section-meta", children: "\u72B6\u6001\u53EA\u8868\u793A\u5F53\u524D skill \u5728\u5168\u90E8 provider \u7EF4\u5EA6\u4E0A\u7684\u805A\u5408\u8FD0\u884C\u7ED3\u679C\u3002" })
-              ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "section-meta", children: [
-                "\u5F53\u524D\u663E\u793A ",
-                visibleSkills.length,
-                " / ",
-                summary?.uniqueSkills || skills.length,
-                " \u4E2A Skill"
-              ] })
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "stats-rail", "aria-label": "\u5F53\u524D\u6982\u51B5", children: overviewCards.map((card) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "stats-chip", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "stats-chip-label", children: card.label }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("strong", { className: "stats-chip-value", children: card.value }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "stats-chip-note", children: card.note })
-            ] }, card.label)) }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "browser-insights", children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "insight-strip", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "insight-label", children: "Provider" }),
-              visibleProviders.map((provider) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-                "button",
-                {
-                  className: `provider-filter-chip ${filters.provider === provider.name ? "is-active" : ""}`,
-                  onClick: () => updateFilters({
-                    provider: filters.provider === provider.name ? "" : provider.name
-                  }),
-                  children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: `provider-mark provider-mark-icon provider-mark-${provider.name}`, children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ProviderIcon, { name: provider.name }) }),
-                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: provider.label }),
-                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("strong", { children: provider.uniqueSkillCount })
-                  ]
-                },
-                provider.name
-              ))
-            ] }) })
-          ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "filter-toolbar", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("label", { className: "field field-search", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "\u641C\u7D22" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                "input",
-                {
-                  value: filters.query,
-                  onChange: (event) => updateFilters({ query: event.target.value }),
-                  placeholder: "\u641C\u7D22\u540D\u79F0\u3001\u7B80\u4ECB\u3001\u6807\u7B7E\u3001Provider"
-                }
-              )
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-              MultiSelectField,
-              {
-                label: "\u72B6\u6001",
-                placeholder: "\u5168\u90E8\u72B6\u6001",
-                options: RUN_STATUS_OPTIONS.map((status) => ({
-                  value: status,
-                  label: RUN_STATUS_LABELS[status]
-                })),
-                selectedValues: filters.statuses,
-                onToggle: (value) => toggleMultiFilter("statuses", value),
-                summaryText: filters.statuses.length ? `\u5DF2\u9009 ${filters.statuses.length} \u9879` : "",
-                isOpen: openFilterKey === "statuses",
-                onOpen: () => setOpenFilterKey("statuses"),
-                onClose: () => setOpenFilterKey("")
-              }
-            ),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-              MultiSelectField,
-              {
-                label: "\u6807\u7B7E",
-                placeholder: "\u5168\u90E8\u6807\u7B7E",
-                options: tagOptions.map((tag) => ({
-                  value: tag,
-                  label: tag
-                })),
-                selectedValues: filters.tags,
-                onToggle: (value) => toggleMultiFilter("tags", value),
-                summaryText: filters.tags.length ? `\u5DF2\u9009 ${filters.tags.length} \u9879` : "",
-                isOpen: openFilterKey === "tags",
-                onOpen: () => setOpenFilterKey("tags"),
-                onClose: () => setOpenFilterKey("")
-              }
-            ),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-              MultiSelectField,
-              {
-                label: "Provider",
-                placeholder: "\u5168\u90E8 Provider",
-                options: visibleProviders.map((provider) => ({
-                  value: provider.name,
-                  label: provider.label,
-                  icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ProviderIcon, { name: provider.name })
-                })),
-                selectedValues: filters.provider ? [filters.provider] : [],
-                onToggle: (value) => updateFilters({
-                  provider: filters.provider === value ? "" : value
-                }),
-                summaryText: filters.provider ? PROVIDER_THEME_LABELS[filters.provider] || filters.provider : "",
-                isOpen: openFilterKey === "provider",
-                onOpen: () => setOpenFilterKey("provider"),
-                onClose: () => setOpenFilterKey(""),
-                single: true
-              }
-            ),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "filter-tools", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-              "button",
-              {
-                className: `button button-secondary ${filters.favoritesOnly ? "is-toggle-active" : ""}`,
-                onClick: () => updateFilters({ favoritesOnly: !filters.favoritesOnly }),
-                children: filters.favoritesOnly ? "\u53EA\u770B\u6536\u85CF\u4E2D" : "\u53EA\u770B\u6536\u85CF"
-              }
-            ) })
-          ] }),
-          activeFilterItems.length ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "active-filter-list", "aria-label": "\u5F53\u524D\u7B5B\u9009\u6761\u4EF6", children: [
-            activeFilterItems.map((item) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { className: "active-filter-pill", onClick: item.onClear, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: item.label }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { "aria-hidden": "true", children: "\xD7" })
-            ] }, item.key)),
-            hasActiveFilters ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { className: "text-link clear-all-button", onClick: clearAllFilters, children: "\u6E05\u9664\u5168\u90E8" }) : null
-          ] }) : null,
-          visibleSkills.length ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "skill-grid", children: visibleSkills.map((skill) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-            "article",
-            {
-              className: `skill-card ${selectedSkill?.id === skill.id ? "is-selected" : ""}`,
-              role: "button",
-              tabIndex: 0,
-              "aria-pressed": selectedSkill?.id === skill.id,
-              onClick: () => setSelectedId(skill.id),
-              onKeyDown: (event) => {
-                if (event.key === "Enter" || event.key === " ") {
-                  event.preventDefault();
-                  setSelectedId(skill.id);
-                }
-              },
-              children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "skill-card-header", children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "skill-title-row", children: [
-                      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", { children: skill.name }),
-                      /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                        FavoriteButton,
-                        {
-                          active: skill.favorite,
-                          title: skill.favorite ? "\u53D6\u6D88\u6536\u85CF" : "\u52A0\u5165\u6536\u85CF",
-                          onClick: (event) => {
-                            event.stopPropagation();
-                            handleFavoriteToggle(skill, !skill.favorite);
-                          }
-                        }
-                      )
-                    ] }),
-                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "skill-card-runtime", children: providerRuntimeLabel(skill) })
-                  ] }),
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { className: `status-badge status-badge-${statusLabelClass(skill.runStatus)}`, children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "status-dot" }),
-                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: RUN_STATUS_LABELS[skill.runStatus] })
-                  ] })
-                ] }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "skill-card-body", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { className: "line-clamp-3", title: skill.description || "\u6682\u65E0\u63CF\u8FF0", children: skill.description || "\u6682\u65E0\u63CF\u8FF0" }) }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "skill-card-footer", children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "tag-row", children: (skill.tags || []).map((tag) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "tag-chip tag-chip-strong", children: tag }, `${skill.id}-${tag}`)) }),
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "provider-row", children: skill.providers.map((provider) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-                    "span",
-                    {
-                      className: `provider-inline ${provider.exposureState === "disabled" ? "is-disabled" : ""}`,
-                      children: [
-                        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: `provider-mark provider-mark-icon provider-mark-${provider.name}`, children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ProviderIcon, { name: provider.name }) }),
-                        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: provider.label })
-                      ]
-                    },
-                    `${skill.id}-${provider.name}`
-                  )) })
-                ] })
-              ]
-            },
-            skill.id
-          )) }) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "empty-block", children: "\u5F53\u524D\u7B5B\u9009\u6761\u4EF6\u4E0B\u6CA1\u6709 Skill\uFF0C\u53EF\u5C1D\u8BD5\u6E05\u7A7A\u7B5B\u9009\u6216\u5207\u6362\u6536\u85CF\u89C6\u56FE\u3002" })
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("aside", { className: "detail detail-pane card", children: selectedSkill ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "detail-header", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "detail-title-row", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "detail-title-main", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", { children: selectedSkill.name }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                  FavoriteButton,
-                  {
-                    active: selectedSkill.favorite,
-                    title: selectedSkill.favorite ? "\u53D6\u6D88\u6536\u85CF" : "\u52A0\u5165\u6536\u85CF",
-                    onClick: () => handleFavoriteToggle(selectedSkill, !selectedSkill.favorite)
-                  }
-                )
-              ] }) }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { className: `status-badge status-badge-${statusLabelClass(selectedSkill.runStatus)}`, children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "status-dot" }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: RUN_STATUS_LABELS[selectedSkill.runStatus] })
-              ] })
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { className: "detail-description", children: selectedSkill.description || "\u6682\u65E0\u63CF\u8FF0" })
-          ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("section", { className: "detail-section detail-section-spaced", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "detail-label", children: "\u529F\u80FD\u6807\u7B7E" }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "tag-row", children: (selectedSkill.tags || []).map((tag) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "tag-chip tag-chip-strong", children: tag }, `${selectedSkill.id}-detail-${tag}`)) })
-          ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("section", { className: "detail-section", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "detail-label", children: "\u771F\u5B9E\u8DEF\u5F84" }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("code", { children: selectedSkill.realPath })
-          ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("section", { className: "detail-section", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "detail-section-head", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "detail-label", children: "Provider \u8FD0\u884C\u660E\u7EC6" }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "section-meta", children: "\u4EE5\u4E0B\u64CD\u4F5C\u5C06\u540C\u65F6\u4F5C\u7528\u4E8E\u8BE5 Skill \u7684\u6240\u6709 Provider \u66B4\u9732\u3002" })
-              ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "run-status-panel", children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "inline-actions", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                  "button",
-                  {
-                    className: "button button-primary",
-                    disabled: pendingKey === `skill:${selectedSkill.id}:enable`,
-                    onClick: () => handleSkillAction("enable"),
-                    children: pendingKey === `skill:${selectedSkill.id}:enable` ? "\u5904\u7406\u4E2D..." : ACTION_LABELS.enable
-                  }
-                ),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                  "button",
-                  {
-                    className: "button button-secondary",
-                    disabled: pendingKey === `skill:${selectedSkill.id}:disable`,
-                    onClick: () => handleSkillAction("disable"),
-                    children: pendingKey === `skill:${selectedSkill.id}:disable` ? "\u5904\u7406\u4E2D..." : ACTION_LABELS.disable
-                  }
-                ),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                  "button",
-                  {
-                    className: "button button-danger",
-                    disabled: pendingKey === `skill:${selectedSkill.id}:uninstall`,
-                    onClick: () => handleSkillAction("uninstall"),
-                    children: pendingKey === `skill:${selectedSkill.id}:uninstall` ? "\u5904\u7406\u4E2D..." : ACTION_LABELS.uninstall
-                  }
-                )
-              ] }) })
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "provider-detail-list", children: selectedSkill.providers.map((provider) => {
-              const enableKey = `${selectedSkill.id}:${provider.name}:enable`;
-              const disableKey = `${selectedSkill.id}:${provider.name}:disable`;
-              const uninstallKey = `${selectedSkill.id}:${provider.name}:uninstall`;
-              const isDisabled = provider.exposureState === "disabled";
-              return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-                "article",
-                {
-                  className: `provider-detail-card ${isDisabled ? "is-muted" : ""}`,
-                  children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "provider-detail-head", children: [
-                      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-                        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "provider-heading", children: [
-                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: `provider-mark provider-mark-icon provider-mark-${provider.name}`, children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ProviderIcon, { name: provider.name }) }),
-                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("strong", { children: provider.label })
-                        ] }),
-                        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "detail-copy", children: formatScannedAt(provider.disabledAt) !== "\u5C1A\u672A\u626B\u63CF" && isDisabled ? `\u505C\u7528\u65F6\u95F4\uFF1A${formatScannedAt(provider.disabledAt)}` : provider.exposureState === "enabled" ? "\u5F53\u524D\u5904\u4E8E\u542F\u7528\u72B6\u6001" : "\u5F53\u524D\u5904\u4E8E\u505C\u7528\u72B6\u6001" })
-                      ] }),
-                      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { className: `status-text status-text-${isDisabled ? "candidate" : "active"}`, children: [
-                        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "status-dot" }),
-                        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: isDisabled ? "\u5DF2\u505C\u7528" : "\u5DF2\u542F\u7528" })
-                      ] })
-                    ] }),
-                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "path-block", children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "path-subitem", children: [
-                      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "path-label", children: [
-                        provider.label,
-                        " \u66B4\u9732\u8DEF\u5F84"
-                      ] }),
-                      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("code", { children: provider.path })
-                    ] }) }),
-                    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "action-row", children: [
-                      /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                        "button",
-                        {
-                          className: "button button-primary action-button",
-                          disabled: provider.exposureState === "enabled" || pendingKey !== null,
-                          onClick: () => handleProviderAction(provider, "enable"),
-                          children: pendingKey === enableKey ? "\u5904\u7406\u4E2D..." : "\u542F\u7528"
-                        }
-                      ),
-                      /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                        "button",
-                        {
-                          className: "button button-secondary action-button",
-                          disabled: provider.exposureState === "disabled" || pendingKey !== null,
-                          onClick: () => handleProviderAction(provider, "disable"),
-                          children: pendingKey === disableKey ? "\u5904\u7406\u4E2D..." : "\u505C\u7528"
-                        }
-                      ),
-                      /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                        "button",
-                        {
-                          className: "button button-danger action-button",
-                          disabled: pendingKey !== null,
-                          onClick: () => handleProviderAction(provider, "uninstall"),
-                          children: pendingKey === uninstallKey ? "\u5904\u7406\u4E2D..." : "\u5220\u9664"
-                        }
-                      )
-                    ] })
-                  ]
-                },
-                `${selectedSkill.id}-${provider.name}-${provider.path}`
-              );
-            }) }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "sr-only", "aria-live": "polite", children: feedback.message }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "sr-only", "aria-live": "assertive", children: feedback.error }),
-            feedback.message ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "inline-note success", role: "status", children: feedback.message }) : null,
-            feedback.error ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "inline-note error", role: "alert", children: feedback.error }) : null
-          ] })
-        ] }) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "empty-block", children: "\u8BF7\u9009\u62E9\u4E00\u4E2A Skill \u67E5\u770B\u8BE6\u60C5\u3002" }) })
       ] })
     ] });
   }
-  var root = (0, import_client.createRoot)(document.getElementById("root"));
-  root.render(/* @__PURE__ */ (0, import_jsx_runtime.jsx)(App, {}));
+
+  // src/dashboard/governance-view.jsx
+  var import_react2 = __toESM(require_react(), 1);
+  var import_jsx_runtime2 = __toESM(require_jsx_runtime(), 1);
+  var COMMANDS = [
+    ["\u626B\u63CF\u5F53\u524D\u4E8B\u5B9E", "npm run skillctl -- scan --json"],
+    ["\u63A5\u7BA1\u73B0\u6709 Skill", "npm run skillctl -- adopt --all"],
+    ["\u5B89\u88C5\u516C\u5171 Skill", "npm run skillctl -- install --source <path> --scope public --vetted"],
+    ["\u66F4\u65B0\u6307\u5B9A Skill", "npm run skillctl -- update --skill <id> --source <path> --vetted"],
+    ["\u79FB\u52A8\u5230\u9879\u76EE\u5C42", "npm run skillctl -- move --skill <id> --scope project --project-root <absolute-path> --confirmed"],
+    ["\u5378\u8F7D\u5230 Trash", "npm run skillctl -- uninstall --skill <id> --confirmed"],
+    ["\u91CD\u5EFA\u6765\u6E90\u4E8B\u5B9E", "npm run skillctl -- reconcile --confirmed"]
+  ];
+  var DISCOVERY_ROUTES = [
+    ["\u901A\u7528", "~/.agents/skills/"],
+    ["Codex", "~/.codex/skills/"],
+    ["Claude", "~/.claude/skills/"],
+    ["Antigravity", "~/.gemini/skills/"],
+    ["OpenCode", "~/.config/opencode/skills/"]
+  ];
+  function GovernanceView({ registry, functions = [] }) {
+    return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("section", { className: "ledger-panel", "aria-labelledby": "governance-heading", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { className: "panel-heading", children: /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("p", { className: "eyebrow", children: "Governance / Read-only console" }),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("h2", { id: "governance-heading", children: "\u7BA1\u7406\u89C4\u8303" })
+      ] }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "governance-docs", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "governance-intro", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("p", { className: "folio", children: "01" }),
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("h3", { children: "\u5B9E\u4F53\u6E90\u4E0E\u53D1\u73B0\u5165\u53E3\u5206\u79BB" }),
+            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("p", { children: "Registry \u8BB0\u5F55\u5F53\u524D\u5B89\u88C5\u4E8B\u5B9E\uFF1BHub\u3001\u516C\u5171\u3001\u9879\u76EE\u3001Agent \u6807\u7B7E\u53EF\u4EE5\u5E76\u5217\u51FA\u73B0\u3002Hub \u8868\u793A\u53EF\u540C\u6B65\u7684\u771F\u5B9E\u5B9E\u4F53\u6E90\uFF0C\u5176\u4ED6\u6807\u7B7E\u8BF4\u660E\u5176\u5171\u4EAB\u6216\u4F7F\u7528\u8303\u56F4\uFF1B\u53D1\u73B0\u76EE\u5F55\u53EA\u901A\u8FC7\u8F6F\u8DEF\u7531\u51B3\u5B9A Agent \u53EF\u89C1\u6027\u3002" })
+          ] })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("h3", { className: "governance-subheading", children: "\u5B9E\u4F53\u6E90\u4E0E\u5C42\u7EA7\u6807\u7B7E" }),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("dl", { className: "scope-definitions scope-definitions-four", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("dt", { children: "HUB" }),
+            /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("dd", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("code", { children: "~/Vibecoding/skill-hub/skills/" }),
+              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { children: "\u4E2A\u4EBA\u957F\u671F Skill \u7684\u552F\u4E00\u5B9E\u4F53\u6E90\uFF1B\u53EF\u4E0E\u516C\u5171\u6216 Agent \u6807\u7B7E\u5E76\u5217\u3002" })
+            ] })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("dt", { children: "PUBLIC" }),
+            /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("dd", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("code", { children: "skills/public/ \xB7 collections/" }),
+              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { children: "\u6309\u58F0\u660E\u5171\u4EAB\uFF1B\u5E76\u4E0D\u7B49\u540C\u4E8E\u4EFB\u4E00 Agent \u7684\u53D1\u73B0\u76EE\u5F55\u3002" })
+            ] })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("dt", { children: "AGENT" }),
+            /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("dd", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("code", { children: "skills/agents/<agent>/" }),
+              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { children: "\u6307\u5B9A Agent \u7684\u79C1\u6709\u5B9E\u4F53\u6216\u5DF2\u542F\u7528\u7CFB\u7EDF\u80FD\u529B\u3002" })
+            ] })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("dt", { children: "PROJECT" }),
+            /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("dd", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("code", { children: "<project_root>/.agents/skills/" }),
+              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { children: "\u968F\u9879\u76EE\u4EE3\u7801\u548C\u4E0A\u4E0B\u6587\u7EF4\u62A4\uFF0C\u4E0D\u8FDB\u5165\u4E2A\u4EBA Hub\u3002" })
+            ] })
+          ] })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("h3", { className: "governance-subheading", children: "Agent \u53D1\u73B0\u5165\u53E3\uFF08\u8F6F\u8DEF\u7531\uFF09" }),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("dl", { className: "route-definitions", children: DISCOVERY_ROUTES.map(([agent, path]) => /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("dt", { children: agent }),
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("dd", { children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("code", { children: path }) })
+        ] }, agent)) }),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "hub-apply-note", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("strong", { children: "Hub \u66F4\u65B0\u540E\u7684\u56FA\u5B9A\u52A8\u4F5C" }),
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("p", { children: "\u5728 Hub \u62C9\u53D6\u6216\u624B\u52A8\u4FEE\u6539\u5B9E\u4F53\u540E\uFF0C\u91CD\u65B0\u5E94\u7528\u8F6F\u8DEF\u7531\u5E76\u56DE\u586B Registry\uFF1B\u4E0D\u8981\u76F4\u63A5\u7F16\u8F91\u4EFB\u4E00\u53D1\u73B0\u5165\u53E3\u4E2D\u7684\u94FE\u63A5\u3002" }),
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("code", { children: "node scripts/private-skill-hub.mjs --apply --confirmed" })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { className: "command-book", children: COMMANDS.map(([label, command]) => /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { children: label }),
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("code", { children: command })
+        ] }, command)) }),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("h3", { className: "function-heading", children: "\u804A\u5929\u529F\u80FD\u76EE\u5F55" }),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { className: "command-book function-book", children: functions.map((item) => /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { children: item.title }),
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("code", { children: item.name }),
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("p", { children: item.description }),
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("small", { children: [
+            item.mutating ? "\u5199\u64CD\u4F5C" : "\u53EA\u8BFB",
+            " \xB7 ",
+            item.requiresConfirmation ? "\u9700\u8981\u786E\u8BA4" : "\u65E0\u9700\u786E\u8BA4",
+            " \xB7 \u53C2\u6570\uFF1A",
+            item.parameters.length ? item.parameters.join("\u3001") : "\u65E0"
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("code", { title: "\u804A\u5929\u793A\u4F8B", children: item.example }),
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("code", { title: "CLI \u793A\u4F8B", children: item.cliExample })
+        ] }, item.name)) }),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("p", { className: "registry-note", children: [
+          "Registry schema v",
+          registry?.schemaVersion || 1,
+          " \xB7 \u9875\u9762\u4E0D\u63D0\u4F9B\u5B89\u88C5\u3001\u66F4\u65B0\u3001\u79FB\u52A8\u6216\u5378\u8F7D\u6309\u94AE\u3002"
+        ] })
+      ] })
+    ] });
+  }
+
+  // src/dashboard/history-view.jsx
+  var import_react3 = __toESM(require_react(), 1);
+
+  // src/dashboard/formatters.js
+  var UPDATE_STATES = {
+    update_available: { label: "\u6709\u66F4\u65B0", tone: "warning", countsAsCurrent: false },
+    up_to_date: { label: "\u5DF2\u662F\u6700\u65B0", tone: "success", countsAsCurrent: true },
+    not_checkable: { label: "\u4E0D\u53EF\u68C0\u67E5", tone: "neutral", countsAsCurrent: false },
+    unknown: { label: "\u672A\u68C0\u67E5", tone: "neutral", countsAsCurrent: false },
+    error: { label: "\u68C0\u67E5\u5931\u8D25", tone: "danger", countsAsCurrent: false }
+  };
+  function formatUpdateStatus(update) {
+    if (update?.error) return UPDATE_STATES.error;
+    return UPDATE_STATES[update?.status] || UPDATE_STATES.unknown;
+  }
+  function getSourceHref(source) {
+    const value = source?.url || source?.repository || null;
+    if (!value) return null;
+    try {
+      const url = new URL(value);
+      return ["http:", "https:"].includes(url.protocol) ? url.href : null;
+    } catch {
+      return null;
+    }
+  }
+  function getLogicalSourceHref(skill) {
+    if (skill?.sources?.length === 1) return getSourceHref({ url: skill.sources[0] });
+    return getSourceHref(skill?.source);
+  }
+  function getUpdateInstances(skill) {
+    return (skill?.instances || []).filter((instance) => instance.update?.status === "update_available");
+  }
+  function formatDate(value) {
+    if (!value) return "--";
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return "--";
+    return new Intl.DateTimeFormat("zh-CN", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false
+    }).format(date);
+  }
+  function scopeLabel(scope) {
+    return { hub: "Hub", public: "\u516C\u5171", agent: "Agent", project: "\u9879\u76EE" }[scope] || scope || "--";
+  }
+  function agentLabel(agent) {
+    return { codex: "Codex", claude: "Claude", antigravity: "Antigravity", opencode: "OpenCode" }[agent] || agent;
+  }
+  function getSkillSearchText(skill) {
+    return [
+      skill.name,
+      skill.capabilitySummary,
+      skill.capabilitySummaryZh,
+      ...skill.projectRoots || [],
+      ...(skill.instances || []).flatMap((item) => [
+        item.realPath,
+        item.scope?.project_root,
+        item.source?.url,
+        item.source?.repository,
+        item.provider,
+        item.agentSkillKind,
+        item.enabledBasis
+      ])
+    ].filter(Boolean).join(" ").toLocaleLowerCase();
+  }
+  function matchesInventoryFilters(skill, { query = "", scope = "all", agent = "all", project = "all", kind = "all" } = {}) {
+    const needle = query.trim().toLocaleLowerCase();
+    const kindMatches = kind === "all" || (skill.instances || []).some((item) => kind === "public_shared" && item.scope?.level === "public" || kind === "project_shared" && item.scope?.level === "project" || kind === "agent" && item.scope?.level === "agent" || kind === `agent_${item.agentSkillKind}`);
+    return (!needle || getSkillSearchText(skill).includes(needle)) && (scope === "all" || (skill.governanceLevels || skill.scopeLevels || []).includes(scope)) && (agent === "all" || (skill.agents || []).includes(agent)) && (project === "all" || (skill.projectRoots || []).includes(project)) && kindMatches;
+  }
+  function updateCommand(skill) {
+    const target = skill.instances?.find((instance) => instance.update?.status === "update_available") || skill.instances?.[0] || skill;
+    return `npm run skillctl -- update --skill ${target.id} --source <path> --vetted`;
+  }
+
+  // src/dashboard/history-view.jsx
+  var import_jsx_runtime3 = __toESM(require_jsx_runtime(), 1);
+  function HistoryView({ history, onPage }) {
+    return /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("section", { className: "ledger-panel", "aria-labelledby": "history-heading", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", { className: "panel-heading", children: /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("p", { className: "eyebrow", children: "History / Append-only" }),
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("h2", { id: "history-heading", children: "\u64CD\u4F5C\u5386\u53F2" })
+      ] }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", { className: "table-frame", children: /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("table", { className: "ledger-table history-table", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("thead", { children: /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("tr", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("th", { children: "\u65F6\u95F4" }),
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("th", { children: "\u64CD\u4F5C\u4EBA" }),
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("th", { children: "Skill" }),
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("th", { children: "\u884C\u4E3A" }),
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("th", { children: "\u7ED3\u679C" })
+        ] }) }),
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("tbody", { children: [
+          history.items.map((event) => /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("tr", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("td", { children: formatDate(event.timestamp) }),
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("td", { children: event.actor?.agent || "unknown" }),
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("td", { children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("strong", { children: event.skillName || "--" }) }),
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("td", { children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("code", { children: event.action }) }),
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("td", { children: event.result })
+          ] }, event.id)),
+          history.items.length === 0 && /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("tr", { children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("td", { colSpan: "5", className: "empty-cell", children: "\u6682\u65E0\u64CD\u4F5C\u5386\u53F2" }) })
+        ] })
+      ] }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("footer", { className: "pagination", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("button", { disabled: history.offset === 0, onClick: () => onPage(Math.max(0, history.offset - history.limit)), children: "\u4E0A\u4E00\u9875" }),
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { children: history.total ? `${history.offset + 1}\u2013${history.offset + history.items.length} / ${history.total}` : "0 / 0" }),
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("button", { disabled: history.nextOffset == null, onClick: () => onPage(history.nextOffset), children: "\u4E0B\u4E00\u9875" })
+      ] })
+    ] });
+  }
+
+  // src/dashboard/inventory-view.jsx
+  var import_react4 = __toESM(require_react(), 1);
+
+  // src/dashboard/inventory-columns.js
+  var INVENTORY_COLUMNS = [
+    { key: "name", width: 14, minPx: 120 },
+    { key: "capability", width: 30, minPx: 220 },
+    { key: "scope", width: 8, minPx: 72 },
+    { key: "project", width: 16, minPx: 130 },
+    { key: "agents", width: 17, minPx: 130 },
+    { key: "source", width: 8, minPx: 82 },
+    { key: "status", width: 7, minPx: 76 }
+  ];
+  function defaultColumnWidths(tableWidth) {
+    return INVENTORY_COLUMNS.map((column) => Math.max(column.minPx, Math.round(tableWidth * column.width / 100)));
+  }
+  function resizeColumn(widths, index, deltaPx) {
+    const column = INVENTORY_COLUMNS[index];
+    if (!column) return widths;
+    const next = [...widths];
+    next[index] = Math.max(column.minPx, widths[index] + deltaPx);
+    return next;
+  }
+
+  // src/dashboard/inventory-view.jsx
+  var import_jsx_runtime4 = __toESM(require_jsx_runtime(), 1);
+  var COLUMN_LABELS = ["Skill \u540D\u79F0", "\u80FD\u529B\u4ECB\u7ECD", "\u5C42\u7EA7", "\u9879\u76EE", "\u53EF\u89C1 Agent", "\u6765\u6E90", "\u72B6\u6001"];
+  function projectLabel(path) {
+    return path?.split("/").filter(Boolean).at(-1) || "--";
+  }
+  function activateRow(event, skill, onOpen) {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      onOpen(skill, event.currentTarget);
+    }
+  }
+  function InventoryView({ skills, projects = [], onOpen }) {
+    const [query, setQuery] = (0, import_react4.useState)("");
+    const [scope, setScope] = (0, import_react4.useState)("all");
+    const [agent, setAgent] = (0, import_react4.useState)("all");
+    const [project, setProject] = (0, import_react4.useState)("all");
+    const [kind, setKind] = (0, import_react4.useState)("all");
+    const [columnWidths, setColumnWidths] = (0, import_react4.useState)(null);
+    const [hoverTooltip, setHoverTooltip] = (0, import_react4.useState)(null);
+    const tableRef = (0, import_react4.useRef)(null);
+    const frameRef = (0, import_react4.useRef)(null);
+    const filtered = (0, import_react4.useMemo)(() => {
+      return skills.filter((skill) => matchesInventoryFilters(skill, { query, scope, agent, project, kind }));
+    }, [skills, query, scope, agent, project, kind]);
+    const hasFilters = query.trim() || scope !== "all" || agent !== "all" || project !== "all" || kind !== "all";
+    (0, import_react4.useLayoutEffect)(() => {
+      const width = frameRef.current?.clientWidth || 0;
+      if (width > 0) setColumnWidths(defaultColumnWidths(width));
+    }, []);
+    function beginColumnResize(event, index) {
+      event.preventDefault();
+      event.stopPropagation();
+      const startX = event.clientX;
+      const startWidths = columnWidths || defaultColumnWidths(frameRef.current?.clientWidth || 0);
+      const move = (moveEvent) => setColumnWidths(resizeColumn(startWidths, index, moveEvent.clientX - startX));
+      const stop = () => {
+        window.removeEventListener("pointermove", move);
+        window.removeEventListener("pointerup", stop);
+        document.body.classList.remove("is-resizing-columns");
+      };
+      document.body.classList.add("is-resizing-columns");
+      window.addEventListener("pointermove", move);
+      window.addEventListener("pointerup", stop, { once: true });
+    }
+    function showTooltip(event, text) {
+      const rect = event.currentTarget.getBoundingClientRect();
+      const hasPointerPosition = event.type.startsWith("pointer");
+      const x = hasPointerPosition ? event.clientX : rect.left;
+      const y = hasPointerPosition ? event.clientY : rect.bottom;
+      setHoverTooltip({
+        text,
+        left: Math.max(8, Math.min(x + 14, window.innerWidth - 460)),
+        top: Math.max(8, Math.min(y + 16, window.innerHeight - 140))
+      });
+    }
+    function tooltipHandlers(text) {
+      return {
+        onPointerEnter: (event) => showTooltip(event, text),
+        onPointerMove: (event) => showTooltip(event, text),
+        onPointerLeave: () => setHoverTooltip(null),
+        onFocus: (event) => showTooltip(event, text),
+        onBlur: () => setHoverTooltip(null)
+      };
+    }
+    return /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("section", { className: "ledger-panel inventory-panel", "aria-labelledby": "inventory-heading", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("div", { className: "panel-heading", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("p", { className: "eyebrow", children: "Inventory / Current facts" }),
+          /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("h2", { id: "inventory-heading", children: "\u5168\u90E8 Skill \u5E93\u5B58" })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("div", { className: "filters", "aria-label": "\u5E93\u5B58\u7B5B\u9009", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("label", { className: "search-field", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("span", { className: "sr-only", children: "\u641C\u7D22 Skill" }),
+            /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("input", { "aria-label": "\u641C\u7D22 Skill", value: query, onChange: (event) => setQuery(event.target.value), placeholder: "\u641C\u7D22\u540D\u79F0\u3001\u80FD\u529B\u3001\u6765\u6E90\u6216\u8DEF\u5F84\u2026" })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("label", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("span", { className: "sr-only", children: "\u5C42\u7EA7" }),
+            /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("select", { "aria-label": "\u5C42\u7EA7", value: scope, onChange: (event) => setScope(event.target.value), children: [
+              /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("option", { value: "all", children: "\u5168\u90E8\u5C42\u7EA7" }),
+              /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("option", { value: "hub", children: "Hub" }),
+              /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("option", { value: "public", children: "\u516C\u5171" }),
+              /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("option", { value: "agent", children: "Agent" }),
+              /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("option", { value: "project", children: "\u9879\u76EE" })
+            ] })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("label", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("span", { className: "sr-only", children: "\u9879\u76EE\u6587\u4EF6\u5939" }),
+            /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("select", { "aria-label": "\u9879\u76EE\u6587\u4EF6\u5939", value: project, onChange: (event) => setProject(event.target.value), children: [
+              /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("option", { value: "all", children: "\u6240\u6709\u9879\u76EE\u6587\u4EF6\u5939" }),
+              projects.map((item) => /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("option", { value: item.path, children: item.label }, item.id))
+            ] })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("label", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("span", { className: "sr-only", children: "\u7C7B\u578B" }),
+            /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("select", { "aria-label": "\u7C7B\u578B", value: kind, onChange: (event) => setKind(event.target.value), children: [
+              /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("option", { value: "all", children: "\u5168\u90E8\u7C7B\u578B" }),
+              /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("option", { value: "public_shared", children: "\u516C\u5171\u5171\u4EAB" }),
+              /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("option", { value: "project_shared", children: "\u9879\u76EE\u5171\u4EAB" }),
+              /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("option", { value: "agent", children: "Agent" })
+            ] })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("label", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("span", { className: "sr-only", children: "Agent" }),
+            /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("select", { "aria-label": "Agent", value: agent, onChange: (event) => setAgent(event.target.value), children: [
+              /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("option", { value: "all", children: "\u5168\u90E8 Agent" }),
+              /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("option", { value: "codex", children: "Codex" }),
+              /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("option", { value: "claude", children: "Claude" }),
+              /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("option", { value: "antigravity", children: "Antigravity" }),
+              /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("option", { value: "opencode", children: "OpenCode" })
+            ] })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("span", { className: "filter-count", children: [
+            "\u5F53\u524D ",
+            filtered.length,
+            " / \u5171 ",
+            skills.length
+          ] }),
+          hasFilters && /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("button", { className: "filter-clear", onClick: () => {
+            setQuery("");
+            setScope("all");
+            setAgent("all");
+            setProject("all");
+            setKind("all");
+          }, children: "\u6E05\u9664\u7B5B\u9009" })
+        ] })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("div", { ref: frameRef, className: "table-frame", children: /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("table", { ref: tableRef, className: "ledger-table inventory-table", style: columnWidths ? { width: `${columnWidths.reduce((sum, width) => sum + width, 0)}px` } : void 0, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("colgroup", { children: INVENTORY_COLUMNS.map((column, index) => /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("col", { className: `col-${column.key}`, style: columnWidths ? { width: `${columnWidths[index]}px` } : void 0 }, column.key)) }),
+        /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("thead", { children: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("tr", { children: COLUMN_LABELS.map((label, index) => /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("th", { children: [
+          label,
+          index < INVENTORY_COLUMNS.length - 1 && /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("span", { className: "column-resizer", "data-column": INVENTORY_COLUMNS[index].key, role: "separator", "aria-label": `\u8C03\u6574${label}\u5217\u5BBD`, "aria-orientation": "vertical", onPointerDown: (event) => beginColumnResize(event, index) })
+        ] }, INVENTORY_COLUMNS[index].key)) }) }),
+        /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("tbody", { children: [
+          filtered.map((skill) => {
+            const status = formatUpdateStatus(skill.update);
+            const sourceHref = getLogicalSourceHref(skill);
+            const capability = skill.capabilitySummaryZh || "\u4E2D\u6587\u4ECB\u7ECD\u751F\u6210\u4E2D";
+            const projectPath = skill.projectRoots?.join("\n") || "";
+            return /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)(
+              "tr",
+              {
+                className: "inventory-row",
+                "data-detail-trigger": "true",
+                tabIndex: "0",
+                role: "button",
+                "aria-label": `\u67E5\u770B ${skill.name} \u8BE6\u60C5`,
+                onClick: (event) => onOpen(skill, event.currentTarget),
+                onKeyDown: (event) => activateRow(event, skill, onOpen),
+                children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("td", { children: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("span", { className: "skill-name", children: skill.name }) }),
+                  /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("td", { children: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("span", { className: "capability-trigger", tabIndex: "0", "aria-label": capability, ...tooltipHandlers(capability), children: capability }) }),
+                  /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("td", { children: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("div", { className: "chip-list", children: (skill.governanceLevels || skill.scopeLevels)?.map((level) => /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("span", { "data-scope": level, className: `scope-chip scope-${level}`, children: scopeLabel(level) }, level)) }) }),
+                  /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("td", { children: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("span", { className: "project-path-cell", tabIndex: projectPath ? "0" : void 0, ...projectPath ? tooltipHandlers(projectPath) : {}, children: skill.projectRoots?.length ? `${projectLabel(skill.projectRoots[0])}${skill.projectRoots.length > 1 ? ` +${skill.projectRoots.length - 1}` : ""}` : "--" }) }),
+                  /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("td", { children: /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("div", { className: "chip-list agent-chip-list", children: [
+                    skill.hasSharedAvailability && /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("span", { className: "shared-chip", children: "\u58F0\u660E\u5171\u4EAB" }),
+                    skill.agents?.map((name) => /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("span", { "data-agent": name, className: "agent-chip", children: agentLabel(name) }, name))
+                  ] }) }),
+                  /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("td", { className: "source-cell", children: skill.sources?.length > 1 ? "\u591A\u4E2A\u6765\u6E90" : sourceHref ? /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("a", { href: sourceHref, target: "_blank", rel: "noreferrer", ...tooltipHandlers(sourceHref), onClick: (event) => event.stopPropagation(), children: "\u67E5\u770B\u6765\u6E90 \u2197" }) : "--" }),
+                  /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("td", { children: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("span", { className: `status-mark tone-${status.tone}`, "data-update-status": skill.update?.status || "unknown", children: status.label }) })
+                ]
+              },
+              skill.id
+            );
+          }),
+          filtered.length === 0 && /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("tr", { children: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("td", { colSpan: "7", className: "empty-cell", children: "\u6CA1\u6709\u7B26\u5408\u7B5B\u9009\u6761\u4EF6\u7684 Skill" }) })
+        ] })
+      ] }) }),
+      hoverTooltip && /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("div", { className: "inventory-tooltip", role: "tooltip", style: { left: `${hoverTooltip.left}px`, top: `${hoverTooltip.top}px` }, children: hoverTooltip.text })
+    ] });
+  }
+
+  // src/dashboard/skill-detail-drawer.jsx
+  var import_react5 = __toESM(require_react(), 1);
+  var import_jsx_runtime5 = __toESM(require_jsx_runtime(), 1);
+  function SkillDetailDrawer({ skill, documents = [], onClose, returnFocusRef }) {
+    const headingId = (0, import_react5.useId)();
+    const closeRef = (0, import_react5.useRef)(null);
+    const onCloseRef = (0, import_react5.useRef)(onClose);
+    const [copied, setCopied] = (0, import_react5.useState)(null);
+    const [selectedInstanceId, setSelectedInstanceId] = (0, import_react5.useState)(skill.instances?.[0]?.id || null);
+    const updateStatus = formatUpdateStatus(skill.update);
+    const installPath = skill.instances?.[0]?.realPath || skill.realPath || "--";
+    const selectedDocument = documents.find((item) => item.instanceId === selectedInstanceId) || null;
+    (0, import_react5.useEffect)(() => setSelectedInstanceId(skill.instances?.[0]?.id || null), [skill.id]);
+    (0, import_react5.useEffect)(() => {
+      onCloseRef.current = onClose;
+    }, [onClose]);
+    (0, import_react5.useEffect)(() => {
+      closeRef.current?.focus();
+      function handleKeydown(event) {
+        if (event.key === "Escape") {
+          event.preventDefault();
+          onCloseRef.current();
+        }
+      }
+      window.addEventListener("keydown", handleKeydown);
+      return () => {
+        window.removeEventListener("keydown", handleKeydown);
+        returnFocusRef?.current?.focus();
+      };
+    }, [returnFocusRef]);
+    async function copy(value, key) {
+      await navigator.clipboard.writeText(value || "");
+      setCopied(key);
+      window.setTimeout(() => setCopied(null), 1400);
+    }
+    return /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("div", { className: "drawer-overlay", children: /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("aside", { className: "detail-drawer is-open", role: "dialog", "aria-labelledby": headingId, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("header", { className: "drawer-header", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("p", { className: "eyebrow", children: "Skill / Current fact" }),
+          /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("h2", { id: headingId, children: skill.name }),
+          /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("p", { className: "instance-count", children: [
+            skill.instanceCount || 1,
+            " \u4E2A\u5B89\u88C5\u5B9E\u4F8B"
+          ] })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("button", { className: "close-button", ref: closeRef, "aria-label": "\u5173\u95ED\u8BE6\u60C5", onClick: onClose, children: "\xD7" })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", { className: "drawer-content", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("section", { className: "capability-detail", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("p", { className: "eyebrow", children: "\u4E2D\u6587\u80FD\u529B\u4ECB\u7ECD" }),
+          /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("p", { children: skill.capabilitySummaryZh || "\u4E2D\u6587\u4ECB\u7ECD\u751F\u6210\u4E2D" }),
+          /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("details", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("summary", { children: "\u67E5\u770B\u539F\u6587" }),
+            /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("p", { children: skill.capabilitySummaryOriginal || skill.capabilitySummary || "--" })
+          ] })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("section", { className: "identity-strip", "aria-label": "\u540D\u79F0\u4E0E\u8DEF\u5F84", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("span", { children: "\u540D\u79F0" }),
+            /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("strong", { children: skill.name })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("button", { "aria-label": "\u590D\u5236\u540D\u79F0", onClick: () => copy(skill.name, "name"), children: copied === "name" ? "\u5DF2\u590D\u5236" : "\u590D\u5236\u540D\u79F0" }),
+          /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", { className: "path-value", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("span", { children: skill.instances?.[0]?.hubEntity ? "Hub \u5B9E\u4F53\u8DEF\u5F84" : "\u9996\u4E2A\u5B89\u88C5\u8DEF\u5F84" }),
+            /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("code", { children: installPath })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("button", { "aria-label": "\u590D\u5236\u5B89\u88C5\u8DEF\u5F84", onClick: () => copy(installPath, "path"), children: copied === "path" ? "\u5DF2\u590D\u5236" : "\u590D\u5236\u8DEF\u5F84" })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("section", { className: "fact-section", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("h3", { children: "\u903B\u8F91 Skill \u4E8B\u5B9E" }),
+          /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("dl", { className: "fact-grid", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("dt", { children: "ID" }),
+              /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("dd", { children: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("code", { children: skill.id }) })
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("dt", { children: "\u5C42\u7EA7" }),
+              /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("dd", { children: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("span", { className: "chip-list", children: (skill.governanceLevels || skill.scopeLevels)?.map((level) => /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("span", { className: `scope-chip scope-${level}`, children: scopeLabel(level) }, level)) }) })
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("dt", { children: "\u5F53\u524D\u7248\u672C" }),
+              /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("dd", { children: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("code", { children: skill.versions?.length > 1 ? "\u591A\u4E2A\u7248\u672C" : skill.versions?.[0] || "--" }) })
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("dt", { children: "\u66F4\u65B0\u72B6\u6001" }),
+              /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("dd", { children: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("span", { className: `status-mark tone-${updateStatus.tone}`, children: updateStatus.label }) })
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("dt", { children: "\u5B9E\u4F8B\u6570\u91CF" }),
+              /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("dd", { children: skill.instanceCount || 1 })
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("dt", { children: "\u68C0\u67E5\u65F6\u95F4" }),
+              /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("dd", { children: formatDate(skill.update?.checked_at) })
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", { className: "fact-wide", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("dt", { children: "\u53EF\u7528\u8303\u56F4" }),
+              /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("dd", { children: /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("span", { className: "chip-list", children: [
+                skill.hasSharedAvailability && /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("span", { className: "shared-chip", children: "\u58F0\u660E\u5171\u4EAB" }),
+                skill.agents?.map((agent) => /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("span", { className: "agent-chip", children: agentLabel(agent) }, agent))
+              ] }) })
+            ] })
+          ] })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("section", { className: "instance-section", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", { className: "instance-heading", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("h3", { children: "\u5B89\u88C5\u5B9E\u4F8B" }),
+            skill.hasInstanceDifferences && /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("span", { className: "difference-note", children: "\u4E0D\u540C\u5B9E\u4F8B\u7684\u7248\u672C\u3001\u6765\u6E90\u6216\u5185\u5BB9\u5B58\u5728\u5DEE\u5F02" })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("div", { className: "instance-list", children: skill.instances?.map((instance) => {
+            const source = getSourceHref(instance.source);
+            const status = formatUpdateStatus(instance.update);
+            return /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("article", { className: "instance-card", "data-instance-id": instance.id, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("header", { children: [
+                /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("span", { className: "chip-list", children: (instance.governanceLevels || [instance.scope?.level]).map((level) => /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("span", { className: `scope-chip scope-${level}`, children: scopeLabel(level) }, level)) }),
+                /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("code", { children: instance.version?.current || "--" })
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("dl", { children: [
+                /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", { className: "instance-wide", children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("dt", { children: "\u4E2D\u6587\u80FD\u529B" }),
+                  /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("dd", { children: instance.capabilitySummaryZh || "\u4E2D\u6587\u4ECB\u7ECD\u751F\u6210\u4E2D" })
+                ] }),
+                /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", { className: "instance-wide", children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("dt", { children: "\u539F\u59CB\u80FD\u529B" }),
+                  /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("dd", { children: instance.capabilitySummaryOriginal || instance.capabilitySummary || "--" })
+                ] }),
+                /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", { children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("dt", { children: "\u6743\u5C5E" }),
+                  /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("dd", { children: instance.ownership || "--" })
+                ] }),
+                /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", { children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("dt", { children: "\u66F4\u65B0\u72B6\u6001" }),
+                  /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("dd", { children: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("span", { className: `status-mark tone-${status.tone}`, children: status.label }) })
+                ] }),
+                /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", { children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("dt", { children: "\u7FFB\u8BD1\u72B6\u6001" }),
+                  /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("dd", { children: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("span", { className: "status-mark tone-neutral", children: { ready: "\u4E2D\u6587\u5DF2\u5C31\u7EEA", pending: "\u4E2D\u6587\u4ECB\u7ECD\u751F\u6210\u4E2D", error: "\u7FFB\u8BD1\u5931\u8D25\uFF0C\u53EF\u91CD\u8BD5", stale: "\u8BD1\u6587\u5DF2\u8FC7\u671F" }[instance.translationStatus] || "\u4E2D\u6587\u4ECB\u7ECD\u751F\u6210\u4E2D" }) })
+                ] }),
+                instance.scope?.agent && /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", { children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("dt", { children: "\u4E13\u5C5E Agent" }),
+                  /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("dd", { children: agentLabel(instance.scope.agent) })
+                ] }),
+                instance.scope?.level === "agent" && instance.agentSkillKind && /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", { children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("dt", { children: "Agent \u7C7B\u578B" }),
+                  /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("dd", { children: { system: "\u7CFB\u7EDF", plugin: "\u63D2\u4EF6", private: "\u79C1\u6709" }[instance.agentSkillKind] })
+                ] }),
+                instance.scope?.level === "agent" && instance.provider && /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", { children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("dt", { children: "Provider" }),
+                  /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("dd", { children: instance.provider })
+                ] }),
+                instance.scope?.level === "agent" && instance.enabledBasis && /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", { children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("dt", { children: "\u542F\u7528\u4F9D\u636E" }),
+                  /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("dd", { children: instance.enabledBasis })
+                ] }),
+                instance.scope?.project_root && /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", { className: "instance-wide", children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("dt", { children: "\u9879\u76EE\u6839" }),
+                  /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("dd", { children: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("code", { children: instance.scope.project_root }) })
+                ] }),
+                instance.hubEntity && /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", { className: "instance-wide", children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("dt", { children: "Hub \u5B9E\u4F53" }),
+                  /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("dd", { children: [
+                    /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("code", { children: instance.hubEntity.path }),
+                    instance.hubEntity.kind !== "unknown" && /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("span", { className: "hub-kind-note", children: [
+                      " \xB7 ",
+                      { public: "\u516C\u5171\u5171\u4EAB", agent: "Agent \u4E13\u7528", superpower: "Superpowers \u96C6\u5408" }[instance.hubEntity.kind] || instance.hubEntity.kind
+                    ] })
+                  ] })
+                ] }),
+                instance.hubEntity?.entry?.projectPath && /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", { className: "instance-wide", children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("dt", { children: "\u5B9E\u73B0\u9879\u76EE" }),
+                  /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("dd", { children: [
+                    /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("code", { children: instance.hubEntity.entry.projectPath }),
+                    /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("span", { className: "hub-kind-note", children: [
+                      " \xB7 ",
+                      instance.hubEntity.entry.syncNote || "\u9879\u76EE\u884C\u4E3A\u53D8\u5316\u65F6\u540C\u6B65\u590D\u6838\u516C\u5171\u5165\u53E3"
+                    ] })
+                  ] })
+                ] }),
+                /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", { className: "instance-wide", children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("dt", { children: "\u5B89\u88C5\u8DEF\u5F84" }),
+                  /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("dd", { className: "instance-path", children: [
+                    /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("code", { children: instance.realPath }),
+                    /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("button", { "aria-label": `\u590D\u5236\u5B9E\u4F8B\u8DEF\u5F84 ${instance.id}`, onClick: () => copy(instance.realPath, `path-${instance.id}`), children: copied === `path-${instance.id}` ? "\u5DF2\u590D\u5236" : "\u590D\u5236\u8DEF\u5F84" })
+                  ] })
+                ] }),
+                /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", { className: "instance-wide", children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("dt", { children: "\u6765\u6E90" }),
+                  /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("dd", { children: source ? /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("a", { href: source, target: "_blank", rel: "noreferrer", children: source }) : "--" })
+                ] }),
+                /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", { className: "instance-wide", children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("dt", { children: "\u66B4\u9732\u8DEF\u7531" }),
+                  /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("dd", { children: instance.routes?.length ? instance.routes.map((route) => /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("code", { className: "route-line", children: route }, route)) : "--" })
+                ] })
+              ] })
+            ] }, instance.id);
+          }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("p", { className: "registry-note", children: "\u6309\u76EE\u5F55\u548C\u542F\u7528\u914D\u7F6E\u63A8\u5BFC\uFF0C\u672A\u505A\u8FD0\u884C\u8C03\u7528\u9A8C\u8BC1\u3002" })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("section", { className: "document-section", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", { className: "document-heading", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("p", { className: "eyebrow", children: "Source document" }),
+              /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("h3", { children: "SKILL.md" })
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("label", { className: "document-select", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("span", { children: "\u5B89\u88C5\u5B9E\u4F8B" }),
+              /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("select", { "aria-label": "SKILL.md \u5B89\u88C5\u5B9E\u4F8B", value: selectedInstanceId || "", onChange: (event) => setSelectedInstanceId(event.target.value), children: skill.instances?.map((instance) => /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("option", { value: instance.id, children: [
+                scopeLabel(instance.scope?.level),
+                " \xB7 ",
+                instance.realPath
+              ] }, instance.id)) })
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("button", { className: "btn-copy-skill-md", "aria-label": "\u590D\u5236\u5F53\u524D SKILL.md", disabled: !selectedDocument?.content, onClick: () => copy(selectedDocument.content, "document"), children: copied === "document" ? "\u5DF2\u590D\u5236\u5168\u6587" : "\u590D\u5236\u5168\u6587" })
+          ] }),
+          selectedDocument?.error ? /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("p", { className: "document-empty", role: "alert", children: [
+            "\u65E0\u6CD5\u8BFB\u53D6\uFF1A",
+            selectedDocument.error
+          ] }) : selectedDocument?.content ? /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("pre", { className: "skill-md-source", children: selectedDocument.content }) : /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("p", { className: "document-empty", children: "\u6B63\u5728\u8BFB\u53D6\u5B8C\u6574\u6587\u6863\u2026" })
+        ] })
+      ] })
+    ] }) });
+  }
+
+  // src/dashboard/updates-view.jsx
+  var import_react6 = __toESM(require_react(), 1);
+  var import_jsx_runtime6 = __toESM(require_jsx_runtime(), 1);
+  function UpdatesView({ skills, onOpen }) {
+    const available = skills.flatMap((skill) => getUpdateInstances(skill).map((instance) => ({ skill, instance })));
+    return /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("section", { className: "ledger-panel", "aria-labelledby": "updates-heading", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { className: "panel-heading", children: /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("p", { className: "eyebrow", children: "Updates / Confirmed only" }),
+        /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("h2", { id: "updates-heading", children: "\u53EF\u7528\u66F4\u65B0" })
+      ] }) }),
+      available.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { className: "quiet-empty", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("span", { children: "\u2205" }),
+        /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("p", { children: "\u6CA1\u6709\u786E\u8BA4\u5B58\u5728\u7684\u53EF\u7528\u66F4\u65B0" })
+      ] }) : /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { className: "update-list", children: available.map(({ skill, instance }) => {
+        const sourceHref = getSourceHref(instance.source);
+        return /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("article", { className: "update-entry", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("button", { className: "entry-title", "data-detail-trigger": "true", onClick: (event) => onOpen(skill, event.currentTarget), children: [
+            skill.name,
+            " \xB7 ",
+            instance.scope?.level
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { className: "version-transition", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("code", { children: instance.version?.current || "--" }),
+            /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("span", { children: "\u2192" }),
+            /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("code", { children: instance.update.latest || "--" })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { children: sourceHref ? /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("a", { href: sourceHref, target: "_blank", rel: "noreferrer", children: "\u6765\u6E90 \u2197" }) : /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("span", { className: "muted", children: "--" }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("code", { className: "command-line", children: updateCommand(instance) })
+        ] }, instance.id);
+      }) })
+    ] });
+  }
+
+  // src/dashboard/projects-view.jsx
+  var import_react7 = __toESM(require_react(), 1);
+  var import_jsx_runtime7 = __toESM(require_jsx_runtime(), 1);
+  function ProjectsView({ projects }) {
+    return /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("section", { className: "ledger-panel", "aria-labelledby": "projects-heading", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", { className: "panel-heading", children: /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("p", { className: "eyebrow", children: "Projects / Read-only roots" }),
+        /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("h2", { id: "projects-heading", children: "\u9879\u76EE\u8DEF\u5F84" })
+      ] }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", { className: "project-root-list", children: projects.map((item) => /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("article", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("header", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("strong", { children: item.label }),
+          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("span", { children: item.origins.join(" + ") })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("code", { children: item.path }),
+        /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("p", { children: !item.exists ? "\u8DEF\u5F84\u4E0D\u5B58\u5728" : item.scanMode === "direct-skill-folders" ? `${item.instanceCount} \u4E2A\u5B89\u88C5\u5B9E\u4F8B \xB7 \u626B\u63CF\u76F4\u7CFB Skill \u6587\u4EF6\u5939` : !item.hasSkillRoot ? "\u6682\u65E0 Skill" : `${item.instanceCount} \u4E2A\u5B89\u88C5\u5B9E\u4F8B` })
+      ] }, item.id)) }),
+      /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("p", { className: "registry-note", children: "\u804A\u5929\u529F\u80FD\uFF1Aproject-path-add \xB7 project-path-update \xB7 project-path-remove \xB7 project-path-scan" })
+    ] });
+  }
+
+  // src/dashboard/app-shell.jsx
+  var import_jsx_runtime8 = __toESM(require_jsx_runtime(), 1);
+  var NAVIGATION = [
+    ["inventory", "\u5168\u90E8 Skill", "01"],
+    ["updates", "\u66F4\u65B0\u4E2D\u5FC3", "02"],
+    ["diagnostics", "\u73AF\u5883\u8BCA\u65AD", "03"],
+    ["history", "\u64CD\u4F5C\u5386\u53F2", "04"],
+    ["governance", "\u7BA1\u7406\u89C4\u8303", "05"],
+    ["projects", "\u9879\u76EE\u8DEF\u5F84", "06"]
+  ];
+  var SCOPE_METRICS = [
+    ["hub", "Hub", "HUB"],
+    ["public", "\u516C\u5171", "PUBLIC"],
+    ["agent", "Agent", "AGENT"],
+    ["project", "\u9879\u76EE", "PROJECT"]
+  ];
+  function countSkillsByScope(skills) {
+    const counts = { hub: 0, public: 0, agent: 0, project: 0 };
+    for (const skill of skills || []) {
+      for (const level of skill.governanceLevels || skill.scopeLevels || []) {
+        if (level in counts) counts[level] += 1;
+      }
+    }
+    return counts;
+  }
+  function AppShell() {
+    const [view, setView] = (0, import_react8.useState)("inventory");
+    const [data, setData] = (0, import_react8.useState)(null);
+    const [error, setError] = (0, import_react8.useState)(null);
+    const [selected, setSelected] = (0, import_react8.useState)(null);
+    const [detail, setDetail] = (0, import_react8.useState)(null);
+    const [sidebarCollapsed, setSidebarCollapsed] = (0, import_react8.useState)(false);
+    const returnFocusRef = (0, import_react8.useRef)(null);
+    const load = (0, import_react8.useCallback)(async () => {
+      const controller = new AbortController();
+      setError(null);
+      try {
+        setData(await fetchDashboard(controller.signal));
+      } catch (loadError) {
+        if (loadError.name !== "AbortError") setError(loadError.message);
+      }
+      return () => controller.abort();
+    }, []);
+    (0, import_react8.useEffect)(() => {
+      load();
+    }, [load]);
+    (0, import_react8.useEffect)(() => {
+      setDetail(null);
+      if (!selected) return void 0;
+      const controller = new AbortController();
+      fetchSkillDetail(selected.id, controller.signal).then((nextDetail) => {
+        if (!controller.signal.aborted) setDetail(nextDetail);
+      }).catch((detailError) => {
+        if (detailError.name !== "AbortError" && !controller.signal.aborted) setError(detailError.message);
+      });
+      return () => controller.abort();
+    }, [selected]);
+    function openDetail(skill, trigger) {
+      returnFocusRef.current = trigger;
+      setSelected(skill);
+    }
+    function handleWorkspaceClick(event) {
+      if (!selected) return;
+      if (event.target.closest("[data-detail-trigger], a, button, input, select, textarea, label, .column-resizer")) return;
+      setSelected(null);
+    }
+    async function loadHistory(offset) {
+      try {
+        setData((current) => ({ ...current, history: { ...current.history, loading: true } }));
+        const history = await fetchHistoryPage(offset);
+        setData((current) => ({ ...current, history }));
+      } catch (historyError) {
+        setError(historyError.message);
+      }
+    }
+    if (!data && !error) return /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "center-state", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { className: "loading-rule" }),
+      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("p", { children: "\u6B63\u5728\u6838\u5BF9 Skill \u6CBB\u7406\u4E8B\u5B9E\u2026" })
+    ] });
+    if (error && !data) return /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "center-state error-state", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("p", { children: [
+        "\u8BFB\u53D6\u5931\u8D25\uFF1A",
+        error
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("button", { onClick: load, children: "\u91CD\u8BD5" })
+    ] });
+    const updateCount = data.overview?.summary?.updateAvailable || 0;
+    const errorCount = data.overview?.summary?.diagnostics?.error || 0;
+    const scopeCounts = countSkillsByScope(data.skills);
+    const visibleDetail = detail?.item?.id === selected?.id ? detail : null;
+    return /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "app-shell", "data-sidebar-collapsed": sidebarCollapsed ? "true" : "false", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("aside", { className: "sidebar", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("button", { className: "sidebar-toggle", "aria-label": sidebarCollapsed ? "\u5C55\u5F00\u4FA7\u680F" : "\u6298\u53E0\u4FA7\u680F", "aria-expanded": !sidebarCollapsed, onClick: () => setSidebarCollapsed((value) => !value), children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { "aria-hidden": "true", children: sidebarCollapsed ? "\u203A" : "\u2039" }) }),
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("header", { className: "brand-block", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { className: "brand-index", children: "SCP / 02" }),
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("h1", { children: [
+            "Skill",
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("br", {}),
+            "Ledger"
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("p", { children: "\u7EDF\u4E00\u6CBB\u7406 \xB7 \u53EA\u8BFB\u4E8B\u5B9E" })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("nav", { className: "nav-stack", "aria-label": "\u4E3B\u5BFC\u822A", children: NAVIGATION.map(([key, label, index]) => /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("button", { title: sidebarCollapsed ? label : void 0, "aria-label": label, className: `nav-link ${view === key ? "is-active" : ""}`, onClick: () => setView(key), children: [
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { className: "nav-index", children: index }),
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { className: "nav-label", children: label }),
+          key === "updates" && updateCount > 0 && /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("b", { children: updateCount }),
+          key === "diagnostics" && errorCount > 0 && /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("b", { children: errorCount })
+        ] }, key)) }),
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("footer", { className: "sidebar-note", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { children: "LAST SCAN" }),
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("time", { children: data.overview?.scannedAt ? new Date(data.overview.scannedAt).toLocaleTimeString("zh-CN", { hour12: false }) : "--" }),
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("p", { children: "Registry \u662F\u5F53\u524D\u4E8B\u5B9E\u603B\u8868" })
+        ] })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("main", { className: "workspace", onClick: handleWorkspaceClick, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("header", { className: "metric-ribbon", "aria-label": "\u6982\u89C8", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("article", { className: "metric-card", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { className: "metric-label", children: "\u603B Skill \u6570" }),
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("strong", { children: data.overview?.summary?.totalSkills || 0 }),
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("small", { children: "ALL CURRENT RECORDS" })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("article", { className: "metric-card metric-update", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { className: "metric-label", children: "\u6709\u66F4\u65B0\u6570" }),
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("strong", { children: updateCount }),
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("small", { children: "CONFIRMED UPDATES" })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "scope-metric-group", "aria-label": "\u6309\u5C42\u7EA7\u7EDF\u8BA1\u7684\u903B\u8F91 Skill \u6570\u91CF", children: SCOPE_METRICS.map(([scope, label, caption]) => /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("article", { className: "scope-metric-card", title: "\u6309\u903B\u8F91 Skill \u7EDF\u8BA1\uFF1B\u8DE8\u5C42\u7EA7 Skill \u4F1A\u5206\u522B\u8BA1\u5165", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { className: "scope-metric-label", children: label }),
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("strong", { children: scopeCounts[scope] }),
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("small", { children: caption })
+          ] }, scope)) })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "view-stage", children: [
+          view === "inventory" && /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(InventoryView, { skills: data.skills, projects: data.projects, onOpen: openDetail }),
+          view === "updates" && /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(UpdatesView, { skills: data.skills, onOpen: openDetail }),
+          view === "diagnostics" && /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(DiagnosticsView, { diagnostics: data.diagnostics, skills: data.skills }),
+          view === "history" && /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(HistoryView, { history: data.history, onPage: loadHistory }),
+          view === "governance" && /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(GovernanceView, { registry: data.registry, functions: data.chatFunctions }),
+          view === "projects" && /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(ProjectsView, { projects: data.projects })
+        ] })
+      ] }),
+      selected && /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(
+        SkillDetailDrawer,
+        {
+          skill: visibleDetail?.item || selected,
+          documents: visibleDetail?.documents || [],
+          onClose: () => setSelected(null),
+          returnFocusRef
+        }
+      ),
+      error && data && /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "toast", role: "status", children: [
+        error,
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("button", { "aria-label": "\u5173\u95ED\u63D0\u793A", onClick: () => setError(null), children: "\xD7" })
+      ] })
+    ] });
+  }
+
+  // src/dashboard/main.jsx
+  var import_jsx_runtime9 = __toESM(require_jsx_runtime(), 1);
+  (0, import_client.createRoot)(document.getElementById("root")).render(/* @__PURE__ */ (0, import_jsx_runtime9.jsx)(AppShell, {}));
 })();
 /*! Bundled license information:
 

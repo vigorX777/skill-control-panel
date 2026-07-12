@@ -1,446 +1,313 @@
-import test from "node:test";
+import { describe, it, beforeEach, afterEach } from "node:test";
 import assert from "node:assert/strict";
-import { chmod, mkdir, mkdtemp, readFile, rm, symlink, writeFile } from "node:fs/promises";
-import { tmpdir } from "node:os";
+import { mkdir, writeFile, readFile, rm, mkdtemp } from "node:fs/promises";
 import { join } from "node:path";
+import { tmpdir } from "node:os";
+import http from "node:http";
 
 import { createSkillControlServer } from "../scripts/lib/server-app.mjs";
+import { scan as scanSkills } from "../scripts/lib/manager.mjs";
 
-async function withServer(fn, serverOptions = {}) {
-  const tempRoot = await mkdtemp(join(tmpdir(), "skill-control-panel-"));
-  const configDir = join(tempRoot, "config");
-  await mkdir(configDir, { recursive: true });
-
-  const asmConfigPath = join(tempRoot, "asm-config.json");
-  const metadataPath = join(configDir, "metadata.json");
-  const asmScriptPath = join(tempRoot, "mock-asm.mjs");
-  const claudeProviderDir = join(tempRoot, ".claude", "skills");
-  const codexProviderDir = join(tempRoot, ".codex", "skills");
-  const realRoot = join(tempRoot, "real");
-
-  await mkdir(claudeProviderDir, { recursive: true });
-  await mkdir(codexProviderDir, { recursive: true });
-  await mkdir(realRoot, { recursive: true });
-
-  const defuddleRealPath = join(realRoot, "defuddle");
-  const smartSearchRealPath = join(realRoot, "smart-search");
-  await mkdir(defuddleRealPath, { recursive: true });
-  await mkdir(smartSearchRealPath, { recursive: true });
-
-  const claudeDefuddlePath = join(claudeProviderDir, "defuddle");
-  const codexDefuddlePath = join(codexProviderDir, "defuddle");
-  const claudeSmartSearchPath = join(claudeProviderDir, "smart-search");
-
-  await symlink(defuddleRealPath, claudeDefuddlePath);
-  await symlink(defuddleRealPath, codexDefuddlePath);
-  await symlink(smartSearchRealPath, claudeSmartSearchPath);
-
-  const mockSkills = [
-    {
-      name: "defuddle",
-      version: "0.0.0",
-      description: "Web cleanup skill",
-      creator: "",
-      license: "",
-      compatibility: "",
-      allowedTools: [],
-      dirName: "defuddle",
-      path: claudeDefuddlePath,
-      originalPath: claudeDefuddlePath,
-      location: "global-claude",
-      scope: "global",
-      provider: "claude",
-      providerLabel: "Claude Code",
-      isSymlink: true,
-      symlinkTarget: defuddleRealPath,
-      realPath: defuddleRealPath,
-      warnings: [{ category: "missing-version", message: "Missing version" }],
-    },
-    {
-      name: "defuddle",
-      version: "0.0.0",
-      description: "Web cleanup skill",
-      creator: "",
-      license: "",
-      compatibility: "",
-      allowedTools: [],
-      dirName: "defuddle",
-      path: codexDefuddlePath,
-      originalPath: codexDefuddlePath,
-      location: "global-codex",
-      scope: "global",
-      provider: "codex",
-      providerLabel: "Codex",
-      isSymlink: true,
-      symlinkTarget: defuddleRealPath,
-      realPath: defuddleRealPath,
-      warnings: [{ category: "missing-version", message: "Missing version" }],
-    },
-    {
-      name: "smart-search",
-      version: "0.0.0",
-      description: "Search routing skill",
-      creator: "",
-      license: "",
-      compatibility: "",
-      allowedTools: [],
-      dirName: "smart-search",
-      path: claudeSmartSearchPath,
-      originalPath: claudeSmartSearchPath,
-      location: "global-claude",
-      scope: "global",
-      provider: "claude",
-      providerLabel: "Claude Code",
-      isSymlink: true,
-      symlinkTarget: smartSearchRealPath,
-      realPath: smartSearchRealPath,
-      warnings: [],
-    },
-  ];
-
-  const duplicateReport = {
-    scannedAt: new Date().toISOString(),
-    totalSkills: mockSkills.length,
-    duplicateGroups: [
-      {
-        key: "defuddle",
-        reason: "same-dirName",
-        instances: mockSkills.slice(0, 2),
-      },
-    ],
-    totalDuplicateInstances: 2,
-  };
-
-  const asmConfig = {
-    version: 1,
-    providers: [
-      {
-        name: "claude",
-        label: "Claude Code",
-        global: "~/.claude/skills",
-        project: ".claude/skills",
-        enabled: true,
-      },
-      {
-        name: "codex",
-        label: "Codex",
-        global: "~/.codex/skills",
-        project: ".codex/skills",
-        enabled: true,
-      },
-    ],
-    customPaths: [],
-    preferences: {
-      defaultScope: "both",
-      defaultSort: "name",
-    },
-  };
-
-  await writeFile(asmConfigPath, JSON.stringify(asmConfig, null, 2), "utf8");
-  await writeFile(
-    asmScriptPath,
-    `#!/usr/bin/env node
-import { existsSync, readFileSync } from "node:fs";
-const args = process.argv.slice(2);
-const configPath = ${JSON.stringify(asmConfigPath)};
-const skills = ${JSON.stringify(mockSkills)};
-const duplicates = ${JSON.stringify(duplicateReport)};
-const visibleSkills = skills.filter((item) => existsSync(item.path));
-const visibleDuplicates = {
-  ...duplicates,
-  duplicateGroups: duplicates.duplicateGroups
-    .map((group) => ({
-      ...group,
-      instances: group.instances.filter((item) => existsSync(item.path)),
-    }))
-    .filter((group) => group.instances.length > 1),
-};
-if (args[0] === "config" && args[1] === "show") {
-  process.stdout.write(readFileSync(configPath, "utf8"));
-} else if (args[0] === "config" && args[1] === "path") {
-  process.stdout.write(configPath);
-} else if (args[0] === "list") {
-  process.stdout.write(JSON.stringify(visibleSkills));
-} else if (args[0] === "inspect") {
-  process.stdout.write(JSON.stringify(visibleSkills.filter((item) => item.name === args[1])));
-} else if (args[0] === "audit" && args[1] === "duplicates") {
-  process.stdout.write(JSON.stringify(visibleDuplicates));
-} else if (args[0] === "uninstall") {
-  process.stdout.write("ok");
-} else if (args[0] === "install") {
-  process.stdout.write("ok");
-} else {
-  process.exit(1);
-}
-`,
-    "utf8",
-  );
-  await chmod(asmScriptPath, 0o755);
-
-  const app = createSkillControlServer({
-    asmBin: asmScriptPath,
-    metadataPath,
-    ...serverOptions,
-  });
-  await app.refreshSnapshot();
-  await new Promise((resolve) => app.server.listen(0, "127.0.0.1", resolve));
-  const address = app.server.address();
-  const baseUrl = `http://127.0.0.1:${address.port}`;
-
-  try {
-    await fn({ baseUrl, metadataPath, asmConfigPath });
-  } finally {
-    await new Promise((resolve, reject) => app.server.close((error) => (error ? reject(error) : resolve())));
-    await rm(tempRoot, { recursive: true, force: true });
-  }
+async function makeTempDir() {
+  return mkdtemp(join(tmpdir(), "scp-server-test-"));
 }
 
-test("summary and duplicates mark provider-exposed groups", async () => {
-  await withServer(async ({ baseUrl }) => {
-    const summary = await fetch(`${baseUrl}/api/summary`).then((response) => response.json());
-    const skills = await fetch(`${baseUrl}/api/skills`).then((response) => response.json());
-    const duplicates = await fetch(`${baseUrl}/api/duplicates`).then((response) => response.json());
-
-    assert.equal(summary.summary.totalSkillInstances, 3);
-    assert.equal(summary.summary.enabledSkillInstances, 3);
-    assert.equal(summary.summary.uniqueSkills, 2);
-    assert.equal(skills.items.find((item) => item.name === "defuddle").duplicateMode, "provider-exposed-duplicate");
-    assert.equal(skills.items.find((item) => item.name === "defuddle").runStatus, "enabled");
-    assert.equal("localization" in skills.items.find((item) => item.name === "defuddle"), false);
-    assert.equal(duplicates.items[0].mode, "provider-exposed-duplicate");
-  });
-});
-
-test("metadata persists after patch and rescan", async () => {
-  await withServer(async ({ baseUrl, metadataPath }) => {
-    const skills = await fetch(`${baseUrl}/api/skills`).then((response) => response.json());
-    const skill = skills.items.find((item) => item.name === "defuddle");
-
-    const patchResponse = await fetch(`${baseUrl}/api/metadata/${skill.id}`, {
-      method: "PATCH",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({
-        category: "automation-system",
-        priority: "low",
-        status: "hidden",
-        notes: "Keep for later",
-      }),
-    });
-
-    assert.equal(patchResponse.status, 200);
-
-    await fetch(`${baseUrl}/api/rescan`, { method: "POST" });
-    const refreshed = await fetch(`${baseUrl}/api/skills`).then((response) => response.json());
-    const updated = refreshed.items.find((item) => item.id === skill.id);
-    const metadataFile = JSON.parse(await readFile(metadataPath, "utf8"));
-
-    assert.equal(updated.metadata.category, "automation-system");
-    assert.equal(updated.metadata.status, "hidden");
-    assert.equal(metadataFile.skills[skill.id].notes, "Keep for later");
-  });
-});
-
-test("provider toggle basket applies to asm config", async () => {
-  await withServer(async ({ baseUrl, asmConfigPath }) => {
-    const queueResponse = await fetch(`${baseUrl}/api/basket/items`, {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({
-        type: "set-provider-enabled",
-        target: "codex",
-        payload: { enabled: false },
-      }),
-    });
-
-    assert.equal(queueResponse.status, 201);
-
-    const applyResponse = await fetch(`${baseUrl}/api/basket/apply`, {
-      method: "POST",
-    });
-    const applied = await applyResponse.json();
-    const updatedConfig = JSON.parse(await readFile(asmConfigPath, "utf8"));
-
-    assert.equal(applyResponse.status, 200);
-    assert.equal(applied.results[0].ok, true);
-    assert.equal(updatedConfig.providers.find((item) => item.name === "codex").enabled, false);
-  });
-});
-
-test("provider-level exposure actions disable, enable, and uninstall skill entries", async () => {
-  await withServer(async ({ baseUrl }) => {
-    const skills = await fetch(`${baseUrl}/api/skills`).then((response) => response.json());
-    const skill = skills.items.find((item) => item.name === "defuddle");
-    const codexProvider = skill.providers.find((item) => item.name === "codex");
-
-    const disableResponse = await fetch(
-      `${baseUrl}/api/skills/${skill.id}/providers/codex/action`,
-      {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ action: "disable" }),
+function requestJson(port, path, method = "GET", body = null) {
+  return new Promise((resolve, reject) => {
+    const options = {
+      hostname: "127.0.0.1",
+      port,
+      path,
+      method,
+      headers: {
+        "content-type": "application/json",
       },
+    };
+
+    const req = http.request(options, (res) => {
+      let data = "";
+      res.on("data", (chunk) => {
+        data += chunk;
+      });
+      res.on("end", () => {
+        try {
+          const parsed = data ? JSON.parse(data) : null;
+          resolve({ status: res.statusCode, body: parsed, headers: res.headers });
+        } catch {
+          resolve({ status: res.statusCode, body: data, headers: res.headers });
+        }
+      });
+    });
+
+    req.on("error", reject);
+
+    if (body) {
+      req.write(JSON.stringify(body));
+    }
+    req.end();
+  });
+}
+
+describe("server-app read-only api", () => {
+  let root;
+  let registryPath;
+  let historyPath;
+  let publicRoot;
+  let projectRoot;
+  let serverInstance;
+  let app;
+  let port;
+  let scanCalls;
+
+  beforeEach(async () => {
+    root = await makeTempDir();
+    registryPath = join(root, "skills-registry.yaml");
+    historyPath = join(root, "skills-history.jsonl");
+    publicRoot = join(root, "public");
+    projectRoot = join(root, "project");
+    await mkdir(publicRoot, { recursive: true });
+
+    // Create a mock skill
+    const skillPath = join(publicRoot, "my-skill");
+    await mkdir(skillPath, { recursive: true });
+    await writeFile(
+      join(skillPath, "SKILL.md"),
+      "---\nname: my-skill\nversion: 1.0.0\n---\nbody text",
+      "utf8",
     );
+    const projectSkillPath = join(projectRoot, ".agents", "skills", "my-skill");
+    await mkdir(projectSkillPath, { recursive: true });
+    await writeFile(join(projectSkillPath, "SKILL.md"), "---\nname: my-skill\nversion: 2.0.0\n---\nproject body text", "utf8");
 
-    assert.equal(disableResponse.status, 200);
+    // Create registry with the skill
+    const registryData = `
+schemaVersion: 1
+updatedAt: "2026-07-10T00:00:00.000Z"
+skills:
+  - id: "skill-123"
+    name: "my-skill"
+    lifecycle: "active"
+    ownership: "managed"
+    capability_summary: "summary capability"
+    scope:
+      level: "public"
+      agent: null
+      project_root: null
+    install:
+      canonical_path: "${skillPath}"
+      skill_md_path: "${join(skillPath, "SKILL.md")}"
+      routes: []
+    source:
+      type: "local"
+      url: null
+      repository: null
+      subpath: null
+      ref: null
+      revision: null
+      content_digest: null
+    version:
+      current: "1.0.0"
+      kind: "semver"
+      basis: "frontmatter"
+    update:
+      status: "unknown"
+      latest: null
+      checked_at: null
+      error: null
+    installed_at: "2026-07-10T00:00:00.000Z"
+    updated_at: "2026-07-10T00:00:00.000Z"
+  - id: "skill-project-123"
+    name: "my-skill"
+    lifecycle: "active"
+    ownership: "managed"
+    capability_summary: "summary capability"
+    scope:
+      level: "project"
+      agent: null
+      project_root: "${projectRoot}"
+    install:
+      canonical_path: "${projectSkillPath}"
+      skill_md_path: "${join(projectSkillPath, "SKILL.md")}"
+      routes: []
+    source:
+      type: "local"
+      url: null
+      repository: null
+      subpath: null
+      ref: null
+      revision: null
+      content_digest: null
+    version:
+      current: "2.0.0"
+      kind: "semver"
+      basis: "frontmatter"
+    update:
+      status: "not_checkable"
+      latest: null
+      checked_at: null
+      error: null
+    installed_at: "2026-07-10T00:00:00.000Z"
+    updated_at: "2026-07-10T00:00:00.000Z"
+`;
+    await writeFile(registryPath, registryData, "utf8");
 
-    const disabledSkills = await fetch(`${baseUrl}/api/skills`).then((response) => response.json());
-    const disabledSkill = disabledSkills.items.find((item) => item.id === skill.id);
-    const disabledProvider = disabledSkill.providers.find((item) => item.name === "codex");
-
-    assert.equal(disabledProvider.exposureState, "disabled");
-
-    const enableResponse = await fetch(
-      `${baseUrl}/api/skills/${skill.id}/providers/codex/action`,
-      {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ action: "enable" }),
+    // Start server on ephemeral port
+    scanCalls = 0;
+    app = createSkillControlServer({
+      hubRoot: false,
+      registryPath,
+      historyPath,
+      publicRoot,
+      roots: {
+        public: [{ path: publicRoot, agents: [], ownership: "managed" }],
+        agent: [],
+        project: [{ path: join(projectRoot, ".agents", "skills"), projectRoot, agents: [], ownership: "managed" }],
+        system: [],
+        plugin: [],
       },
-    );
-
-    assert.equal(enableResponse.status, 200);
-
-    const enabledSkills = await fetch(`${baseUrl}/api/skills`).then((response) => response.json());
-    const enabledSkill = enabledSkills.items.find((item) => item.id === skill.id);
-    const enabledProvider = enabledSkill.providers.find((item) => item.name === "codex");
-
-    assert.equal(enabledProvider.exposureState, "enabled");
-
-    const uninstallResponse = await fetch(
-      `${baseUrl}/api/skills/${skill.id}/providers/codex/action`,
-      {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ action: "uninstall" }),
+      scanFn: async (options) => {
+        scanCalls += 1;
+        await new Promise((resolve) => setTimeout(resolve, 20));
+        return scanSkills(options);
       },
-    );
-
-    assert.equal(uninstallResponse.status, 200);
-
-    const updatedSkills = await fetch(`${baseUrl}/api/skills`).then((response) => response.json());
-    const updatedSkill = updatedSkills.items.find((item) => item.id === skill.id);
-
-    assert.equal(updatedSkill.providers.some((item) => item.name === "codex"), false);
-    assert.equal(codexProvider.path.includes("/.codex/skills/defuddle"), true);
-  });
-});
-
-test("single-skill action applies to all provider exposures", async () => {
-  await withServer(async ({ baseUrl }) => {
-    const skills = await fetch(`${baseUrl}/api/skills`).then((response) => response.json());
-    const skill = skills.items.find((item) => item.name === "defuddle");
-
-    const disableResponse = await fetch(`${baseUrl}/api/skills/${skill.id}/action`, {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ action: "disable" }),
-    });
-    const disabledPayload = await disableResponse.json();
-
-    assert.equal(disableResponse.status, 200);
-    assert.equal(disabledPayload.result.successCount, 2);
-
-    const disabledSkills = await fetch(`${baseUrl}/api/skills`).then((response) => response.json());
-    const disabledSkill = disabledSkills.items.find((item) => item.id === skill.id);
-    assert.equal(
-      disabledSkill.providers.every((provider) => provider.exposureState === "disabled"),
-      true,
-    );
-
-    const enableResponse = await fetch(`${baseUrl}/api/skills/${skill.id}/action`, {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ action: "enable" }),
-    });
-    const enabledPayload = await enableResponse.json();
-
-    assert.equal(enableResponse.status, 200);
-    assert.equal(enabledPayload.result.successCount, 2);
-
-    const enabledSkills = await fetch(`${baseUrl}/api/skills`).then((response) => response.json());
-    const enabledSkill = enabledSkills.items.find((item) => item.id === skill.id);
-    assert.equal(
-      enabledSkill.providers.every((provider) => provider.exposureState === "enabled"),
-      true,
-    );
-  });
-});
-
-test("batch skill action aggregates success and failure per skill", async () => {
-  await withServer(async ({ baseUrl }) => {
-    const skills = await fetch(`${baseUrl}/api/skills`).then((response) => response.json());
-    const defuddle = skills.items.find((item) => item.name === "defuddle");
-    const smartSearch = skills.items.find((item) => item.name === "smart-search");
-
-    const response = await fetch(`${baseUrl}/api/skills/batch-action`, {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({
-        action: "disable",
-        skillIds: [defuddle.id, smartSearch.id, "missing-skill"],
-      }),
-    });
-    const payload = await response.json();
-
-    assert.equal(response.status, 200);
-    assert.equal(payload.summary.totalSkills, 3);
-    assert.equal(payload.summary.successCount, 2);
-    assert.equal(payload.summary.failureCount, 1);
-    assert.equal(payload.results.find((item) => item.skillId === "missing-skill").ok, false);
-
-    const refreshed = await fetch(`${baseUrl}/api/skills`).then((res) => res.json());
-    assert.equal(
-      refreshed.items
-        .filter((item) => item.id === defuddle.id || item.id === smartSearch.id)
-        .every((item) => item.providers.every((provider) => provider.exposureState === "disabled")),
-      true,
-    );
-  });
-});
-
-test("favorite flag persists through metadata patch and refresh", async () => {
-  await withServer(async ({ baseUrl }) => {
-    const skills = await fetch(`${baseUrl}/api/skills`).then((response) => response.json());
-    const skill = skills.items.find((item) => item.name === "smart-search");
-
-    const patchResponse = await fetch(`${baseUrl}/api/metadata/${skill.id}`, {
-      method: "PATCH",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ favorite: true }),
     });
 
-    assert.equal(patchResponse.status, 200);
-
-    await fetch(`${baseUrl}/api/rescan`, { method: "POST" });
-    const refreshed = await fetch(`${baseUrl}/api/skills`).then((response) => response.json());
-    const updated = refreshed.items.find((item) => item.id === skill.id);
-
-    assert.equal(updated.favorite, true);
-    assert.equal(updated.metadata.favorite, true);
+    serverInstance = app.server;
+    await new Promise((resolve) => serverInstance.listen(0, "127.0.0.1", resolve));
+    port = serverInstance.address().port;
   });
-});
 
-test("runStatus becomes partial when provider exposures are mixed", async () => {
-  await withServer(async ({ baseUrl }) => {
-    const skills = await fetch(`${baseUrl}/api/skills`).then((response) => response.json());
-    const defuddle = skills.items.find((item) => item.name === "defuddle");
+  afterEach(async () => {
+    await new Promise((resolve) => serverInstance.close(resolve));
+    await rm(root, { recursive: true, force: true });
+  });
 
-    const disableResponse = await fetch(
-      `${baseUrl}/api/skills/${defuddle.id}/providers/codex/action`,
-      {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ action: "disable" }),
-      },
-    );
+  it("GET /api/overview returns summary statistics", async () => {
+    const res = await requestJson(port, "/api/overview");
+    assert.equal(res.status, 200);
+    assert.deepEqual(res.body.summary.byAvailability, { shared: 1, codex: 0, claude: 0, antigravity: 0, opencode: 0 });
+    assert.ok(res.body.summary);
+    assert.equal(res.body.summary.totalSkills, 1);
+  });
 
-    assert.equal(disableResponse.status, 200);
+  it("does not expose wildcard CORS headers", async () => {
+    const res = await requestJson(port, "/api/health");
+    assert.equal(res.headers["access-control-allow-origin"], undefined);
+    assert.equal(res.headers["access-control-allow-methods"], undefined);
+  });
 
-    const refreshed = await fetch(`${baseUrl}/api/skills`).then((response) => response.json());
-    const updated = refreshed.items.find((item) => item.id === defuddle.id);
+  it("shares one in-flight scan across concurrent first requests", async () => {
+    const results = await Promise.all([
+      requestJson(port, "/api/overview"),
+      requestJson(port, "/api/skills"),
+      requestJson(port, "/api/diagnostics"),
+    ]);
+    assert.ok(results.every((result) => result.status === 200));
+    assert.equal(scanCalls, 1);
+  });
 
-    assert.equal(updated.runStatus, "partial");
-    assert.equal(updated.runtimeSummary.enabledProviders, 1);
-    assert.equal(updated.runtimeSummary.totalProviders, 2);
+  it("forces a fresh scan even while the cache TTL is current", async () => {
+    await requestJson(port, "/api/overview");
+    assert.equal(scanCalls, 1);
+    await app.refreshSnapshot();
+    assert.equal(scanCalls, 2);
+  });
+
+  it("GET /api/skills returns skills list", async () => {
+    const res = await requestJson(port, "/api/skills");
+    assert.equal(res.status, 200);
+    assert.ok(Array.isArray(res.body.items));
+    assert.equal(res.body.items.length, 1);
+    assert.match(res.body.items[0].id, /^logical-/);
+    assert.deepEqual(res.body.items[0].scopeLevels, ["public", "project"]);
+    assert.equal(res.body.items[0].instanceCount, 2);
+    assert.equal(res.body.items[0].hasSharedAvailability, true);
+    assert.deepEqual(res.body.items[0].agents, []);
+    assert.deepEqual(res.body.items[0].availabilityLabels, ["声明共享"]);
+  });
+
+  it("adds routed to visibility basis when an instance has governance routes", async () => {
+    const res = await requestJson(port, "/api/skills");
+    const routed = res.body.items.find((skill) => skill.instances.some((instance) => instance.routes?.length));
+    if (routed) assert.ok(routed.visibilityBasis.includes("routed"));
+  });
+
+  it("GET /api/skills/:id returns every installation document", async () => {
+    const list = await requestJson(port, "/api/skills");
+    const logicalId = list.body.items[0].id;
+    const res = await requestJson(port, `/api/skills/${logicalId}`);
+    assert.equal(res.status, 200);
+    assert.equal(res.body.item.id, logicalId);
+    assert.deepEqual(res.body.documents.map((item) => item.instanceId), ["skill-123", "skill-project-123"]);
+    assert.match(res.body.documents[0].content, /body text/);
+    assert.match(res.body.documents[1].content, /project body text/);
+  });
+
+  it("GET /api/updates returns updates info", async () => {
+    const res = await requestJson(port, "/api/updates");
+    assert.equal(res.status, 200);
+    assert.ok(res.body.items);
+  });
+
+  it("GET /api/diagnostics returns diagnostics lists", async () => {
+    const res = await requestJson(port, "/api/diagnostics");
+    assert.equal(res.status, 200);
+    assert.ok(Array.isArray(res.body.diagnostics));
+  });
+
+  it("GET /api/history returns history events list", async () => {
+    const res = await requestJson(port, "/api/history");
+    assert.equal(res.status, 200);
+    assert.ok(Array.isArray(res.body.items));
+  });
+
+  it("GET /api/governance returns registry governance info", async () => {
+    const res = await requestJson(port, "/api/governance");
+    assert.equal(res.status, 200);
+    assert.ok(res.body.registry);
+  });
+
+  it("GET /api/health returns ok", async () => {
+    const res = await requestJson(port, "/api/health");
+    assert.equal(res.status, 200);
+    assert.equal(res.body.status, "ok");
+  });
+
+  it("exposes read only projects chat functions and translation status", async () => {
+    const projects = await requestJson(port, "/api/projects");
+    const functions = await requestJson(port, "/api/chat-functions");
+    const translations = await requestJson(port, "/api/translations/status");
+    assert.equal(projects.status, 200);
+    assert.ok(projects.body.items.some((item) => item.path === projectRoot));
+    assert.ok(functions.body.items.some((item) => item.name === "project-path-add"));
+    assert.equal(translations.body.summary.pending >= 1, true);
+  });
+
+  it("rejects every non-GET API method with 405", async () => {
+    for (const method of ["POST", "PUT", "PATCH", "DELETE", "OPTIONS"]) {
+      const res = await requestJson(port, "/api/rescan", method)
+        .catch((error) => { throw new Error(`${method}: ${error.message}`); });
+      assert.equal(res.status, 405, method);
+    }
+  });
+
+  it("keeps healthy skills available when another document is oversized", async () => {
+    const brokenPath = join(publicRoot, "oversized-skill");
+    await mkdir(brokenPath, { recursive: true });
+    await writeFile(join(brokenPath, "SKILL.md"), Buffer.alloc(2 * 1024 * 1024 + 1, "x"));
+
+    const skills = await requestJson(port, "/api/skills");
+    const diagnostics = await requestJson(port, "/api/diagnostics");
+    assert.equal(skills.status, 200);
+    assert.ok(skills.body.items.some((skill) => skill.instances.some((item) => item.id === "skill-123")));
+    assert.ok(diagnostics.body.diagnostics.some((item) => item.code === "skill_document_error"));
+  });
+
+  it("configures the live server with registry/history roots instead of dead metadata", async () => {
+    const source = await readFile(join(process.cwd(), "scripts", "server.mjs"), "utf8");
+    assert.doesNotMatch(source, /METADATA_PATH|metadataPath/);
+    assert.match(source, /registryPath:\s*REGISTRY_PATH/);
+    assert.match(source, /historyPath:\s*HISTORY_PATH/);
+    assert.match(source, /roots:\s*getDefaultRoots\(\)/);
   });
 });

@@ -17,7 +17,7 @@ const serverEntry = resolve(skillRoot, "scripts/server.mjs");
 
 async function canConnect(url) {
   try {
-    const response = await fetch(`${url}/api/summary`);
+    const response = await fetch(`${url}/api/health`);
     return response.ok || response.status === 503;
   } catch {
     return false;
